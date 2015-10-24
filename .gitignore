@@ -1,0 +1,5 @@
+vendor/
+log/*
+.idea/*
+cache/*
+app/configs/*

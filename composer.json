@@ -21,6 +21,7 @@
         "slim/twig-view": "^1.1",
         "slim/flash": "^0.1.0",
         "monolog/monolog": "^1.13",
-        "guzzlehttp/guzzle": "^6.1"
+        "guzzlehttp/guzzle": "^6.1",
+        "aura/sql": "^2.4"
     }
 }

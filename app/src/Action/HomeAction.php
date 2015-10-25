@@ -9,12 +9,15 @@ final class HomeAction
     private $view;
     private $logger;
     private $eventService;
+    private $cache;
 
-    public function __construct(Twig $view, LoggerInterface $logger, $eventService)
+    public function __construct(Twig $view, LoggerInterface $logger, $eventService,$cache)
     {
         $this->view = $view;
         $this->logger = $logger;
         $this->eventService = $eventService;
+        $this->cache = $cache;
+        
     }
 
     public function dispatch($request, $response, $args)
@@ -23,6 +26,9 @@ final class HomeAction
 
         $event = $this->eventService->getEvent();
 
+        
+        var_dump($this->eventService);
+       
 
         $this->view->render($response, 'home.twig', ['event' => $event]);
         return $response;

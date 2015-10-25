@@ -19,6 +19,10 @@ $container['http.client'] = function ($c) {
     return new \GuzzleHttp\Client();
 };
 
+
+$container['cache'] = function () {
+    new \Slim\HttpCache\CacheProvider();
+};
 // -----------------------------------------------------------------------------
 // Service providers
 // -----------------------------------------------------------------------------
@@ -60,6 +64,6 @@ $container['logger'] = function ($c) {
 $container['App\Action\HomeAction'] = function ($c) {
     $eventService = new \App\Service\EventsService($c->get('http.client'), $c->get('meetup.event'));
     return new App\Action\HomeAction(
-        $c->get('view'), $c->get('logger'), $eventService
+        $c->get('view'), $c->get('logger'), $eventService, $c->get('cache')
     );
 };

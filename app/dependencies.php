@@ -112,3 +112,9 @@ $container['App\Action\LoginAction'] = function ($c) {
     );
 };
 
+$container['App\Action\LogoutAction'] = function ($c) {
+
+    return new App\Action\LogoutAction(
+        $c->get('view'), $c->get('logger'), $c->get('auth.model')
+    );
+};

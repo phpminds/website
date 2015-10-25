@@ -12,3 +12,6 @@ $app->get('/login', 'App\Action\LoginAction:dispatch')
 
 $app->post('/login', 'App\Action\LoginAction:dispatch')
     ->setName('login-post');
+
+$app->get('/logout', 'App\Action\LogoutAction:dispatch')
+    ->setName('logout');

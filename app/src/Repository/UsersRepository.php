@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Model\Repository;
+namespace App\Repository;
 
-use App\Model\Repository\RepositoryAbstract;
+use App\Repository\RepositoryAbstract;
 
 class UsersRepository extends RepositoryAbstract
 {

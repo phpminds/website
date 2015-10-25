@@ -27,10 +27,23 @@ $container ['db'] = function ($c) {
     );
 };
 
+// Repositories
+
+$container['users.repository'] = function ($c) {
+    return new \App\Repository\UsersRepository($c->get('db'));
+};
+
 
 $container['auth.middleware'] = function ($c) {
     return new App\Middleware\AuthCheck($_SESSION, 'auth', $c->get('settings')['auth-routes']);
 };
+
+$container['auth.model'] = function ($c) {
+    return new \App\Model\Auth(
+        $c->get('users.repository')
+    );
+};
+
 // -----------------------------------------------------------------------------
 // Service providers
 // -----------------------------------------------------------------------------
@@ -86,6 +99,6 @@ $container['App\Action\AdminDashboardAction'] = function ($c) {
 $container['App\Action\LoginAction'] = function ($c) {
 
     return new App\Action\LoginAction(
-        $c->get('view'), $c->get('logger')
+        $c->get('view'), $c->get('logger'), $c->get('auth.model')
     );
 };

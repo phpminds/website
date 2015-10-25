@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Repository;
+namespace App\Repository;
 
 class RepositoryAbstract
 {

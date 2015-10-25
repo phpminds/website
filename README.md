@@ -23,6 +23,6 @@ Integrations with
 
 
 ## Contributers
-Created by the @github/phpminds team - contributions welcome 
+Created by the @phpminds team - contributions welcome 
 
 Licence :  MIT see licence.md 

@@ -38,6 +38,15 @@ $container['auth.middleware'] = function ($c) {
     return new App\Middleware\AuthCheck($_SESSION, 'auth', $c->get('settings')['auth-routes']);
 };
 
+$container['csrf'] = function ($c) {
+    $guard = new \Slim\Csrf\Guard();
+    $guard->setFailureCallable(function ($request, $response, $next) {
+        $request = $request->withAttribute("csrf_status", false);
+        return $next($request, $response);
+    });
+    return $guard;
+};
+
 $container['auth.model'] = function ($c) {
     return new \App\Model\Auth(
         $c->get('users.repository')
@@ -99,6 +108,7 @@ $container['App\Action\AdminDashboardAction'] = function ($c) {
 $container['App\Action\LoginAction'] = function ($c) {
 
     return new App\Action\LoginAction(
-        $c->get('view'), $c->get('logger'), $c->get('auth.model')
+        $c->get('view'), $c->get('logger'), $c->get('auth.model'), $c->get('csrf')
     );
 };
+

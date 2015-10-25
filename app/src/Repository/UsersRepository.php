@@ -10,7 +10,7 @@ class UsersRepository extends RepositoryAbstract
 
     protected $columns = [
         'id',
-        'username',
+        'email',
         'password',
         'role',
         'status'
@@ -21,14 +21,14 @@ class UsersRepository extends RepositoryAbstract
         return $this->getById((int)$userID);
     }
 
-    public function getByUsername($username)
+    public function getByEmail(String $email)
     {
-        $sql = "SELECT {$this->columns} " .
+        $sql = "SELECT {$this->getColumns()} " .
             "FROM {$this->table} " .
-            "WHERE username=:username";
+            "WHERE email=:email";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(":username", $username, \PDO::PARAM_STR);
+        $stmt->bindParam(":email", $email, \PDO::PARAM_STR);
 
         $stmt->execute();
         $stmt->setFetchMode(\PDO::FETCH_OBJ);
@@ -43,7 +43,7 @@ class UsersRepository extends RepositoryAbstract
             . ")";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(":username", $user->username, \PDO::PARAM_STR);
+        $stmt->bindParam(":email", $user->email, \PDO::PARAM_STR);
         $stmt->bindParam(":password", $user->password,  \PDO::PARAM_STR);
         $stmt->execute();
     }

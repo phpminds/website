@@ -9,3 +9,6 @@ $app->get('/admin', 'App\Action\AdminDashboardAction:dispatch')
 
 $app->get('/login', 'App\Action\LoginAction:dispatch')
     ->setName('login');
+
+$app->post('/login', 'App\Action\LoginAction:dispatch')
+    ->setName('login-post');

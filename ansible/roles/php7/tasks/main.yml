@@ -1,0 +1,16 @@
+---
+- name: Adding PHP 7 repo
+  sudo: yes
+  template: src=php7-nightly.repo dest=/etc/yum.repos.d/php7-nightly.repo
+
+- name: Install PHP 7 nightly
+  sudo: yes
+  yum: pkg=php7-nightly state=latest
+
+- name: Create symlink for PHP 7
+  sudo: yes
+  file: src=/usr/local/php7/bin/php dest=/usr/bin/php state=link
+
+- name: Create PHP-FPM service
+  sudo: yes
+  template: src=php-fpm.service dest=/etc/init.d/php-fpm

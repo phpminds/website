@@ -8,8 +8,8 @@ $container['config'] = function ($c) {
 };
 
 $container['meetup.event'] = function ($c) {
-    $config = $c->get('config');
-    $meetup = $config['meetups'];
+    $meetup = $c->get('config')['meetups'];
+
     return new \App\Model\MeetupEvent(
         $meetup['apiKey'], $meetup['baseUrl'], $meetup['PHPMinds']['group_urlname']
     );
@@ -19,6 +19,18 @@ $container['http.client'] = function ($c) {
     return new \GuzzleHttp\Client();
 };
 
+$container ['db'] = function ($c) {
+    $db = $c->get('config')['db'];
+
+    return new \App\Model\Db (
+        'mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'], $db['username'], $db['password']
+    );
+};
+
+
+$container['auth.middleware'] = function ($c) {
+    return new App\Middleware\AuthCheck($_SESSION, 'auth', $c->get('settings')['auth-routes']);
+};
 // -----------------------------------------------------------------------------
 // Service providers
 // -----------------------------------------------------------------------------
@@ -61,5 +73,19 @@ $container['App\Action\HomeAction'] = function ($c) {
     $eventService = new \App\Service\EventsService($c->get('http.client'), $c->get('meetup.event'));
     return new App\Action\HomeAction(
         $c->get('view'), $c->get('logger'), $eventService
+    );
+};
+
+$container['App\Action\AdminDashboardAction'] = function ($c) {
+
+    return new App\Action\AdminDashboardAction(
+        $c->get('view'), $c->get('logger')
+    );
+};
+
+$container['App\Action\LoginAction'] = function ($c) {
+
+    return new App\Action\LoginAction(
+        $c->get('view'), $c->get('logger')
     );
 };

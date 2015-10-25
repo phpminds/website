@@ -23,9 +23,10 @@ vagrant_local:
 
 mysql:
     install: '1'
-    packages: ['mariadb-server', 'mariadb']
+    packages: ['mariadb-server', 'mariadb','mariadb-devel']
     root_password: Admin123
     hosts: ['127.0.0.1', 'phpminds.dev', '::1', 'localhost']
+    mysql_old_root_password: ''
 
 nginx:
     install: '1'

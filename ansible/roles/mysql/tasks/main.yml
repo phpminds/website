@@ -10,11 +10,23 @@
   with_items: mysql.packages
   when: mysql.packages is defined
 
+- name: Install python devel
+  sudo: yes
+  yum: pkg=python-devel
+
+- name: Install pip
+  sudo: yes
+  yum: pkg=python-pip 
+
 - name: Start MySQL manually
   sudo: yes
   shell: service mysqld start
 
+- name: Install the Python MySQLB module
+  sudo: yes
+  pip: name=MySQL-python
+
 - name: Update root password for all root accounts
-  mysql_user: name=root host={{ item }} check_implicit_admin=yes password={{ mysql.root_password }} login_user=root login_password={{ mysql.root_password }}
+  mysql_user: name=root host={{ item }} check_implicit_admin=yes password={{ mysql.root_password }} login_user=root login_password={{ mysql.mysql_old_root_password }}
   with_items: mysql.hosts
   when: mysql.hosts is defined 

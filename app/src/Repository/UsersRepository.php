@@ -38,8 +38,8 @@ class UsersRepository extends RepositoryAbstract
 
     public function save($user)
     {
-        $sql = "INSERT INTO {$this->table} (username, password, role, status) VALUES ("
-            . ":username, :password, 0, 0"
+        $sql = "INSERT INTO {$this->table} (email, password, role, status) VALUES ("
+            . ":email, :password, 0, 0"
             . ")";
 
         $stmt = $this->db->prepare($sql);

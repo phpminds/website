@@ -1,0 +1,20 @@
+---
+- name: Add MySQL repo
+  sudo: yes
+  yum: name=http://dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm state=present
+
+
+- name: Install MySQL packages
+  sudo: yes
+  yum: pkg={{ item }} state=latest
+  with_items: mysql.packages
+  when: mysql.packages is defined
+
+- name: Start MySQL manually
+  sudo: yes
+  shell: service mysqld start
+
+- name: Update root password for all root accounts
+  mysql_user: name=root host={{ item }} check_implicit_admin=yes password={{ mysql.root_password }} login_user=root login_password={{ mysql.root_password }}
+  with_items: mysql.hosts
+  when: mysql.hosts is defined 

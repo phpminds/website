@@ -1,0 +1,4 @@
+[zend-php7]
+name = PHP7 nightly by Zend Technologies
+baseurl = http://repos.zend.com/zend-server/early-access/php7/repos/centos/
+gpgcheck=0

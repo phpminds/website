@@ -21,10 +21,8 @@ Integrations with
 
 
 
-- [ ] incomplete
-- [x] completed
 
 ## Contributers
 Created by the @phpminds team - contributions welcome 
 
-Licence : MIT 
+Licence :  MIT see licence.md 

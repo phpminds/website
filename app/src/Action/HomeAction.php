@@ -11,7 +11,7 @@ final class HomeAction
     private $eventService;
     private $cache;
 
-    public function __construct(Twig $view, LoggerInterface $logger, $eventService,$cache)
+    public function __construct(Twig $view, LoggerInterface $logger, $eventService, $cache)
     {
         $this->view = $view;
         $this->logger = $logger;
@@ -26,11 +26,10 @@ final class HomeAction
 
         $event = $this->eventService->getEvent();
 
-        
-        var_dump($this->eventService);
-       
+
+        $resWithETag = $this->cache->withETag($response, $event['id']);
 
         $this->view->render($response, 'home.twig', ['event' => $event]);
-        return $response;
+        return $resWithETag;
     }
 }

@@ -20,7 +20,7 @@ $container['http.client'] = function ($c) {
 };
 
 $container['cache'] = function () {
-    new \Slim\HttpCache\CacheProvider();
+    return new \Slim\HttpCache\CacheProvider();
 };
 
 $container ['db'] = function ($c) {

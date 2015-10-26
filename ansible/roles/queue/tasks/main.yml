@@ -1,0 +1,36 @@
+---
+- name: Adding Epel 6
+  yum: name=http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm state=present
+
+- name: Install Erlang (required for Rabbit)
+  sudo: yes
+  yum: pkg=erlang state=latest
+
+- name: Adding RabbitMQ repo
+  yum: name=https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_5_3/rabbitmq-server-3.5.3-1.noarch.rpm state=present
+
+- name: Install RabbitMQ server
+  sudo: yes
+  yum: pkg=rabbitmq-server state=latest
+
+- name: Start RabbitMQ
+  shell: /etc/init.d/rabbitmq-server start
+
+- name: Enable Management Console
+  shell: rabbitmq-plugins enable rabbitmq_management
+
+- name: New User | Create Admin user
+  shell: rabbitmqctl add_user admin Admin123
+
+- name: New User | Make administrator
+  shell: rabbitmqctl set_user_tags admin administrator
+
+- name: New User | Make administrator
+  shell: rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
+
+- name: Add basic config file
+  sudo: yes
+  template: src=rabbitmq.config dest=/etc/rabbitmq/rabbitmq.config
+
+- name: restart rabbitmq
+  shell: /etc/init.d/rabbitmq-server restart

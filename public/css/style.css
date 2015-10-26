@@ -15,6 +15,8 @@ h1 {
     font-size: 100px;
     font-weight: 200;
     margin-bottom: 0;
+    text-indent: -9000em;
+    background: url("../imgs/phpminds.svg") no-repeat 50% 50%; 
 }
 
 .event a {

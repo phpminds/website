@@ -1,0 +1,61 @@
+---
+- name: Install Nginx
+  sudo: yes
+  yum: pkg=nginx state=latest
+
+#- name: Start Nginx manually
+#  sudo: yes
+#  shell: systemctl start nginx
+
+- name: Create user group for web server
+  group: name={{ web_server.server_user_group }} state=present
+
+- name: Create user for web server
+  user: name={{ web_server.server_user }} group={{ web_server.server_user_group }}
+
+- name: Create directory for sites-available
+  file: path=/etc/nginx/sites-available state=directory owner={{ web_server.server_user }} group={{ web_server.server_user_group }}
+
+- name: Create directory for sites-enabled
+  file: path=/etc/nginx/sites-enabled state=directory owner={{ web_server.server_user }} group={{ web_server.server_user_group }}
+
+- name: Create directory for sites-enabled
+  file: path=/etc/php-fpm.d state=directory owner={{ web_server.server_user }} group={{ web_server.server_user_group }}
+
+  #Add templates
+- name: Change to custom Nginx conf
+  sudo: yes
+  template: src=nginx.conf.tpl dest=/etc/nginx/nginx.conf
+
+- name: Add default site to sites-available
+  sudo: yes
+  template: src=default.conf.tpl dest=/etc/nginx/sites-available/default_app.conf
+
+- name: Create symlink for default site to sites-enabled
+  file: src=/etc/nginx/sites-available/default_app.conf dest=/etc/nginx/sites-enabled/default_app.conf state=link
+
+- name: Create php-fpm.d directory
+  file: path=/etc/php-fpm.d/ state=directory owner={{ web_server.server_user }} group={{ web_server.server_user_group }}
+
+- name: configure php-fpm base
+  sudo: yes
+  command: cp /usr/local/php7/etc/php-fpm.conf.default /etc/php-fpm.conf
+
+- name: configure php-fpm www
+  sudo: yes
+  command: cp /usr/local/php7/etc/php-fpm.d/www.conf.default /usr/local/php7/etc/php-fpm.d/www.conf
+
+#- name: Enable PHP-FPM for default site
+#  sudo: yes
+#  template: src=php-fpm.conf.tpl dest=/etc/php-fpm.d/default_app.conf
+
+
+
+- name: Restart Nginx manually
+  sudo: yes
+  shell: systemctl restart nginx
+
+- name: Start PHP-FPM manually
+  sudo: yes
+  command: /usr/local/php7/sbin/php-fpm -y /etc/php-fpm.conf
+

@@ -1,0 +1,16 @@
+---
+- name: Install system packages
+  sudo: yes
+  yum: pkg={{ item }} state=latest
+  with_items: server.packages
+  when: server.packages is defined
+
+- name: Add webtatic PHP repo
+  sudo: yes
+  yum: name=https://mirror.webtatic.com/yum/el6/latest.rpm state=present
+
+- name: Install php5
+  sudo: yes
+  yum: pkg={{ item }} state=latest
+  with_items: php.packages
+  when: php.packages is defined

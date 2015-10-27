@@ -15,6 +15,20 @@ $container['meetup.event'] = function ($c) {
     );
 };
 
+$container['joindin.event'] = function ($c) {
+    $joindin = $c->get('config')['joindin'];
+
+
+    return new \App\Model\JoindinEvent(
+        $joindin['key'], $joindin['baseUrl'], $joindin['callback']
+    );
+};
+
+$container['service.event'] = function ($c) {
+    return new \App\Service\EventsService($c->get('http.client'), $c->get('meetup.event'), $c->get('joindin.event'));
+};
+
+
 $container['http.client'] = function ($c) {
     return new \GuzzleHttp\Client();
 };
@@ -92,9 +106,8 @@ $container['logger'] = function ($c) {
 // -----------------------------------------------------------------------------
 
 $container['App\Action\HomeAction'] = function ($c) {
-    $eventService = new \App\Service\EventsService($c->get('http.client'), $c->get('meetup.event'));
     return new App\Action\HomeAction(
-        $c->get('view'), $c->get('logger'), $eventService
+        $c->get('view'), $c->get('logger'), $c->get('service.event')
     );
 };
 
@@ -116,5 +129,12 @@ $container['App\Action\LogoutAction'] = function ($c) {
 
     return new App\Action\LogoutAction(
         $c->get('view'), $c->get('logger'), $c->get('auth.model')
+    );
+};
+
+$container['App\Action\CreateEventAction'] = function ($c) {
+
+    return new App\Action\CreateEventAction(
+        $c->get('view'), $c->get('logger'), $c->get('service.event')
     );
 };

@@ -34,15 +34,6 @@ final class CreateEventAction
 
     public function dispatch(Request $request, Response $response, $args)
     {
-
-        echo '<pre>';
-        var_dump($this->eventService->createJoindinEvent());
-        exit;
-
-//        echo '<pre>';
-//        var_dump($this->eventService->joindinAuth());
-//        exit;
-
         $this->view->render(
             $response,
             'admin/create-event.twig',

@@ -19,7 +19,7 @@ return [
 
         'auth-routes' => [
             '/admin',
-            '/create-event'
+            ''
         ]
     ],
 

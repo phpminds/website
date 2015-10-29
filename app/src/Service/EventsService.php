@@ -33,4 +33,38 @@ class EventsService
         return $this->meetupEvent->formatResponse($events);
     }
 
+    public function addToJoindIn($event)
+    {
+
+    }
+
+    public function joindinAuth()
+    {
+
+
+
+    }
+
+    public function createJoindinEvent()
+    {
+
+        $this->httpClient->post(
+            'http://localhost:9000/', [
+            'json' => [
+                'name' => 'Test 1',
+                'description' => 'Description for test 1. An awesome event with an awesome speaker. The event will take place in Nottingham, UK',
+                'start_date' => '2015-12-17T12:19:00+00:00',
+                'end_date' => '2015-12-17T12:20:00+00:00',
+                'tz_continent' => 'Europe',
+                'tz_place' => 'Nottingham'
+
+            ],
+            'headers' => [
+                'Authorization' => 'Bearer bdc3ceba53ea35ea'
+            ]
+        ]);
+
+
+    }
+
 }

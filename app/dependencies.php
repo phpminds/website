@@ -3,12 +3,8 @@
 
 $container = $app->getContainer();
 
-$container['config'] = function ($c) {
-    return json_decode(file_get_contents(__DIR__.'/configs/config.json'), true);
-};
-
 $container['meetup.event'] = function ($c) {
-    $meetup = $c->get('config')['meetups'];
+    $meetup = $c->get('settings')['meetups'];
 
     return new \App\Model\MeetupEvent(
         $meetup['apiKey'], $meetup['baseUrl'], $meetup['PHPMinds']['group_urlname']
@@ -16,7 +12,7 @@ $container['meetup.event'] = function ($c) {
 };
 
 $container['joindin.event'] = function ($c) {
-    $joindin = $c->get('config')['joindin'];
+    $joindin = $c->get('settings')['joindin'];
 
 
     return new \App\Model\JoindinEvent(
@@ -34,7 +30,7 @@ $container['http.client'] = function ($c) {
 };
 
 $container ['db'] = function ($c) {
-    $db = $c->get('config')['db'];
+    $db = $c->get('settings')['db'];
 
     return new \App\Model\Db (
         'mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'], $db['username'], $db['password']

@@ -4,22 +4,33 @@ namespace App\Service;
 
 class EventsService
 {
+    /**
+     * @var \GuzzleHttp\Client()
+     */
     protected $httpClient;
-    protected $event;
+    /**
+     * @var \App\Model\MeetupEvent
+     */
+    protected $meetupEvent;
+    /**
+     * @var \App\Model\JoindinEvent
+     */
+    protected $joindinEvent;
 
-    public function __construct($httpClient, $event)
+    public function __construct($httpClient, $meetupEvent, $joindinEvent)
     {
         $this->httpClient = $httpClient;
-        $this->event = $event;
+        $this->meetupEvent = $meetupEvent;
+        $this->joindinEvent = $joindinEvent;
     }
 
     public function getEvent()
     {
-        $eventUrl = $this->event->getEventUrl();
+        $eventUrl = $this->meetupEvent->getEventUrl();
         $response = $this->httpClient->get($eventUrl);
         $events = json_decode($response->getBody()->getContents(), true);
 
-        return $this->event->formatResponse($events);
+        return $this->meetupEvent->formatResponse($events);
     }
 
 }

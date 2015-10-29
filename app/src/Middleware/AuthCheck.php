@@ -32,8 +32,7 @@ class AuthCheck
     {
         if (!$this->isAuth) {
             if (in_array($request->getUri()->getPath(), $this->authRoutes)) {
-                header("Location: /login");
-                exit;
+                return $response->withStatus(302)->withHeader('Location', '/');
             }
         }
 

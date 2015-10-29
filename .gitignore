@@ -6,3 +6,4 @@ app/configs/*
 Vagrantfile
 .vagrant/*
 ansible/*
+phinx.yml

@@ -14,3 +14,5 @@
 - name: Create PHP-FPM service
   sudo: yes
   template: src=php-fpm.service dest=/etc/init.d/php-fpm
+
+- file: path=/etc/init.d/php-fpm state=touch mode="u=rwx,g=rx,o=rx"

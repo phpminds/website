@@ -31,4 +31,11 @@ class EventsServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->asserttrue(!empty($venues));
     }
+
+    public function testCanCreateANewMeetup()
+    {
+        // Get list of venues - pick first? - get venue_id
+        // create new meetup
+        // check the new meetup exists
+    }
 }

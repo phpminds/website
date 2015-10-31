@@ -34,6 +34,33 @@ final class CreateEventAction
 
     public function dispatch(Request $request, Response $response, $args)
     {
+        // http://www.meetup.com/meetup_api/docs/2/event/
+        // create event in meetup.com
+            // title
+            // description
+            // venue
+
+        //  Create event / talk in joind.in
+            // Add event for PHPMiNDS - Month Year (e.g. PHPMiNDS - December 2015)
+            // Add talk for event
+
+        // Send email
+            // To UG admins
+            // To speaker - with link to joind.in
+
+        // Todo
+        // Use rabbitmq to send emails :)
+
+
+        // TODO
+        // Create table to hold
+            // Speaker
+                // Name
+                // email
+                // Twitter
+                // Talks
+                // Profile (??) - Intro to speaker
+
         $this->view->render(
             $response,
             'admin/create-event.twig',

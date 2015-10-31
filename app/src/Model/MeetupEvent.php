@@ -15,9 +15,19 @@ class MeetupEvent
         $this->groupUrlName = $groupUrlName;
     }
 
+    public function getAuthString()
+    {
+        return '?group_urlname='. $this->groupUrlName .'&key=' . $this->apiKey;
+    }
+
     public function getEventUrl()
     {
-        return $this->baseUrl .'/events/?group_urlname='. $this->groupUrlName .'&key=' . $this->apiKey;
+        return $this->baseUrl .'/events/' . $this->getAuthString();
+    }
+
+    public function getVenuesUrl()
+    {
+        return $this->baseUrl . '/venues/' . $this->getAuthString();
     }
 
     public function formatResponse(array $events = [])
@@ -55,9 +65,15 @@ class MeetupEvent
         ];
     }
 
-    public function createEvent()
+    public function createEventPayload($talk = null)
     {
-
+        return [
+            'name' => '',
+            'description' => '', // max - 50000 chars
+            'venue_id' => '', // Numeric identifier of a venue
+            'publish_status' => '', // draft
+            'time' => '', // Event start time in milliseconds since the epoch, or relative to the current time in the d/w/m format.
+        ];
     }
 
     public function saveEvent()

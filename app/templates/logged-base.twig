@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+        <link rel="stylesheet" href="/libs/foundation/css/foundation.css" />
+        <script src="/libs/js/jquery.min.js"></script>
+        <script src="/libs/foundation/js/foundation.min.js"></script>
+        <title>{% block title %}{% endblock %} - PHPMiNDS Admin</title>
+    {% endblock %}
+</head>
+<body>
+
+<nav class="top-bar" data-topbar>
+    <ul class="title-area">
+
+        <li class="name">
+            <h1>
+                <a href="#">
+                    PHPMiNDS
+                </a>
+            </h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+    </ul>
+
+    <section class="top-bar-section">
+        <ul class="right">
+            <li class="divider"></li>
+            <li class="has-dropdown">
+                <a href="#">Admin</a>
+                <ul class="dropdown">
+                    <li><label>Events</label></li>
+                    <li><a href="/admin/events">List all events</a></li>
+                    <li><a href="/create-event">Create Event</a></li>
+                    <li><a href="/edit-event">Edit Event</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </section>
+</nav>
+
+
+
+
+
+
+<div class="row">
+    <div class="large-9 columns">
+        {% block content %}{% endblock %}
+    </div>
+
+
+    <div class="large-3 columns">
+        <h5>Map</h5>
+
+        <p>
+            <a href="" data-reveal-id="mapModal"><img src="http://placehold.it/400x280"></a><br/>
+            <a href="" data-reveal-id="mapModal">View Map</a>
+        </p>
+        <p>
+            123 Awesome St.<br/>
+            Barsoom, MA 95155
+        </p>
+    </div>
+
+</div>
+
+
+{% block footer %}
+    <footer class="row">
+        <div class="large-12 columns">
+            <hr>
+            <div class="row">
+                <div class="large-6 columns">
+                    <p>&copy; Copyright PHPMiNDS</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+
+<div class="reveal-modal" id="mapModal">
+    <h4>Where We Are</h4>
+    <p><img src="http://placehold.it/800x600"/></p>
+
+
+    <a href="#" class="close-reveal-modal">×</a>
+</div>
+
+
+</body>
+</html>

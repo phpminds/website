@@ -1,1 +1,68 @@
-<h1>Create event</h1>
+{% extends "logged-base.twig" %}
+
+{% block content %}
+
+<h3>Create Event</h3>
+<p>Creates an event in Meetup.com as well as an Event and Talk in Joind.In</p>
+
+<div class="section-container tabs" data-section>
+    <section class="section">
+        <h5 class="title"><a href="#panel1">Talk information</a></h5>
+        <div class="content" data-slug="panel1">
+            <form>
+                <div class="row collapse">
+                    <div class="large-2 columns">
+                        <label class="inline">Talk Title</label>
+                    </div>
+                    <div class="large-10 columns">
+                        <input type="text" id="talk_title" placeholder="Talk title">
+                    </div>
+                </div>
+
+                <div class="row collapse">
+                    <div class="large-2 columns">
+                        <label class="inline">Venues</label>
+                    </div>
+                    <div class="large-10 columns">
+                        <select>
+                            <option>JH</option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="row collapse">
+                    <div class="large-2 columns">
+                        <label class="inline">Date and Time</label>
+                    </div>
+                    <div class="large-10 columns">
+                        <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')"  id="date">
+                        <input type="time" id="time" placeholder="19:00">
+                    </div>
+                </div>
+
+                <label>Talk description / Abstract</label>
+                <textarea rows="4"></textarea>
+                <button type="submit" class="radius button">Submit</button>
+            </form>
+        </div>
+    </section>
+    <section class="section">
+        <h5 class="title"><a href="#panel2">Speakers</a></h5>
+        <div class="content" data-slug="panel2">
+            <ul class="large-block-grid-5">
+                <li><a href="/cdn-cgi/l/email-protection#771a161b3704120512191e030e59151459051215"><img src="http://placehold.it/200x200&text=[person]">Mal Reynolds</a></li>
+                <li><a href="/cdn-cgi/l/email-protection#6a10050f2a190f180f04031e1344080944180f08"><img src="http://placehold.it/200x200&text=[person]">Zoe Washburne</a></li>
+                <li><a href="/cdn-cgi/l/email-protection#2349425a4d4663504651464d4a575a0d41400d514641"><img src="http://placehold.it/200x200&text=[person]">Jayne Cobb</a></li>
+                <li><a href="/cdn-cgi/l/email-protection#d6b2b9b596a5b3a4b3b8bfa2aff8b4b5f8a4b3b4"><img src="http://placehold.it/200x200&text=[person]">Simon Tam</a></li>
+                <li><a href="/cdn-cgi/l/email-protection#23484a4f4f5a4c56544a574b4e5a4e4a4d4763504651464d4a575a0d41400d514641"><img src="http://placehold.it/200x200&text=[person]">River Tam</a></li>
+                <li><a href="/cdn-cgi/l/email-protection#e9858c888f86879d818c9e80878da99a8c9b8c87809d90c78b8ac79b8c8b"><img src="http://placehold.it/200x200&text=[person]">Hoban Washburne</a></li>
+                <li><a href="/cdn-cgi/l/email-protection#7b191414103b081e091e15120f0255191855091e19"><img src="http://placehold.it/200x200&text=[person]">Shepherd Book</a></li>
+                <li><a href="/cdn-cgi/l/email-protection#6f04030a0a2f1c0a1d0a01061b16410d0c411d0a0d"><img src="http://placehold.it/200x200&text=[person]">Kaywinnet Lee Fry</a></li>
+                <li><a href="/cdn-cgi/l/email-protection#ed84838c9f8cad8a98848189c38e82809dc38c8181"><img src="http://placehold.it/200x200&text=[person]">Inarra Serra</a></li>
+            </ul>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

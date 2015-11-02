@@ -1,5 +1,7 @@
 {% extends "logged-base.twig" %}
 
+{% block title %}Create Event{% endblock %}
+
 {% block content %}
 
 <h3>Create Event</h3>
@@ -9,7 +11,24 @@
     <section class="section">
         <h5 class="title"><a href="#panel1">Talk information</a></h5>
         <div class="content" data-slug="panel1">
-            <form>
+            <form id="frm_event">
+
+                <div class="row collapse">
+                    <div class="large-2 columns">
+                        <label class="inline">Speaker</label>
+                    </div>
+                    <div class="large-10 columns">
+                        <select id="speakers" name="speaker">
+                            <option value="0">-- Select --</option>
+                            <option value="-1">Create speaker</option>
+                            <option value="1">Rob Allen (@akrabat)</option>
+                            <option value="2">Lorna Mitchell (@lornajane)</option>
+                            <option value="3">Jenny Wong (@miss_jwo)</option>
+                        </select>
+
+                    </div>
+                </div>
+
                 <div class="row collapse">
                     <div class="large-2 columns">
                         <label class="inline">Talk Title</label>
@@ -35,7 +54,7 @@
                     <div class="large-2 columns">
                         <label class="inline">Date and Time</label>
                     </div>
-                    <div class="large-10 columns">
+                    <div class="small-5 columns">
                         <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')"  id="date">
                         <input type="time" id="time" placeholder="19:00">
                     </div>
@@ -47,22 +66,98 @@
             </form>
         </div>
     </section>
-    <section class="section">
-        <h5 class="title"><a href="#panel2">Speakers</a></h5>
-        <div class="content" data-slug="panel2">
-            <ul class="large-block-grid-5">
-                <li><a href="/cdn-cgi/l/email-protection#771a161b3704120512191e030e59151459051215"><img src="http://placehold.it/200x200&text=[person]">Mal Reynolds</a></li>
-                <li><a href="/cdn-cgi/l/email-protection#6a10050f2a190f180f04031e1344080944180f08"><img src="http://placehold.it/200x200&text=[person]">Zoe Washburne</a></li>
-                <li><a href="/cdn-cgi/l/email-protection#2349425a4d4663504651464d4a575a0d41400d514641"><img src="http://placehold.it/200x200&text=[person]">Jayne Cobb</a></li>
-                <li><a href="/cdn-cgi/l/email-protection#d6b2b9b596a5b3a4b3b8bfa2aff8b4b5f8a4b3b4"><img src="http://placehold.it/200x200&text=[person]">Simon Tam</a></li>
-                <li><a href="/cdn-cgi/l/email-protection#23484a4f4f5a4c56544a574b4e5a4e4a4d4763504651464d4a575a0d41400d514641"><img src="http://placehold.it/200x200&text=[person]">River Tam</a></li>
-                <li><a href="/cdn-cgi/l/email-protection#e9858c888f86879d818c9e80878da99a8c9b8c87809d90c78b8ac79b8c8b"><img src="http://placehold.it/200x200&text=[person]">Hoban Washburne</a></li>
-                <li><a href="/cdn-cgi/l/email-protection#7b191414103b081e091e15120f0255191855091e19"><img src="http://placehold.it/200x200&text=[person]">Shepherd Book</a></li>
-                <li><a href="/cdn-cgi/l/email-protection#6f04030a0a2f1c0a1d0a01061b16410d0c411d0a0d"><img src="http://placehold.it/200x200&text=[person]">Kaywinnet Lee Fry</a></li>
-                <li><a href="/cdn-cgi/l/email-protection#ed84838c9f8cad8a98848189c38e82809dc38c8181"><img src="http://placehold.it/200x200&text=[person]">Inarra Serra</a></li>
-            </ul>
-        </div>
-    </section>
 </div>
 
+{% endblock %}
+
+{% block right_column %}
+    <div id="new_speaker" class="hide">
+        <h4>Create new speaker</h4>
+        <form id="frm_speaker">
+            <input type="hidden" value="{{ name }}" name="{{ nameKey }}">
+            <input type="hidden" value="{{ value }}" name="{{ valueKey }}">
+            <div class="row collapse">
+                <div class="column">
+                    <input type="text" name="first_name" id="first_name" placeholder="First name" data-tooltip class="has-tip" title="The speaker's first name.">
+                </div>
+            </div>
+
+            <div class="row collapse">
+                <div class="column">
+                    <input type="text" name="last_name" id="last_name" placeholder="Last name" data-tooltip class="has-tip" title="The speaker's last name.">
+                </div>
+            </div>
+
+            <div class="row collapse">
+                <div class="column">
+                    <input type="email" name="email" id="email" placeholder="Email" data-tooltip class="has-tip" title="The speaker's email.">
+                </div>
+            </div>
+
+            <div class="row collapse">
+                <div class="column">
+                    <input type="text" name="twitter" id="twitter" placeholder="@Twitter" data-tooltip class="has-tip" title="The speaker's Twitter handle.">
+                </div>
+            </div>
+
+            <button type="submit" class="radius button">Create</button>
+        </form>
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $( document ).ready(function() {
+        var newSpeaker = $('#new_speaker'),
+            speakersDropdown = $('#speakers');
+
+        speakersDropdown.change(function(){
+
+            if ($(this).val() == -1) {
+                    newSpeaker.addClass('show');
+                    newSpeaker.removeClass('hide');
+            }
+        });
+
+        // Add speaker and update the Speaker's dropdown with this speaker selected
+        $('#frm_speaker').submit(function(event){
+            event.preventDefault();
+
+            var speakerForm = $('#frm_speaker'),
+                firstName = speakerForm.find('#first_name').val(),
+                lastName = speakerForm.find('#last_name').val(),
+                email = speakerForm.find('#email').val(),
+                twitter = speakerForm.find('#twitter').val(),
+                speakerID = null;
+
+
+            // do AJAX call
+            var post = $.post(
+                    "/create-speaker",
+                    speakerForm.serialize()
+            );
+
+            post.done(function(data){
+
+                if (data.error) {
+                    // handle errors
+                    // show messages to the user
+                    console.log(data.error);
+                } else {
+
+                    speakerID = data.id;
+
+                    // hide form
+                    newSpeaker.addClass('hide');
+
+                    // update dropdown
+                    speakersDropdown.append('<option selected value="'+ speakerID +'">' + firstName + ' ' + lastName + ' (' + twitter + ')</option>');
+                }
+            });
+
+
+        });
+    });
+</script>
 {% endblock %}

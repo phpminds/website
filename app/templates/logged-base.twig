@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="/libs/foundation/css/foundation.css" />
         <script src="/libs/js/jquery.min.js"></script>
         <script src="/libs/foundation/js/foundation.min.js"></script>
-        <title>{% block title %}{% endblock %} - PHPMiNDS Admin</title>
+        <title>{% block title %}{% endblock %} - PHPMiNDS</title>
     {% endblock %}
 </head>
 <body>
@@ -41,27 +41,13 @@
 </nav>
 
 
-
-
-
-
 <div class="row">
     <div class="large-9 columns">
         {% block content %}{% endblock %}
     </div>
 
-
     <div class="large-3 columns">
-        <h5>Map</h5>
-
-        <p>
-            <a href="" data-reveal-id="mapModal"><img src="http://placehold.it/400x280"></a><br/>
-            <a href="" data-reveal-id="mapModal">View Map</a>
-        </p>
-        <p>
-            123 Awesome St.<br/>
-            Barsoom, MA 95155
-        </p>
+        {% block right_column %}{% endblock %}
     </div>
 
 </div>
@@ -80,14 +66,8 @@
     </footer>
 {% endblock %}
 
-<div class="reveal-modal" id="mapModal">
-    <h4>Where We Are</h4>
-    <p><img src="http://placehold.it/800x600"/></p>
+{% block scripts %}
 
-
-    <a href="#" class="close-reveal-modal">×</a>
-</div>
-
-
+{% endblock %}
 </body>
 </html>

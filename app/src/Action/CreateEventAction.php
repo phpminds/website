@@ -25,11 +25,14 @@ final class CreateEventAction
      */
     private $eventService;
 
-    public function __construct(Twig $view, LoggerInterface $logger, EventsService $eventService)
+    private $csrf;
+
+    public function __construct(Twig $view, LoggerInterface $logger, EventsService $eventService, $csrf)
     {
         $this->view = $view;
         $this->logger = $logger;
         $this->eventService = $eventService;
+        $this->csrf = $csrf;
     }
 
     public function dispatch(Request $request, Response $response, $args)
@@ -61,10 +64,19 @@ final class CreateEventAction
                 // Talks
                 // Profile (??) - Intro to speaker
 
+        $nameKey = $this->csrf->getTokenNameKey();
+        $valueKey = $this->csrf->getTokenValueKey();
+
+        $name = $request->getAttribute($nameKey);
+        $value = $request->getAttribute($valueKey);
+
         $this->view->render(
             $response,
             'admin/create-event.twig',
-            []
+            [
+                'nameKey' => $nameKey, 'valueKey' => $valueKey,
+                'name' => $name, 'value' => $value
+            ]
         );
 
         return $response;

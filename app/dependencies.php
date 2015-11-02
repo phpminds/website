@@ -43,6 +43,10 @@ $container['users.repository'] = function ($c) {
     return new \App\Repository\UsersRepository($c->get('db'));
 };
 
+$container['speakers.repository'] = function ($c) {
+    return new \App\Repository\SpeakersRepository($c->get('db'));
+};
+
 
 $container['auth.middleware'] = function ($c) {
     return new App\Middleware\AuthCheck($_SESSION, 'auth', $c->get('settings')['auth-routes']);
@@ -121,6 +125,13 @@ $container['App\Action\LoginAction'] = function ($c) {
     );
 };
 
+$container['App\Action\CreateSpeakerAction'] = function ($c) {
+
+    return new App\Action\CreateSpeakerAction(
+        $c->get('view'), $c->get('logger'), $c->get('speakers.repository')
+    );
+};
+
 $container['App\Action\LogoutAction'] = function ($c) {
 
     return new App\Action\LogoutAction(
@@ -131,6 +142,6 @@ $container['App\Action\LogoutAction'] = function ($c) {
 $container['App\Action\CreateEventAction'] = function ($c) {
 
     return new App\Action\CreateEventAction(
-        $c->get('view'), $c->get('logger'), $c->get('service.event')
+        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('csrf')
     );
 };

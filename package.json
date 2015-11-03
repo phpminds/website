@@ -1,7 +1,7 @@
 {
   "name": "phpminds-website",
   "version": "1.0.0",
-  "description": "PHPMinds usergrou Nottingham",
+  "description": "PHPMinds usergroup Nottingham",
   "main": "gulpfile.js",
   "dependencies": {
     "bower": "^1.6.5",

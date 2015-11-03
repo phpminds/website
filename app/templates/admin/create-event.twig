@@ -17,16 +17,56 @@
                     <div class="large-2 columns">
                         <label class="inline">Speaker</label>
                     </div>
-                    <div class="large-10 columns">
+                    <div class="large-5 columns">
                         <select id="speakers" name="speaker">
                             <option value="0">-- Select --</option>
                             <option value="-1">Create speaker</option>
-                            <option value="1">Rob Allen (@akrabat)</option>
-                            <option value="2">Lorna Mitchell (@lornajane)</option>
-                            <option value="3">Jenny Wong (@miss_jwo)</option>
+                            {% for speaker in speakers %}
+                                <option value="{{ speaker.id }}">{{ speaker.firstName }} {{ speaker.lastName }} ({{ speaker.twitter }})</option>
+                            {% endfor %}
                         </select>
 
                     </div>
+                    <div class="large-2 columns"></div>
+                </div>
+
+                <div class="row collapse">
+                    <div class="large-2 columns">
+                        <label class="inline">Venue</label>
+                    </div>
+                    <div class="large-5 columns">
+                        <select id="venues" name="venue">
+                            <option value="0">-- Select --</option>
+                            {% for venue in venues %}
+                                <option value="{{ venue.id }}">{{ venue.name }} - {{ venue.address }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="large-2 columns"></div>
+                </div>
+
+                <div class="row collapse">
+                    <div class="large-2 columns">
+                        <label class="inline">Date</label>
+                    </div>
+                    <div class="large-5 columns">
+                        <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')"  id="date">
+                    </div>
+                    <div class="large-2 columns"></div>
+                </div>
+
+                <div class="row collapse">
+                    <div class="large-2 columns">
+                        <label class="inline">Start time</label>
+                    </div>
+                    <div class="large-2 columns">
+                        <select id="time.hour" name="time.hour">
+                            {% for i in 8..22 %}
+                                <option value="{{ i }}">{{ i }}:00</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="large-5 columns"></div>
                 </div>
 
                 <div class="row collapse">
@@ -39,29 +79,9 @@
                 </div>
 
                 <div class="row collapse">
-                    <div class="large-2 columns">
-                        <label class="inline">Venues</label>
-                    </div>
-                    <div class="large-10 columns">
-                        <select>
-                            <option>JH</option>
-                        </select>
-
-                    </div>
+                    <label>Talk description / Abstract</label>
+                    <textarea rows="4"></textarea>
                 </div>
-
-                <div class="row collapse">
-                    <div class="large-2 columns">
-                        <label class="inline">Date and Time</label>
-                    </div>
-                    <div class="small-5 columns">
-                        <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')"  id="date">
-                        <input type="time" id="time" placeholder="19:00">
-                    </div>
-                </div>
-
-                <label>Talk description / Abstract</label>
-                <textarea rows="4"></textarea>
                 <button type="submit" class="radius button">Submit</button>
             </form>
         </div>
@@ -139,6 +159,7 @@
             );
 
             post.done(function(data){
+                console.log(data);
 
                 if (data.error) {
                     // handle errors

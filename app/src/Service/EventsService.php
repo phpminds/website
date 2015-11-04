@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Model\Event\Entity\Venue;
+
 class EventsService
 {
     /**
@@ -36,12 +38,33 @@ class EventsService
     public function getVenues()
     {
         $venuesUrl = $this->meetupEvent->getVenuesUrl();
-        return $this->httpClient->get($venuesUrl)->getBody()->getContents();
+        $result = json_decode(
+            $this->httpClient->get($venuesUrl)->getBody()->getContents(),
+            true
+        )['results'];
+
+        $venues = [];
+        foreach ($result as $venue) {
+            $venues[] = new Venue(
+                $venue['id'],
+                $venue['name'],
+                $venue['address_1']
+            );
+        }
+
+        return $venues;
     }
 
-    public function createMeetup($talk)
+    public function getSpeakers()
     {
 
+    }
+
+    public function createMeetup($talk = null)
+    {
+        return $this->httpClient->post($this->meetupEvent->getUrl('event'), [
+           'form_params' => $this->meetupEvent->getCreateEventPayload()
+        ]);
 
     }
 

@@ -2,7 +2,7 @@
 
 namespace App\Model\Event;
 
-use App\Model\Event\Speaker;
+use App\Model\Event\Entity\Speaker;
 
 class Talk
 {

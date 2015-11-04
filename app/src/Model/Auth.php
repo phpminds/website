@@ -26,6 +26,8 @@ class Auth
         $user->email = $email;
         $user->password = $hash;
         $this->repository->save($user);
+
+        return $user;
     }
 
     public function isValid($email, $password)

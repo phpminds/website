@@ -2,6 +2,8 @@
 
 namespace App\Action;
 
+use App\Model\Event\EventManager;
+use App\Repository\SpeakersRepository;
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;
 use App\Service\EventsService;
@@ -27,16 +29,23 @@ final class CreateEventAction
 
     private $csrf;
 
-    public function __construct(Twig $view, LoggerInterface $logger, EventsService $eventService, $csrf)
+    /**
+     * @var EventManager
+     */
+    private $eventManager;
+
+    public function __construct(Twig $view, LoggerInterface $logger, EventsService $eventService, $csrf, EventManager $eventManager)
     {
         $this->view = $view;
         $this->logger = $logger;
         $this->eventService = $eventService;
         $this->csrf = $csrf;
+        $this->eventManager = $eventManager;;
     }
 
     public function dispatch(Request $request, Response $response, $args)
     {
+
         // http://www.meetup.com/meetup_api/docs/2/event/
         // create event in meetup.com
             // title
@@ -74,6 +83,8 @@ final class CreateEventAction
             $response,
             'admin/create-event.twig',
             [
+                'speakers' => $this->eventManager->getSpeakers(),
+                'venues' => $this->eventService->getVenues(),
                 'nameKey' => $nameKey, 'valueKey' => $valueKey,
                 'name' => $name, 'value' => $value
             ]

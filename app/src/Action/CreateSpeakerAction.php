@@ -2,12 +2,14 @@
 
 namespace App\Action;
 
+use App\Model\Email;
+use App\Model\Twitter;
 use App\Repository\SpeakersRepository;
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use App\Model\Event\Speaker;
+use App\Model\Event\Entity\Speaker;
 
 final class CreateSpeakerAction
 {
@@ -38,10 +40,11 @@ final class CreateSpeakerAction
     {
         if($request->isPost()) {
             $speaker = new Speaker(
+                null,
                 $request->getParam('first_name'),
                 $request->getParam('last_name'),
-                $request->getParam('email'),
-                $request->getParam('twitter')
+                new Email($request->getParam('email')),
+                new Twitter($request->getParam('twitter'))
             );
 
             $msg = [];

@@ -1,18 +1,15 @@
-<html>
-    <head>
-        <meta charset="utf-8"/>
-        <title>PHPMiNDS</title>
-        <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
-        <link href='{{ base_url() }}/css/style.css' rel='stylesheet' type='text/css'>
-    </head>
-    <body>
-        <h1>PHPMiNDS</h1>
+{% extends "base.twig" %}
+{% block content %}
+
+
+        
         <p>Next meetup on {{ event.date_time }}</p>
         <div class="event">
             <p>{{ event.subject }}</p>
             <p>{{ event.description | raw }}</p>
-            <p><a href="{{ event.event_url }}">RSVP</a></p>
+            <p><a class="button success" href="{{ event.event_url }}">RSVP</a></p>
         </div>
-    </body>
-</html>
+        
+{% endblock %}
+    
         

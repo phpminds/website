@@ -23,7 +23,15 @@
         "monolog/monolog": "^1.13",
         "guzzlehttp/guzzle": "^6.1",
         "aura/sql": "^2.4",
-        "slim/csrf": "^0.4.0",
-        "robmorgan/phinx": "^0.4.6"
+        "slim/csrf": "^0.4.0"
+
+    },
+    "require-dev":{
+        "robmorgan/phinx": "^0.4.6",
+        "phpunit/phpunit": "4.7.*",
+        "squizlabs/php_codesniffer": "2.*",
+        "mockery/mockery": "0.9.*"
+
     }
+
 }

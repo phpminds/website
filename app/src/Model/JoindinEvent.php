@@ -25,5 +25,4 @@ class JoindinEvent
     {
         return $this->baseUrl;
     }
-
 }

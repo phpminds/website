@@ -36,7 +36,7 @@ final class LoginAction
 
         $email = '';
         $msg = '';
-        if($request->isPost()) {
+        if ($request->isPost()) {
             $email = $request->getParam('email');
             $password = $request->getParam('password');
             if ($this->auth->isValid($email, $password)) {

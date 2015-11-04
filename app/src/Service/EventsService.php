@@ -32,5 +32,4 @@ class EventsService
 
         return $this->meetupEvent->formatResponse($events);
     }
-
 }

@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Repository\RepositoryAbstract;
 
-use App\Model\Event\Speaker;
+use App\Model\Event\Entity\Speaker;
 
 class SpeakersRepository extends RepositoryAbstract
 {
@@ -19,6 +19,9 @@ class SpeakersRepository extends RepositoryAbstract
         'avatar'
     ];
 
+    /**
+     * @param Speaker $speaker
+     */
     public function save(Speaker $speaker)
     {
         $sql = "INSERT INTO {$this->table} (first_name, last_name, email, twitter) VALUES ("
@@ -34,5 +37,19 @@ class SpeakersRepository extends RepositoryAbstract
         $stmt->execute();
 
         $speaker->id = $this->db->lastInsertId();
+    }
+
+    /**
+     * @return array $speakers
+     */
+    public function getAllSpeakers()
+    {
+        $results = $this->getAll(\PDO::FETCH_ASSOC);
+        $speakers = [];
+        foreach ($results as $speaker) {
+            $speakers[] = Speaker::create($speaker);
+        }
+
+        return $speakers;
     }
 }

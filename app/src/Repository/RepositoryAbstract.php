@@ -35,11 +35,11 @@ class RepositoryAbstract
         return implode(',', $this->columns);
     }
 
-    public function getAll()
+    public function getAll($returnType = \PDO::FETCH_OBJ)
     {
         $sql = "SELECT {$this->getColumns()} ".
                 "FROM {$this->table} ";
 
-        return $this->db->query($sql)->fetchAll(\PDO::FETCH_OBJ);
+        return $this->db->query($sql)->fetchAll($returnType);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Model\Event;
 
-use App\Model\Event\Venue;
+use App\Model\Event\Entity\Venue;
 use App\Model\Event\Talk;
 
 class Event

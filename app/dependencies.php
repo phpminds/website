@@ -47,6 +47,16 @@ $container['speakers.repository'] = function ($c) {
     return new \App\Repository\SpeakersRepository($c->get('db'));
 };
 
+$container['events.repository'] = function ($c) {
+    return new \App\Repository\EventsRepository($c->get('db'));
+};
+
+
+// Managers
+
+$container['event.manager'] = function ($c) {
+    return new \App\Model\Event\EventManager($c->get('events.repository'), $c->get('speakers.repository'));
+};
 
 $container['auth.middleware'] = function ($c) {
     return new App\Middleware\AuthCheck($_SESSION, 'auth', $c->get('settings')['auth-routes']);
@@ -142,6 +152,6 @@ $container['App\Action\LogoutAction'] = function ($c) {
 $container['App\Action\CreateEventAction'] = function ($c) {
 
     return new App\Action\CreateEventAction(
-        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('csrf')
+        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('csrf'), $c->get('event.manager')
     );
 };

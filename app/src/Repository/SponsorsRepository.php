@@ -39,4 +39,13 @@ class SponsorsRepository extends RepositoryAbstract
 
         $sponsor->id = $this->db->lastInsertId();
     }
+
+    /**
+     * @param $sponsorID
+     * @return Sponsor
+     */
+    public function getSponsorById($sponsorID) : Sponsor
+    {
+        return Sponsor::create($this->getById($sponsorID));
+    }
 }

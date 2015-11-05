@@ -25,7 +25,7 @@ class RepositoryAbstract
         $stmt->bindParam(":id", $id, \PDO::PARAM_INT);
 
         $stmt->execute();
-        $stmt->setFetchMode(\PDO::FETCH_OBJ);
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
         return $stmt->fetch();
     }

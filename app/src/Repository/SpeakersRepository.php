@@ -52,4 +52,13 @@ class SpeakersRepository extends RepositoryAbstract
 
         return $speakers;
     }
+
+    /**
+     * @param $speakerID
+     * @return Speaker
+     */
+    public function getBySpeakerID($speakerID) : Speaker
+    {
+        return Speaker::create($this->getById($speakerID));
+    }
 }

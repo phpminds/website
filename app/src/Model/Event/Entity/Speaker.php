@@ -29,6 +29,11 @@ class Speaker
         $this->avatar       = $avatar;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     /**
      * @return mixed
      */

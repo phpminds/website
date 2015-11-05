@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Event;
+namespace App\Model\Event\Entity;
 
 use App\Model\Event\Entity\Speaker;
 
@@ -51,9 +51,9 @@ class Talk
     }
 
     /**
-     * @return mixed
+     * @return Speaker
      */
-    public function getSpeaker()
+    public function getSpeaker() : Speaker
     {
         return $this->speaker;
     }

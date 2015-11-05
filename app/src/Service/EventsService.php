@@ -2,7 +2,11 @@
 
 namespace App\Service;
 
+use App\Model\Event\Event;
 use App\Model\Event\Entity\Venue;
+use App\Repository\EventsRepository;
+use App\Model\MeetupEvent;
+
 
 class EventsService
 {
@@ -10,20 +14,28 @@ class EventsService
      * @var \GuzzleHttp\Client()
      */
     protected $httpClient;
+
     /**
-     * @var \App\Model\MeetupEvent
+     * @var MeetupEvent
      */
     protected $meetupEvent;
+
     /**
      * @var \App\Model\JoindinEvent
      */
     protected $joindinEvent;
 
-    public function __construct($httpClient, $meetupEvent, $joindinEvent)
+    /**
+     * @var EventsRepository
+     */
+    protected $eventsRepository;
+
+    public function __construct($httpClient, $meetupEvent, $joindinEvent, EventsRepository $eventsRepository)
     {
         $this->httpClient = $httpClient;
         $this->meetupEvent = $meetupEvent;
         $this->joindinEvent = $joindinEvent;
+        $this->eventsRepository = $eventsRepository;
     }
 
     public function getEvent()
@@ -55,32 +67,68 @@ class EventsService
         return $venues;
     }
 
-    public function getSpeakers()
+    public function getVenueById($venueID)
     {
+        $venues = $this->getVenues();
+        foreach ($venues as $venue) {
 
+            if ($venue->getId() === (int)$venueID) {
+                return $venue;
+            }
+        }
+
+        return new Venue(null, null, null);
     }
 
-    public function createMeetup($talk = null)
+    /**
+     * @param Event $event
+     * @return bool
+     */
+    public function createEvent(Event $event)
     {
-        return $this->httpClient->post($this->meetupEvent->getUrl('event'), [
-           'form_params' => $this->meetupEvent->getCreateEventPayload()
-        ]);
+        // create Meetup.com event
+        $this->createMeetup($event);
 
+        // create Joind.in event
+        //$this->createJoindinEvent($event);
+
+
+        // Update DB
+        //$this->updateEvents($event);
     }
 
-    public function addToJoindIn($event)
+    public function updateEvents(Event $event)
     {
+        $eventEntity = new \App\Model\Event\Entity\Event(
+            null,
+            $this->meetupEvent->getMeetupEventID(),
+            $event->getVenue()->getId(),
+            $this->joindinEvent->getTalkID(),
+            $this->joindinEvent->getTalkUrl(),
+            $event->getTalk()->getSpeaker()->getId(),
+            $event->getSponsor()->getId()
 
+        );
+        $this->eventsRepository->save($eventEntity);
     }
 
-    public function joindinAuth()
+    /**
+     * @param Event $event
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function createMeetup(Event $event)
     {
+        $response = $this->httpClient->post(
+            $this->meetupEvent->getUrl('event'), [
+                'form_params' => $this->meetupEvent->getCreateEventPayload($event)
+            ]
+        );
 
-
-
+        $this->meetupEvent->setEventLocation($response->getHeader('location')[0]);
     }
 
-    public function createJoindinEvent()
+
+    public function createJoindinEvent(Event $event)
     {
         // create event
         //{"name":"Test 1","description":"Description for test 1. An awesome event with an awesome speaker. The event will take place in Nottingham, UK","start_date":"2015-12-17T12:19:00+00:00","end_date":"2015-12-17T12:20:00+00:00","tz_continent":"Europe","tz_place":"London", "location":"Nottingham"}

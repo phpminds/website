@@ -2,17 +2,28 @@
 
 namespace App\Model;
 
+use App\Model\Event\Entity\Talk;
+use App\Model\Event\Entity\Venue;
+use App\Model\Event\Event;
+
 class MeetupEvent
 {
     private $apiKey;
     private $baseUrl;
     private $groupUrlName;
 
+    private $eventLocation;
+
     public function __construct($apiKey, $baseUrl, $groupUrlName)
     {
         $this->apiKey = $apiKey;
         $this->baseUrl = $baseUrl;
         $this->groupUrlName = $groupUrlName;
+    }
+
+    public function getUrl($action = 'events')
+    {
+        return sprintf($this->baseUrl .'/%s/' . $this->getAuthString(), $action);
     }
 
     public function getAuthString()
@@ -22,12 +33,12 @@ class MeetupEvent
 
     public function getEventUrl()
     {
-        return $this->baseUrl .'/events/' . $this->getAuthString();
+        return $this->getUrl('events');
     }
 
     public function getVenuesUrl()
     {
-        return $this->baseUrl . '/venues/' . $this->getAuthString();
+        return $this->getUrl('venues');
     }
 
     public function formatResponse(array $events = [])
@@ -65,15 +76,50 @@ class MeetupEvent
         ];
     }
 
-    public function createEventPayload($talk = null)
+    /**
+     * @param Event     $event
+     * @param string    $publishStatus
+     * @return array
+     */
+    public function getCreateEventPayload(Event $event, $publishStatus = 'draft')
     {
-        return [
-            'name' => '',
-            'description' => '', // max - 50000 chars
-            'venue_id' => '', // Numeric identifier of a venue
-            'publish_status' => '', // draft
-            'time' => '', // Event start time in milliseconds since the epoch, or relative to the current time in the d/w/m format.
+        // x-www-form-urlencoded
+        // have not tried using json
+        $payload = [
+            'name' => $event->getTalk()->getTitle(),
+            'description' => $event->getTalk()->getDescription(), // max - 50000 chars
+            'venue_id' => $event->getVenue()->getId(), // Numeric identifier of a venue
+            'publish_status' => 'draft', // draft
+            'time' => $event->getDate()->getTimestamp() * 1000, // Event start time in milliseconds since the epoch, or relative to the current time in the d/w/m format.
+            'venue_visibility' => 'members' // public OR members
         ];
+
+        if ($publishStatus !== 'draft') {
+            unset($payload['publish_status']);
+        }
+
+        return $payload;
+    }
+
+    /**
+     * @param $eventLocation
+     */
+    public function setEventLocation($eventLocation)
+    {
+        $this->eventLocation = $eventLocation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEventLocation()
+    {
+        return $this->eventLocation;
+    }
+
+    public function getMeetupEventID()
+    {
+        return substr($this->getEventLocation(), strlen($this->baseUrl . '/event/'));
     }
 
     public function saveEvent()

@@ -26,4 +26,13 @@ class JoindinEvent
         return $this->baseUrl;
     }
 
+    public function getTalkID()
+    {
+        return '';
+    }
+
+    public function getTalkUrl()
+    {
+        return '';
+    }
 }

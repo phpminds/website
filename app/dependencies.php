@@ -21,7 +21,12 @@ $container['joindin.event'] = function ($c) {
 };
 
 $container['service.event'] = function ($c) {
-    return new \App\Service\EventsService($c->get('http.client'), $c->get('meetup.event'), $c->get('joindin.event'));
+    return new \App\Service\EventsService(
+        $c->get('http.client'),
+        $c->get('meetup.event'),
+        $c->get('joindin.event'),
+        $c->get('events.repository')
+    );
 };
 
 
@@ -51,11 +56,18 @@ $container['events.repository'] = function ($c) {
     return new \App\Repository\EventsRepository($c->get('db'));
 };
 
+$container['sponsors.repository'] = function ($c) {
+    return new \App\Repository\SponsorsRepository($c->get('db'));
+};
 
 // Managers
 
 $container['event.manager'] = function ($c) {
-    return new \App\Model\Event\EventManager($c->get('events.repository'), $c->get('speakers.repository'));
+    return new \App\Model\Event\EventManager(
+        $c->get('events.repository'),
+        $c->get('speakers.repository'),
+        $c->get('sponsors.repository')
+    );
 };
 
 $container['auth.middleware'] = function ($c) {

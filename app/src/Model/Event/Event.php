@@ -2,82 +2,66 @@
 
 namespace App\Model\Event;
 
+use App\Model\Event\Entity\Sponsor;
 use App\Model\Event\Entity\Venue;
-use App\Model\Event\Talk;
+use App\Model\Event\Entity\Talk;
 
 class Event
 {
     /**
      * Collection of talks.
      *
-     * @var Talk[]
+     * @var Talk
      */
-    private $talks = [];
+    private $talk;
 
-    private $startDate;
-
-    private $endDate;
+    private $date;
 
     /**
      * @var Venue
      */
     private $venue;
 
+    /**
+     * @var Sponsor
+     */
+    private $sponsor;
 
-    public function __construct(Talk $talk, $startDate, $endDate, $venue)
+
+    public function __construct(Talk $talk, $startDate, $startTime, Venue $venue, Sponsor $sponsor)
     {
-        $this->talks[] = $talk;
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
-        $this->venue = $venue;
+        $this->talk     = $talk;
+        $this->date     = new \DateTime($startDate . ' ' . $startTime);
+        $this->venue    = $venue;
+        $this->sponsor  = $sponsor;
     }
 
     /**
-     * Expecting an instance of Talks
-     *
-     * @param array $talks
-     * @throws \Exception
+     * @return Talk
      */
-    public function addTalks(array $talks)
+    public function getTalk() : Talk
     {
-        foreach ($talks as $talk) {
-            if ( !($talk instanceof Talk)) {
-                throw new \Exception('');
-            }
-            $this->talks[] = $talk;
-        }
+        return $this->talk;
     }
 
     /**
-     * @return Talk[]
+     * @return \DateTime
      */
-    public function getTalks()
+    public function getDate()
     {
-        return $this->talks;
+        return $this->date;
     }
 
     /**
-     * @return mixed
+     * @return Venue
      */
-    public function getStartDate()
-    {
-        return $this->startDate;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEndDate()
-    {
-        return $this->endDate;
-    }
-
-    /**
-     * @return \App\Model\Event\Venue
-     */
-    public function getVenue()
+    public function getVenue() : Venue
     {
         return $this->venue;
     }
 
+    public function getSponsor() : Sponsor
+    {
+        return $this->sponsor;
+    }
 }

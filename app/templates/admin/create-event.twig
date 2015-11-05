@@ -11,7 +11,21 @@
     <section class="section">
         <h5 class="title"><a href="#panel1">Talk information</a></h5>
         <div class="content" data-slug="panel1">
-            <form id="frm_event">
+            <form id="frm_event" method="post">
+
+                <div class="row collapse">
+                    <div class="large-2 columns">
+                        <label class="inline">Sponsor</label>
+                    </div>
+                    <div class="large-5 columns">
+                        <select id="sponsors" name="sponsor">
+                            <option value="0">-- Select --</option>
+                            <option value="-1">None</option>
+                        </select>
+
+                    </div>
+                    <div class="large-2 columns"></div>
+                </div>
 
                 <div class="row collapse">
                     <div class="large-2 columns">
@@ -50,7 +64,7 @@
                         <label class="inline">Date</label>
                     </div>
                     <div class="large-5 columns">
-                        <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')"  id="date">
+                        <input placeholder="Date" name="start_date" class="textbox-n" type="text" onfocus="(this.type='date')"  id="date">
                     </div>
                     <div class="large-2 columns"></div>
                 </div>
@@ -60,9 +74,9 @@
                         <label class="inline">Start time</label>
                     </div>
                     <div class="large-2 columns">
-                        <select id="time.hour" name="time.hour">
+                        <select id="time.hour" name="start_time" name="time.hour">
                             {% for i in 8..22 %}
-                                <option value="{{ i }}">{{ i }}:00</option>
+                                <option value="{{ i }}:00">{{ i }}:00</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -74,13 +88,13 @@
                         <label class="inline">Talk Title</label>
                     </div>
                     <div class="large-10 columns">
-                        <input type="text" id="talk_title" placeholder="Talk title">
+                        <input type="text" id="talk_title" name="talk_title" placeholder="Talk title">
                     </div>
                 </div>
 
                 <div class="row collapse">
                     <label>Talk description / Abstract</label>
-                    <textarea rows="4"></textarea>
+                    <textarea name="talk_description" id="talk_description" rows="4"></textarea>
                 </div>
                 <button type="submit" class="radius button">Submit</button>
             </form>

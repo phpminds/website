@@ -5,7 +5,7 @@ namespace App\Model\Event\Entity;
 use App\Model\Email;
 use App\Model\Twitter;
 
-class Sponsor
+class Supporter
 {
     public $id;
 

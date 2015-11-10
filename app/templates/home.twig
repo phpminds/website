@@ -10,17 +10,17 @@
 <div class="large-10 columns h-event">
 <h3 class="p-name"><i class="fa fa-calendar"></i> {{ event.subject }}</h3>
 <h4> on {{ event.date_time }}</h4>
+
         <div class="p-summary">
             <p>{{ event.description | raw }}</p>
-            <p><a class="rsvp" href="{{ event.event_url }}">RSVP</a></p>
+  		    <p class="right"><a class="button alert" href="{{ event.event_url }}">RSVP</a></p>
         </div>
 </div>
 </div>
-<div class="large-12 columns sub-banner">
-			<div class="row">
-				<div class="large-6 columns">
-					</div>
-			</div>
+<div class="sub-banner">
+	
+	<div id="map"></div>
+				
 </div>
 	
         

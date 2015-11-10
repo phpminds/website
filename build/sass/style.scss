@@ -82,7 +82,8 @@ html {
                 background-color:#C0E4B1;
                 margin:0; 
                 min-height:97em;
-                
+                width:100%; 
+
                 img{
                     margin:auto,1em;
                     max-height:10em;
@@ -97,33 +98,41 @@ html {
                 }
             }
         }
-    }
+    
     .h-event {
         margin-top: 1.5em;
         h3{
             i{
-                color:#296410;
+                
                 font-size:230%;
             }
-            
+            color:#AAA;
         }
-        a.rspv{
+        h4{
+             color:rgb(204,170,85);
+             font-size:80%;
+        }
+        a{
             text-decoration: none;
-            color:rgba(106,168,79,1.0);
+            color:#296410;
             line-height: 100%;
             display: inline-block;
             vertical-align: middle;
             text-align: center;
             cursor: pointer;
             font-weight: bold;
-            display:block; 
-            background:rgb(204,68,34);
+           
         }
     }
-    .h-event a:hover {
+    a:hover {
        color:rgba(106,168,79,1.0);
     }
-    .h-event a:active {
+    a:active {
         color:rgba(106,168,79,1.0);
     }
+    #map{
+        width:100%; 
+        min-height:40em;
+    }
+  }
 }

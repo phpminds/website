@@ -15,10 +15,8 @@ html {
         padding: 0;
         width: 100%;
         font-family: "Open sans", Helvetica, Arial, sans-serif;
-        
         color: #000;
-
-        font-size: 18px;
+        font-size: 1.2em;
         header {
             display: block;
             min-height: 2em;
@@ -26,7 +24,9 @@ html {
             padding: 0;
             border-bottom: 1px solid #aaaaaa;
             .top-bar {
+            box-shadow: 0 2px 3px rgba(0,0,0,.4);
             background:$topbar-bg;
+
                 ul.title-area {
                     li.name h1 a {
                         height: 3em;
@@ -71,17 +71,17 @@ html {
                 #phpminds-logo:hover path {
                     fill: red;
                 }
-                p{
+                h2{
                     color:$white;
                     text-align: center;
-                    font-size:250%;
+                    font-size:230%;
                 }
             }
             div.sub-banner{
 
                 background-color:#C0E4B1;
                 margin:0; 
-                min-height:7em;
+                min-height:97em;
                 
                 img{
                     margin:auto,1em;
@@ -90,23 +90,24 @@ html {
                 #phpminds-logo:hover path {
                     fill: red;
                 }
-                p{
+                h3{
                     color:#296410;
                     text-align: center;
-                    font-size:130%;
+                    
                 }
             }
         }
     }
-    .event {
-        margin-top: 1em;
-        h4{
+    .h-event {
+        margin-top: 1.5em;
+        h3{
             i{
                 color:#296410;
+                font-size:230%;
             }
-            font-size:300%;
+            
         }
-        a{
+        a.rspv{
             text-decoration: none;
             color:rgba(106,168,79,1.0);
             line-height: 100%;
@@ -115,12 +116,14 @@ html {
             text-align: center;
             cursor: pointer;
             font-weight: bold;
+            display:block; 
+            background:rgb(204,68,34);
         }
     }
-    .event a:hover {
+    .h-event a:hover {
        color:rgba(106,168,79,1.0);
     }
-    .event a:active {
+    .h-event a:active {
         color:rgba(106,168,79,1.0);
     }
 }

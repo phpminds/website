@@ -1,26 +1,80 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8"/>
-          <!-- Set the viewport width to device width for mobile -->
-  		<meta name="viewport" content="width=device-width" />
-        <title>PHPMiNDS</title>
-        <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
-        <link href='{{ base_url() }}/css/style.css' rel='stylesheet' type='text/css'>
-    </head>
-    <body>
-	<header class="small-12 large-12 columns">
-	
-	<h1 class="left">PHPMiNDS</h1>
-		<nav>
+  <head>
+    <meta charset="utf-8"/>
+    <!-- Set the viewport width to device width for mobile -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHPMiNDS</title>
+    <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+    <link href='{{ base_url() }}/css/style.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  </head>
+  <body class="has-top-bar">
+    <header class="top-bar-container">
+      <nav class="top-bar" role="navigation">
+        <ul class="title-area">
+          <li class="name">
+            <h1><a href="#">phpminds</a></h1>
+          </li>
+          <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+          <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+        </ul>
+        <section class="top-bar-section">
+          <!-- Right Nav Section -->
+          <ul class="right menu-top-menu">
+            <li><a href="#">location</a></li>
+            <li><a href="#">past events</a></li>
+            <li><a href="#">Speak</a></li>
+            <li><a href="#">Supporters</a></li>
+          </ul>
+        </section>
+      </nav>
+    </header>
+    <section>
+      {% block content %}{% endblock %}
+    </section>
+    
+  <script src="js/jquery.min.js"></script>
+  <script src="js/foundation.min.js"></script>
+  <script src="js/foundation.topbar.js"></script>
+  
 
-		    
-		    
-		      
-		</nav>
-	</header>
-     <section>
+  <script>
+    $(document).foundation();
+    /*
+     * Replace all SVG images with inline SVG
+     */
+        jQuery('img.svg').each(function(){
+            var $img = jQuery(this);
+            var imgID = $img.attr('id');
+            var imgClass = $img.attr('class');
+            var imgURL = $img.attr('src');
 
-		 {% block content %}{% endblock %}
-	</section>
-    </body>
-  </html>
+            jQuery.get(imgURL, function(data) {
+                // Get the SVG tag, ignore the rest
+                var $svg = jQuery(data).find('svg');
+
+                // Add replaced image's ID to the new SVG
+                if(typeof imgID !== 'undefined') {
+                    $svg = $svg.attr('id', imgID);
+                }
+                // Add replaced image's classes to the new SVG
+                if(typeof imgClass !== 'undefined') {
+                    $svg = $svg.attr('class', imgClass+' replaced-svg');
+                }
+
+                // Remove any invalid XML tags as per http://validator.w3.org
+                $svg = $svg.removeAttr('xmlns:a');
+
+                // Replace image with new SVG
+                $img.replaceWith($svg);
+
+            }, 'xml');
+
+        });
+  </script>
+  </body>
+</html>

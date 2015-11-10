@@ -21,8 +21,8 @@ final class HomeAction
     {
         $this->logger->info("Home page action dispatched");
 
-        //$event = $this->eventService->getEvent();
-        $event="";
+        $event = $this->eventService->getEvent();
+        
 
         $this->view->render($response, 'home.twig', ['event' => $event]);
         return $response;

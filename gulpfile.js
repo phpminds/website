@@ -16,4 +16,14 @@ gulp.task('sass:watch', function () {
   gulp.watch('./build/sass/**/*.scss', ['sass']);
 });
 
-gulp.task('default',['sass:watch']); 
+var paths = {
+ scripts: ['bower_components/jquery/dist/jquery.min.js','bower_components/foundation/js/foundation.min.js','bower_components/foundation/js/foundation/foundation.topbar.js'], 
+ dist: 'public/js/'
+};
+
+gulp.task('move', function(){
+ gulp.src(paths.scripts)
+ .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task('default',['sass:watch','move']); 

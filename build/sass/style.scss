@@ -1,70 +1,126 @@
 @import "../../bower_components/foundation/scss/foundation";
-html{
-    margin:0;
-    padding:0;
-body {
-    margin: 0 auto;
+$include-html-top-bar-classes: $include-html-classes;
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+/* Background color for the top bar */
+
+$topbar-bg: #fff;
+$menu-text-color:#aaa;
+$menu-text-hover-color:#000;
+html {
+    margin: 0;
     padding: 0;
-    width: 100%;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    text-align: center;
-    color: #000;
-    font-size: 18px;
+    font: 100%/135%;
+    body {
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+        font-family: "Open sans", Helvetica, Arial, sans-serif;
+        
+        color: #000;
 
-    header{
+        font-size: 18px;
+        header {
+            display: block;
+            min-height: 2em;
+            background: #fafafa;
+            padding: 0;
+            border-bottom: 1px solid #aaaaaa;
+            .top-bar {
+            background:$topbar-bg;
+                ul.title-area {
+                    li.name h1 a {
+                        height: 3em;
+                        width: 9em;
+                        margin-bottom: 0;
+                        text-indent:-9999px;
+                        background: url("../imgs/phpminds.svg") no-repeat;
+                    }
+                }
+                .top-bar-section li:not(.has-form) a:not(.button)
+                {
+                    background:$topbar-bg;
+                }
+                ul.menu-top-menu {
 
-        display: block;
-        min-height: 2em;
-        background: #ffffff; 
-    
+                    li {
+                        float: left;
+                        background:$topbar-bg;
+                        a {
+                            
+                            color:$menu-text-color;
+                            text-transform: capitalize;
+                            font-weight: 800;
+                            &:hover{
+                                color:$menu-text-hover-color;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        section{
+            div.banner{
 
+                background-color:rgba(106,168,79,1.0);
+                margin:0; 
+                min-height:13em;
+                img{
+                    margin:auto,1em;
+                    max-height:10em;
+                }
+                #phpminds-logo:hover path {
+                    fill: red;
+                }
+                p{
+                    color:$white;
+                    text-align: center;
+                    font-size:250%;
+                }
+            }
+            div.sub-banner{
+
+                background-color:#C0E4B1;
+                margin:0; 
+                min-height:7em;
+                
+                img{
+                    margin:auto,1em;
+                    max-height:10em;
+                }
+                #phpminds-logo:hover path {
+                    fill: red;
+                }
+                p{
+                    color:#296410;
+                    text-align: center;
+                    font-size:130%;
+                }
+            }
+        }
     }
-}
-
-h1 {
-    color: #719e40;
-    letter-spacing: -3px;
-    font-family: 'Lato', sans-serif;
-    
-    font-weight: 200;
-    margin-bottom: 0;
-    text-indent: -9000em;
-    background: url("../imgs/phpminds.svg") no-repeat 50% 50%; 
-}
-
-
-.event a {
-    text-decoration: none;
-    margin-top: 0px;
-    margin-right: 10px;
-    padding: 14px 26px;
-    font-size: 2em;
-    line-height: 100%;
-    text-shadow: 0 1px rgba(0, 0, 0, 0.4);
-    color: #fff;
-    display:inline-block;
-    vertical-align: middle;
-    text-align: center;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.1s ease-in-out;
-    -webkit-transition: background 0.1s ease-in-out;
-    -moz-transition: background 0.1s ease-in-out;
-    -ms-transition: background 0.1s ease-in-out;
-    -o-transition: background 0.1s ease-in-out;
-    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    font-family: 'Helvetica Neue', Helvetica, sans-serif;
-    background-color: #2ecc71;
-    box-shadow: 0px 3px 0px 0px #239a55;
-}
-
-.event a:hover {
-    background-color: #28b363;
-}
-.event a:active {
-    box-shadow: 0px 1px 0px 0px #239a55;
-}
+    .event {
+        margin-top: 1em;
+        h4{
+            i{
+                color:#296410;
+            }
+            font-size:300%;
+        }
+        a{
+            text-decoration: none;
+            color:rgba(106,168,79,1.0);
+            line-height: 100%;
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    }
+    .event a:hover {
+       color:rgba(106,168,79,1.0);
+    }
+    .event a:active {
+        color:rgba(106,168,79,1.0);
+    }
 }

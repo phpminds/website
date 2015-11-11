@@ -24,6 +24,15 @@ $container['joindin.event'] = function ($c) {
     );
 };
 
+$container['parsedown'] = function($c)
+{
+    return new Parsedown();
+};
+
+$container['service.content'] = function ($c) {
+    return new \App\Service\ContentService($c->get('parsedown'),$c->get('settings')['content-folder']['location']);
+};
+
 $container['service.event'] = function ($c) {
     return new \App\Service\EventsService($c->get('http.client'), $c->get('meetup.event'), $c->get('joindin.event'));
 };
@@ -107,7 +116,7 @@ $container['logger'] = function ($c) {
 
 $container['App\Action\HomeAction'] = function ($c) {
     return new App\Action\HomeAction(
-        $c->get('view'), $c->get('logger'), $c->get('service.event')
+        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('service.content')
     );
 };
 

@@ -20,6 +20,9 @@ return [
         'auth-routes' => [
             '/admin',
             '/create-event'
+        ],
+        'content-folder' =>[
+            'location' => __DIR__ . '/templates/content/'
         ]
     ],
 

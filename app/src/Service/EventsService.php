@@ -30,6 +30,11 @@ class EventsService
      */
     protected $eventsRepository;
 
+    /**
+     * @var Event
+     */
+    private $event;
+
     public function __construct($httpClient, $meetupEvent, $joindinEvent, EventsRepository $eventsRepository)
     {
         $this->httpClient = $httpClient;
@@ -50,17 +55,21 @@ class EventsService
     public function getVenues()
     {
         $venuesUrl = $this->meetupEvent->getVenuesUrl();
+
         $result = json_decode(
             $this->httpClient->get($venuesUrl)->getBody()->getContents(),
             true
         )['results'];
 
+
         $venues = [];
         foreach ($result as $venue) {
-            $venues[] = new Venue(
-                $venue['id'],
-                $venue['name'],
-                $venue['address_1']
+            $venues[] = Venue::create(
+                [
+                    'id' => $venue['id'],
+                    'name' => $venue['name'],
+                    'address' => $venue['address_1']
+                ]
             );
         }
 
@@ -86,8 +95,10 @@ class EventsService
      */
     public function createEvent(Event $event)
     {
+        $this->event = $event;
+
         // create Meetup.com event
-        $this->createMeetup($event);
+        //$this->createMeetup();
 
         // create Joind.in event
         //$this->createJoindinEvent($event);
@@ -106,21 +117,20 @@ class EventsService
             $this->joindinEvent->getTalkID(),
             $this->joindinEvent->getTalkUrl(),
             $event->getTalk()->getSpeaker()->getId(),
-            $event->getSponsor()->getId()
+            $event->getSupporter()->getId()
 
         );
         $this->eventsRepository->save($eventEntity);
     }
 
     /**
-     * @param Event $event
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function createMeetup(Event $event)
+    public function createMeetup()
     {
         $response = $this->httpClient->post(
             $this->meetupEvent->getUrl('event'), [
-                'form_params' => $this->meetupEvent->getCreateEventPayload($event)
+                'form_params' => $this->meetupEvent->getCreateEventPayload($this->event)
             ]
         );
 
@@ -128,31 +138,27 @@ class EventsService
     }
 
 
-    public function createJoindinEvent(Event $event)
+    public function createJoindinEvent($eventName, $eventDescription)
     {
-        // create event
-        //{"name":"Test 1","description":"Description for test 1. An awesome event with an awesome speaker. The event will take place in Nottingham, UK","start_date":"2015-12-17T12:19:00+00:00","end_date":"2015-12-17T12:20:00+00:00","tz_continent":"Europe","tz_place":"London", "location":"Nottingham"}
-
-        // create talk
-        // {"talk_title":"The first ever talk which works.","talk_description":"the first description","language":"English - UK","talk_type":"Talk","start_date":"2015-12-17T12:19:00+00:00","speakers":["Antonios Pavlakis"]}
-        $this->httpClient->post(
-            'http://api.dev.joind.in/v2.1/events/', [
-            'json' => [
-                'name' => 'Test 1',
-                'description' => 'Description for test 1. An awesome event with an awesome speaker. The event will take place in Nottingham, UK',
-                'start_date' => '2015-12-17T12:19:00+00:00',
-                'end_date' => '2015-12-17T12:20:00+00:00',
-                'tz_continent' => 'Europe',
-                'tz_place' => 'Nottingham'
-
-            ],
-            'headers' => [
-                'Authorization' => 'Bearer bdc3ceba53ea35ea'
-            ]
+        $response = $this->httpClient->post(
+            $this->joindinEvent->getUrl('events'), [
+            'json' => $this->joindinEvent->getCreateEventPayload($this->event, $eventName, $eventDescription),
+            'headers' => $this->joindinEvent->getHeaders()
         ]);
 
+        $this->joindinEvent->setEventLocation($response->getHeader('location')[0]);
 
+        return $response;
     }
 
+    public function createJoindinTalk($language = 'English - UK')
+    {
+        $talkResponse = $this->httpClient->post(
+            $this->joindinEvent->getUrl('events/' . $this->joindinEvent->getJoindinEventID() .'/talks'), [
+            'json' => $this->joindinEvent->getCreateEventTitlePayload($this->event, $language),
+            'headers' => $this->joindinEvent->getHeaders()
+        ]);
 
+        return $talkResponse;
+    }
 }

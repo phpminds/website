@@ -1,0 +1,19 @@
+<h1>Login</h1>
+
+<div>
+    {% if msg %}
+        <p>{{ msg }}</p>
+    {% endif %}
+</div>
+
+<div>
+    <form method="post" action="/login">
+        <input type="hidden" value="{{ name }}" name="{{ nameKey }}">
+        <input type="hidden" value="{{ value }}" name="{{ valueKey }}">
+
+        <input type="text" value="" name="email">
+        <input type="password" value="" name="password">
+
+        <button name="submit">Login</button>
+    </form>
+</div>

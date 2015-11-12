@@ -3,3 +3,7 @@ log/*
 .idea/*
 cache/*
 app/configs/*
+Vagrantfile
+.vagrant/*
+ansible/*
+phinx.yml

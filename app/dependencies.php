@@ -7,7 +7,7 @@ $container['meetup.event'] = function ($c) {
     $meetup = $c->get('settings')['meetups'];
 
     return new \App\Model\MeetupEvent(
-        $meetup['apiKey'], $meetup['baseUrl'], $meetup['PHPMinds']['group_urlname']
+        $meetup['apiKey'], $meetup['baseUrl'], $meetup['PHPMinds']['group_urlname'], $meetup['publish_status']
     );
 };
 

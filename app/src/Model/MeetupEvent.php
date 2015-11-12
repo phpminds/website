@@ -11,14 +11,16 @@ class MeetupEvent
     private $apiKey;
     private $baseUrl;
     private $groupUrlName;
+    private $publishStatus;
 
     private $eventLocation;
 
-    public function __construct($apiKey, $baseUrl, $groupUrlName)
+    public function __construct($apiKey, $baseUrl, $groupUrlName, $publishStatus)
     {
-        $this->apiKey = $apiKey;
-        $this->baseUrl = $baseUrl;
-        $this->groupUrlName = $groupUrlName;
+        $this->apiKey           = $apiKey;
+        $this->baseUrl          = $baseUrl;
+        $this->groupUrlName     = $groupUrlName;
+        $this->publishStatus    = $publishStatus;
     }
 
     public function getUrl($action = 'events')
@@ -78,10 +80,9 @@ class MeetupEvent
 
     /**
      * @param Event     $event
-     * @param string    $publishStatus
      * @return array
      */
-    public function getCreateEventPayload(Event $event, $publishStatus = 'draft')
+    public function getCreateEventPayload(Event $event)
     {
         // x-www-form-urlencoded
         // have not tried using json
@@ -89,12 +90,12 @@ class MeetupEvent
             'name' => $event->getTalk()->getTitle(),
             'description' => $event->getTalk()->getDescription(), // max - 50000 chars
             'venue_id' => $event->getVenue()->getId(), // Numeric identifier of a venue
-            'publish_status' => 'draft', // draft
+            'publish_status' => $this->publishStatus, // draft - for development
             'time' => $event->getDate()->getTimestamp() * 1000, // Event start time in milliseconds since the epoch, or relative to the current time in the d/w/m format.
             'venue_visibility' => 'members' // public OR members
         ];
 
-        if ($publishStatus !== 'draft') {
+        if ($this->publishStatus !== 'draft') {
             unset($payload['publish_status']);
         }
 
@@ -120,10 +121,5 @@ class MeetupEvent
     public function getMeetupEventID()
     {
         return substr($this->getEventLocation(), strlen($this->baseUrl . '/event/'));
-    }
-
-    public function saveEvent()
-    {
-
     }
 }

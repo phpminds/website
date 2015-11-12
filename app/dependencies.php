@@ -16,7 +16,7 @@ $container['joindin.event'] = function ($c) {
 
 
     return new \App\Model\JoindinEvent(
-        $joindin['key'], $joindin['baseUrl'], $joindin['callback']
+        $joindin['key'], $joindin['baseUrl'], $joindin['callback'], $joindin['token']
     );
 };
 
@@ -56,8 +56,8 @@ $container['events.repository'] = function ($c) {
     return new \App\Repository\EventsRepository($c->get('db'));
 };
 
-$container['sponsors.repository'] = function ($c) {
-    return new \App\Repository\SponsorsRepository($c->get('db'));
+$container['supporters.repository'] = function ($c) {
+    return new \App\Repository\SupportersRepository($c->get('db'));
 };
 
 // Managers
@@ -66,7 +66,7 @@ $container['event.manager'] = function ($c) {
     return new \App\Model\Event\EventManager(
         $c->get('events.repository'),
         $c->get('speakers.repository'),
-        $c->get('sponsors.repository')
+        $c->get('supporters.repository')
     );
 };
 
@@ -164,6 +164,6 @@ $container['App\Action\LogoutAction'] = function ($c) {
 $container['App\Action\CreateEventAction'] = function ($c) {
 
     return new App\Action\CreateEventAction(
-        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('csrf'), $c->get('event.manager')
+        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('csrf'), $c->get('event.manager'), $c->get('settings')['events']
     );
 };

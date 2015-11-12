@@ -18,9 +18,8 @@ class Event
 
     private $supporterID;
 
-    public function __construct($id, $meetupID, $meetupVenueID, $joindinTalkID, $joindinURL, $speakerID, $supporterID)
+    public function __construct($meetupID, $meetupVenueID, $joindinTalkID, $joindinURL, $speakerID, $supporterID)
     {
-        $this->id               = $id;
         $this->meetupID         = $meetupID;
         $this->meetupVenueID    = $meetupVenueID;
         $this->joindinTalkID    = $joindinTalkID;
@@ -29,6 +28,13 @@ class Event
         $this->supporterID      = $supporterID;
     }
 
+    /**
+     * @param $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
     /**
      * @return mixed
      */
@@ -87,14 +93,17 @@ class Event
 
     public static function create(array $params = []) : Event
     {
-        return new self(
-            $params['id'],
-            $params['meetup_id'],
-            $params['meetup_venue_id'],
-            $params['joindin_talk_id'],
-            $params['joindin_url'],
-            $params['speaker_id'],
-            $params['supporter_id']
+        $class = new self(
+            $params['meetup_id'] ?? null,
+            $params['meetup_venue_id'] ?? null,
+            $params['joindin_talk_id'] ?? null,
+            $params['joindin_url'] ?? null,
+            $params['speaker_id'] ?? null,
+            $params['supporter_id'] ?? null
         );
+
+        $class->setId($params['id']  ?? null);
+
+        return $class;
     }
 }

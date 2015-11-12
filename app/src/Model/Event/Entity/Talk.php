@@ -33,7 +33,7 @@ class Talk
      */
     private $slides;
 
-    public function __construct($title, $description, Speaker $speaker, $duration = null, $slides = '')
+    public function __construct($title, $description, Speaker $speaker, $duration = 'PT2H', $slides = '')
     {
         $this->title        = $title;
         $this->description  = $description;

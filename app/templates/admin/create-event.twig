@@ -9,8 +9,20 @@
 
 <div class="section-container tabs" data-section>
     <section class="section">
+        {% if errors|length %}
+            <div data-alert class="alert-box alert round">
+                <ul>
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+
+                <a href="#" class="close">&times;</a>
+            </div>
+        {% endif %}
         <h5 class="title"><a href="#panel1">Talk information</a></h5>
         <div class="content" data-slug="panel1">
+
             <form id="frm_event" method="post">
 
                 <div class="row collapse">

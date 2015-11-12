@@ -53,31 +53,46 @@ final class CreateEventAction
     public function dispatch(Request $request, Response $response, $args)
     {
 
+        $errors = [];
         if ($request->isPost()) {
-            $event = new \App\Model\Event\Event(
-              new Talk(
-                  $request->getParam('talk_title'),
-                  $request->getParam('talk_description'),
-                  $this->eventManager->getSpeakerById((int)$request->getParam('speaker'))
-                  ),
-             $request->getParam('start_date'),
-             $request->getParam('start_time'),
-             $this->eventService->getVenueById($request->getParam('venue_id')),
-             $this->eventManager->getSupporterByID($request->getParam('supporter'))
-            );
-
-            $this->eventService->createEvent($event);
-
-            // TODO
-            // $event->isValid()
 
             try {
-                $this->eventService->createMeetup();
-                $this->eventService->createJoindinEvent($this->eventSettings['name'], $this->eventSettings['description']);
-                $this->eventService->createJoindinTalk();
+                $event = new \App\Model\Event\Event(
+                    new Talk(
+                        $request->getParam('talk_title'),
+                        $request->getParam('talk_description'),
+                        $this->eventManager->getSpeakerById((int)$request->getParam('speaker'))
+                    ),
+                    $request->getParam('start_date'),
+                    $request->getParam('start_time'),
+                    $this->eventService->getVenueById($request->getParam('venue_id')),
+                    $this->eventManager->getSupporterByID($request->getParam('supporter'))
+                );
+
+                $this->eventService->createEvent($event);
+
+                // TODO
+                // $event->isValid()
+
+                if ((int)$this->eventService->createMeetup()->getStatusCode() !== 201) {
+                    throw new \Exception('Could not create meetup event.');
+                }
+
+                if ((int)$this->eventService->createJoindinEvent($this->eventSettings['name'], $this->eventSettings['description'])->getStatusCode() !== 201) {
+                    // TODO
+                    // Delete meetup event which was just created.
+                    throw new \Exception('Could not create Joindin event.');
+                }
+
+                if ((int)$this->eventService->createJoindinTalk()->getStatusCode() !== 201) {
+                    // TODO
+                    // Delete meetup event and JoindIn event just created.
+                    throw new \Exception('Could not create Joindin talk.');
+                }
+
                 $this->eventService->updateEvents();
             } catch (\Exception $e) {
-
+                $errors[] = $e->getMessage();
             }
             // TODO
 
@@ -104,7 +119,8 @@ final class CreateEventAction
                 'venues' => $this->eventService->getVenues(),
                 'supporters' => $this->eventManager->getSupporters(),
                 'nameKey' => $nameKey, 'valueKey' => $valueKey,
-                'name' => $name, 'value' => $value
+                'name' => $name, 'value' => $value,
+                'errors' => $errors
             ]
         );
 

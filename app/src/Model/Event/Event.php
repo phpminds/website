@@ -2,14 +2,13 @@
 
 namespace App\Model\Event;
 
-use App\Model\Event\Entity\Sponsor;
+use App\Model\Event\Entity\Supporter;
 use App\Model\Event\Entity\Venue;
 use App\Model\Event\Entity\Talk;
 
 class Event
 {
     /**
-     * Collection of talks.
      *
      * @var Talk
      */
@@ -23,17 +22,17 @@ class Event
     private $venue;
 
     /**
-     * @var Sponsor
+     * @var Supporter
      */
-    private $sponsor;
+    private $supporter;
 
 
-    public function __construct(Talk $talk, $startDate, $startTime, Venue $venue, Sponsor $sponsor)
+    public function __construct(Talk $talk, $startDate, $startTime, Venue $venue, Supporter $supporter)
     {
-        $this->talk     = $talk;
-        $this->date     = new \DateTime($startDate . ' ' . $startTime);
-        $this->venue    = $venue;
-        $this->sponsor  = $sponsor;
+        $this->talk         = $talk;
+        $this->date         = new \DateTime($startDate . ' ' . $startTime);
+        $this->venue        = $venue;
+        $this->supporter    = $supporter;
     }
 
     /**
@@ -52,6 +51,11 @@ class Event
         return $this->date;
     }
 
+    public function getEndDate()
+    {
+        return $this->date->add($this->talk->getDuration());
+    }
+
     /**
      * @return Venue
      */
@@ -60,8 +64,11 @@ class Event
         return $this->venue;
     }
 
-    public function getSponsor() : Sponsor
+    /**
+     * @return Supporter
+     */
+    public function getSupporter() : Supporter
     {
-        return $this->sponsor;
+        return $this->supporter;
     }
 }

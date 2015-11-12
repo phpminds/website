@@ -18,9 +18,11 @@
                         <label class="inline">Sponsor</label>
                     </div>
                     <div class="large-5 columns">
-                        <select id="sponsors" name="sponsor">
+                        <select id="supporters" name="supporter">
                             <option value="0">-- Select --</option>
-                            <option value="-1">None</option>
+                            {% for supporter in supporters %}
+                                <option value="{{ supporter.id }}">{{ supporter.name }} ({{ supporter.twitter }})</option>
+                            {% endfor %}
                         </select>
 
                     </div>

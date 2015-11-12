@@ -2,23 +2,46 @@
 
 namespace App\Model;
 
+use App\Exception\Model\InvalidTwitterHandleException;
+
 class Twitter
 {
+    /**
+     * @var String
+     */
     private $twitterHandle;
 
+    /**
+     * Twitter constructor.
+     * @param $twitterHandle
+     * @throws InvalidTwitterHandleException
+     */
     public function __construct($twitterHandle)
     {
         if (strlen($twitterHandle) > 15) {
-            throw new \Exception("Twitter must be up to 15 characters.");
+            throw new InvalidTwitterHandleException("Twitter must be up to 15 characters.");
         }
 
-        if (substr($twitterHandle, 0, 1) != '@') {
-            $twitterHandle = '@' . $twitterHandle;
+        if (substr($twitterHandle, 0, 1) === '@') {
+            $twitterHandle = substr($twitterHandle, 1);
         }
 
-        $this->twitterHandle = $twitterHandle;
+        preg_match('/^[A-Za-z0-9_]{1,15}$/', $twitterHandle, $matches);
+
+        if (empty($matches)) {
+            throw new InvalidTwitterHandleException("Twitter username only allows for aplhanumberic and underscores.");
+        }
+
+        if (!ctype_alnum(str_replace('@', '', $twitterHandle))) {
+            throw new InvalidTwitterHandleException("Twitter handle consist of only alphanumeric characters.");
+        }
+
+        $this->twitterHandle = '@' . $twitterHandle;
     }
 
+    /**
+     * @return String
+     */
     public function __toString()
     {
         return $this->twitterHandle;

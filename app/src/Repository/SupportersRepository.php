@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Repository\RepositoryAbstract;
 
-use App\Model\Event\Entity\Sponsor;
+use App\Model\Event\Entity\Supporter;
 
 class SupportersRepository extends RepositoryAbstract
 {
@@ -41,10 +41,24 @@ class SupportersRepository extends RepositoryAbstract
     }
 
     /**
+     * @return array
+     */
+    public function getAllSupporters()
+    {
+        $results = $this->getAll(\PDO::FETCH_ASSOC);
+        $supporters = [];
+        foreach ($results as $supporter) {
+            $supporters[] = Supporter::create($supporter);
+        }
+
+        return $supporters;
+    }
+
+    /**
      * @param $supporterID
      * @return Supporter
      */
-    public function getSponsorById($supporterID) : Supporter
+    public function getSupporterByID($supporterID) : Supporter
     {
         return Supporter::create($this->getById($supporterID));
     }

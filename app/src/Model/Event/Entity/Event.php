@@ -16,9 +16,9 @@ class Event
 
     private $speakerID;
 
-    private $sponsorID;
+    private $supporterID;
 
-    public function __construct($id, $meetupID, $meetupVenueID, $joindinTalkID, $joindinURL, $speakerID, $sponsorID)
+    public function __construct($id, $meetupID, $meetupVenueID, $joindinTalkID, $joindinURL, $speakerID, $supporterID)
     {
         $this->id               = $id;
         $this->meetupID         = $meetupID;
@@ -26,7 +26,7 @@ class Event
         $this->joindinTalkID    = $joindinTalkID;
         $this->joindinURL       = $joindinURL;
         $this->speakerID        = $speakerID;
-        $this->sponsorID        = $sponsorID;
+        $this->supporterID      = $supporterID;
     }
 
     /**
@@ -80,9 +80,9 @@ class Event
     /**
      * @return mixed
      */
-    public function getSponsorID()
+    public function getSupporterID()
     {
-        return $this->sponsorID;
+        return $this->supporterID;
     }
 
     public static function create(array $params = []) : Event
@@ -94,7 +94,7 @@ class Event
             $params['joindin_talk_id'],
             $params['joindin_url'],
             $params['speaker_id'],
-            $params['sponsor_id']
+            $params['supporter_id']
         );
     }
 }

@@ -19,14 +19,18 @@ class Supporter
 
     private $logo;
 
-    public function __construct($id, $name, $url, Twitter $twitter, Email $email, $logo)
+    public function __construct($name, $url, Twitter $twitter, Email $email, $logo)
     {
-        $this->id       = $id;
         $this->name     = $name;
         $this->url      = $url;
         $this->twitter  = $twitter;
         $this->email    = $email;
         $this->logo     = $logo;
+    }
+
+    public function setId($id)
+    {
+        $this->id = (int)$id;
     }
 
     /**
@@ -79,18 +83,21 @@ class Supporter
 
     /**
      * @param array $params
-     * @return Sponsor
+     * @return Supporter
      */
-    public static function create(array $params = []) : Sponsor
+    public static function create(array $params = []) : Supporter
     {
-        return new self(
-            $params['id'],
+        $class = new self(
             $params['name'],
             $params['url'],
             new Twitter($params['twitter']),
             new Email($params['email']),
             $params['logo']
         );
+
+        $class->setId($params['id']);
+
+        return $class;
     }
 
 }

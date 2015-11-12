@@ -76,7 +76,7 @@ class Venue
         $class = new self(
             $params['name'] ?? null,
             $params['address'] ?? null,
-            $params['continent'] ?? null
+            $params['continent'] ?? 'Europe'
         );
 
 

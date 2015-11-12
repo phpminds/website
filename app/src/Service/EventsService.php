@@ -115,7 +115,6 @@ class EventsService
     public function updateEvents()
     {
         $eventEntity = new \App\Model\Event\Entity\Event(
-            null,
             $this->meetupEvent->getMeetupEventID(),
             $this->event->getVenue()->getId(),
             $this->joindinEvent->getTalkID(),
@@ -140,6 +139,8 @@ class EventsService
         );
 
         $this->meetupEvent->setEventLocation($response->getHeader('location')[0]);
+
+        return $response;
     }
 
     /**

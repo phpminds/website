@@ -65,7 +65,7 @@ final class CreateEventAction
                     ),
                     $request->getParam('start_date'),
                     $request->getParam('start_time'),
-                    $this->eventService->getVenueById($request->getParam('venue_id')),
+                    $this->eventService->getVenueById($request->getParam('venue')),
                     $this->eventManager->getSupporterByID($request->getParam('supporter'))
                 );
 

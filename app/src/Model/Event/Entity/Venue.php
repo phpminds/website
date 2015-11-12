@@ -19,13 +19,22 @@ class Venue
      */
     private $address;
 
-    public function __construct($id, $name, $address)
+    /**
+     * @var string
+     */
+    private $continent;
+
+    public function __construct($name, $address, $continent = 'Europe')
     {
-        $this->id = $id;
         $this->name = $name;
         $this->address = $address;
+        $this->continent = $continent;
     }
 
+    public function setId($id)
+    {
+        $this->id = (int)$id;
+    }
     /**
      * @return int
      */
@@ -51,16 +60,29 @@ class Venue
     }
 
     /**
+     * @return string
+     */
+    public function getContinent()
+    {
+        return $this->continent;
+    }
+
+    /**
      * @param array $params
      * @return Venue
      */
     public static function create(array $params = []) : Venue
     {
-        return new self(
-            $params['id'],
-            $params['name'],
-            $params['address']
+        $class = new self(
+            $params['name'] ?? null,
+            $params['address'] ?? null,
+            $params['continent'] ?? null
         );
+
+
+        $class->setId($params['id']);
+
+        return $class;
     }
 
 }

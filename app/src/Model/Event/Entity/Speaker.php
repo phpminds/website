@@ -19,14 +19,18 @@ class Speaker
 
     private $avatar;
 
-    public function __construct($id, $firstName, $lastName, Email $email, Twitter $twitter, $avatar = null)
+    public function __construct($firstName, $lastName, Email $email, Twitter $twitter, $avatar = null)
     {
-        $this->id           = $id;
         $this->firstName    = $firstName;
         $this->lastName     = $lastName;
         $this->email        = $email;
         $this->twitter      = $twitter;
         $this->avatar       = $avatar;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     public function getId()
@@ -74,20 +78,28 @@ class Speaker
         return $this->avatar;
     }
 
+    public function __toString()
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
     /**
      * @param array $params
      * @return Speaker
      */
     public static function create(array $params = []) : Speaker
     {
-        return new self(
-            $params['id'],
+        $class = new self(
             $params['first_name'],
             $params['last_name'],
             new Email($params['email']),
             new Twitter($params['twitter']),
             $params['avatar']
         );
+
+        $class->setId($params['id']);
+
+        return $class;
     }
 
 }

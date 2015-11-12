@@ -6,6 +6,8 @@ use App\Model\Event\Entity\Speaker;
 
 class Talk
 {
+    private $id;
+
     /**
      * @var String
      */
@@ -17,6 +19,11 @@ class Talk
     private $description;
 
     /**
+     * @var \DateInterval
+     */
+    private $duration;
+
+    /**
      * @var Speaker
      */
     private $speaker;
@@ -26,13 +33,31 @@ class Talk
      */
     private $slides;
 
-    public function __construct($title, $description, Speaker $speaker, $slides = '')
+    public function __construct($title, $description, Speaker $speaker, $duration = null, $slides = '')
     {
-        $this->title = $title;
-        $this->description = $description;
-        $this->speaker = $speaker;
-        $this->slides = $slides;
+        $this->title        = $title;
+        $this->description  = $description;
+        $this->speaker      = $speaker;
+        $this->duration     = new \DateInterval($duration);
+        $this->slides       = $slides;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
 
     /**
      * @return mixed
@@ -59,6 +84,14 @@ class Talk
     }
 
     /**
+     * @return \DateInterval
+     */
+    public function getDuration()
+    {
+        return $this->duration;
+    }
+
+    /**
      * @return mixed
      */
     public function getSlides()
@@ -66,4 +99,22 @@ class Talk
         return $this->slides;
     }
 
+    /**
+     * @param array $params
+     * @return Talk
+     */
+    public static function create(array $params = []) : Talk
+    {
+        $class = new self(
+            $params['title'],
+            $params['description'],
+            $params['speaker'],
+            $params['duration'],
+            $params['slides']
+        );
+
+        $class->setId($params['id']);
+
+        return $class;
+    }
 }

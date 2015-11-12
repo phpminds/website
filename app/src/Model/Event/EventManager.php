@@ -2,10 +2,10 @@
 
 namespace App\Model\Event;
 
+use App\Model\Event\Entity\Speaker;
 use App\Repository\EventsRepository;
 use App\Repository\SpeakersRepository;
-use App\Model\Event\Entity\Speaker;
-use App\Repository\SponsorsRepository;
+use App\Repository\SupportersRepository;
 
 class EventManager
 {
@@ -18,17 +18,20 @@ class EventManager
     private $speakersRepo;
 
     /**
-     * @var SponsorsRepository
+     * @var SupportersRepository
      */
-    private $sponsorsRepo;
+    private $supportersRepo;
 
-    public function __construct(EventsRepository $eventsRepo, SpeakersRepository $speakersRepo, SponsorsRepository $sponsorsRepo)
+    public function __construct(EventsRepository $eventsRepo, SpeakersRepository $speakersRepo, SupportersRepository $supportersRepo)
     {
         $this->eventsRepo   = $eventsRepo;
         $this->speakersRepo = $speakersRepo;
-        $this->sponsorsRepo = $sponsorsRepo;
+        $this->supportersRepo = $supportersRepo;
     }
 
+    /**
+     * @return array
+     */
     public function getSpeakers()
     {
         return $this->speakersRepo->getAllSpeakers();
@@ -43,13 +46,18 @@ class EventManager
         return $this->speakersRepo->getBySpeakerID($speakerID);
     }
 
-    /**
-     * @param $sponsorID
-     * @return Entity\Sponsor
-     */
-    public function getSponsorById($sponsorID)
+    public function getSupporters()
     {
-        return $this->sponsorsRepo->getSponsorById($sponsorID);
+        return $this->supportersRepo->getAllSupporters();
+    }
+
+    /**
+     * @param $supporterID
+     * @return Entity\Supporter
+     */
+    public function getSupporterByID($supporterID)
+    {
+        return $this->supportersRepo->getSupporterByID($supporterID);
     }
 
 }

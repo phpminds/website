@@ -37,13 +37,17 @@ final class CreateEventAction
      */
     private $eventManager;
 
-    public function __construct(Twig $view, LoggerInterface $logger, EventsService $eventService, $csrf, EventManager $eventManager)
+    private $eventSettings;
+
+    public function __construct(Twig $view, LoggerInterface $logger, EventsService $eventService, $csrf, EventManager $eventManager, array $eventSettings = [])
     {
-        $this->view         = $view;
-        $this->logger       = $logger;
-        $this->eventService = $eventService;
-        $this->csrf         = $csrf;
-        $this->eventManager = $eventManager;;
+        $this->view             = $view;
+        $this->logger           = $logger;
+        $this->eventService     = $eventService;
+        $this->csrf             = $csrf;
+        $this->eventManager     = $eventManager;
+        $this->eventSettings    = $eventSettings;
+
     }
 
     public function dispatch(Request $request, Response $response, $args)
@@ -59,32 +63,27 @@ final class CreateEventAction
              $request->getParam('start_date'),
              $request->getParam('start_time'),
              $this->eventService->getVenueById($request->getParam('venue_id')),
-             $this->eventManager->getSponsorById($request->getParam('sponsor'))
+             $this->eventManager->getSupporterByID($request->getParam('supporter'))
             );
 
-            if ($this->eventService->createEvent($event) ) {
-                // create entry to events
+            $this->eventService->createEvent($event);
 
-                // redirect to page with info to email to the speaker.
+            // TODO
+            // $event->isValid()
+
+            try {
+                $this->eventService->createMeetup();
+                $this->eventService->createJoindinEvent($this->eventSettings['name'], $this->eventSettings['description']);
+                $this->eventService->createJoindinTalk();
+                $this->eventService->updateEvents();
+            } catch (\Exception $e) {
+
             }
-
-            // http://www.meetup.com/meetup_api/docs/2/event/
-            // create event in meetup.com
-            // title
-            // description
-            // venue
-
-            //  Create event / talk in joind.in
-            // Add event for PHPMiNDS - Month Year (e.g. PHPMiNDS - December 2015)
-            // Add talk for event
+            // TODO
 
             // Send email
             // To UG admins
             // To speaker - with link to joind.in
-
-            // Todo
-            // Use rabbitmq to send emails :)
-            //
 
         }
 
@@ -103,6 +102,7 @@ final class CreateEventAction
             [
                 'speakers' => $this->eventManager->getSpeakers(),
                 'venues' => $this->eventService->getVenues(),
+                'supporters' => $this->eventManager->getSupporters(),
                 'nameKey' => $nameKey, 'valueKey' => $valueKey,
                 'name' => $name, 'value' => $value
             ]

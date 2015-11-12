@@ -43,6 +43,9 @@ class EventsService
         $this->eventsRepository = $eventsRepository;
     }
 
+    /**
+     * @return array
+     */
     public function getEvent()
     {
         $eventUrl = $this->meetupEvent->getEventUrl();
@@ -52,6 +55,9 @@ class EventsService
         return $this->meetupEvent->formatResponse($events);
     }
 
+    /**
+     * @return array
+     */
     public function getVenues()
     {
         $venuesUrl = $this->meetupEvent->getVenuesUrl();
@@ -76,11 +82,15 @@ class EventsService
         return $venues;
     }
 
+    /**
+     * @param $venueID
+     * @return Venue
+     */
     public function getVenueById($venueID)
     {
         $venues = $this->getVenues();
         foreach ($venues as $venue) {
-
+            /** @var Venue $venue */
             if ($venue->getId() === (int)$venueID) {
                 return $venue;
             }
@@ -96,30 +106,25 @@ class EventsService
     public function createEvent(Event $event)
     {
         $this->event = $event;
-
-        // create Meetup.com event
-        //$this->createMeetup();
-
-        // create Joind.in event
-        //$this->createJoindinEvent($event);
-
-
-        // Update DB
-        //$this->updateEvents($event);
     }
 
-    public function updateEvents(Event $event)
+    /**
+     * Save event references to the DB
+     *
+     */
+    public function updateEvents()
     {
         $eventEntity = new \App\Model\Event\Entity\Event(
             null,
             $this->meetupEvent->getMeetupEventID(),
-            $event->getVenue()->getId(),
+            $this->event->getVenue()->getId(),
             $this->joindinEvent->getTalkID(),
             $this->joindinEvent->getTalkUrl(),
-            $event->getTalk()->getSpeaker()->getId(),
-            $event->getSupporter()->getId()
+            $this->event->getTalk()->getSpeaker()->getId(),
+            $this->event->getSupporter()->getId()
 
         );
+
         $this->eventsRepository->save($eventEntity);
     }
 
@@ -137,7 +142,11 @@ class EventsService
         $this->meetupEvent->setEventLocation($response->getHeader('location')[0]);
     }
 
-
+    /**
+     * @param $eventName
+     * @param $eventDescription
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function createJoindinEvent($eventName, $eventDescription)
     {
         $response = $this->httpClient->post(
@@ -151,6 +160,10 @@ class EventsService
         return $response;
     }
 
+    /**
+     * @param string $language
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function createJoindinTalk($language = 'English - UK')
     {
         $talkResponse = $this->httpClient->post(

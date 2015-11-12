@@ -25,8 +25,11 @@ $container['parsedown'] = function($c)
     return new Parsedown();
 };
 
+
+
 $container['service.content'] = function ($c) {
-    return new \App\Service\ContentService($c->get('parsedown'),$c->get('settings')['content-folder']['location']);
+    $content = $c->get('settings')['content-folder'];
+    return new \App\Service\ContentService($c->get('parsedown'),$content['location']);
 };
 
 $container['service.event'] = function ($c) {

@@ -59,6 +59,7 @@
             map.fitBounds(marker.getBounds());
         });
 
+     return marker;
     }
 
     mapbox_map.removeMarkers = function (m){
@@ -86,5 +87,14 @@
         });
     }
 
+    mapbox_map.openPopUpsByDefault = function(map)
+    {
+      foreach(marker in map.markers) 
+      {
+        marker.eachLayer(function(m) {
+        m.openPopup();
+      });
+      }
+    }
 
 }(window.mapbox_map = window.mapbox_map || {}));

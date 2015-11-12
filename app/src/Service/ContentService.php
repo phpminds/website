@@ -16,14 +16,14 @@ class ContentService
 	public function __construct(\Parsedown $parsedown, $contentFolder)
 	{
 		$this->parsedown = $parsedown;
-		$this->contentFolder - $contentFolder; 
+		$this->contentFolder = $contentFolder; 
 	}
 
 	public function getContentByName($name) 
 	{
 		$content = "";
 
-		if(!empty($this->createFileNameFromName($name))){
+		if(!empty($filename = $this->createFileNameFromName($name))){
 
 			$content = file_get_contents($filename);
 		}
@@ -37,10 +37,12 @@ class ContentService
 	{
 		$filename = $this->contentFolder . $name;
 
-		if(preg_match('/^.*\.[^md]+$/i', $name))
+		if(!preg_match('/^.*\.md/i', $name))
 		{
+
 			 $filename .= ".md"; 
 		}
+		
 		
 
 		if(file_exists($filename))

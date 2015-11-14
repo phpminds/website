@@ -32,10 +32,6 @@ class Twitter
             throw new InvalidTwitterHandleException("Twitter username only allows for aplhanumberic and underscores.");
         }
 
-        if (!ctype_alnum(str_replace('@', '', $twitterHandle))) {
-            throw new InvalidTwitterHandleException("Twitter handle consist of only alphanumeric characters.");
-        }
-
         $this->twitterHandle = '@' . $twitterHandle;
     }
 

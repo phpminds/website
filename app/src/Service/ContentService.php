@@ -19,6 +19,18 @@ class ContentService
 		$this->contentFolder = $contentFolder; 
 	}
 
+	public function getTwigFilter()
+	{
+		$self = $this; 
+		
+		$filter = new \Twig_SimpleFilter('content', function ($string) use ($self) {
+            return $self->getContentByName($string);
+        });
+
+        return $filter; 
+
+	}
+
 	public function getContentByName($name) 
 	{
 		$content = "";
@@ -33,7 +45,7 @@ class ContentService
 
 	}
 
-	private function createFileNameFromName($name)
+	public function createFileNameFromName($name)
 	{
 		$filename = $this->contentFolder . $name;
 
@@ -42,8 +54,6 @@ class ContentService
 
 			 $filename .= ".md"; 
 		}
-		
-		
 
 		if(file_exists($filename))
 		{

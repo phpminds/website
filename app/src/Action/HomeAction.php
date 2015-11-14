@@ -25,10 +25,11 @@ final class HomeAction
 
         $event = $this->eventService->getEvent();
        
+        $filter = $this->contentService->getTwigFilter();
+        
+        $this->view->getEnvironment()->addFilter($filter);
 
-        $content = $this->contentService->getContentByName('test');
-      
-        $this->view->render($response, 'home.twig', ['event' => $event,'content'=>$content]);
+        $this->view->render($response, 'home.twig', ['event' => $event]);
         return $response;
     }
 }

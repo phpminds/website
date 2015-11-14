@@ -44,7 +44,7 @@
            properties: {
                'marker-size': 'large',
                'marker-color': '#296410', 
-               'title':'wearejh - 34 Stoney Street Nottingham NG1 1NB'
+               'title':'JH - 34 Stoney Street Nottingham NG1 1NB'
            }
        });
 
@@ -52,6 +52,7 @@
         marker.addTo(this.map);
 
      this.map.show
+        this.map.scrollWheelZoom.disable();
      this.map.panTo([lat,lon]);
         marker.on('ready', function() {
             // markerLayer.getBounds() returns the corners of the furthest-out markers,

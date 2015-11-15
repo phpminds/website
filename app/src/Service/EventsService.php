@@ -126,10 +126,11 @@ class EventsService
             $this->joindinEvent->getTalkUrl(),
             $this->event->getTalk()->getSpeaker()->getId(),
             $this->event->getSupporter()->getId()
-
         );
 
         $this->eventsRepository->save($eventEntity);
+
+        return $eventEntity;
     }
 
     /**
@@ -172,12 +173,14 @@ class EventsService
      */
     public function createJoindinTalk($language = 'English - UK')
     {
-        $talkResponse = $this->httpClient->post(
+        $response = $this->httpClient->post(
             $this->joindinEvent->getUrl('events/' . $this->joindinEvent->getJoindinEventID() .'/talks'), [
             'json' => $this->joindinEvent->getCreateEventTitlePayload($this->event, $language),
             'headers' => $this->joindinEvent->getHeaders()
         ]);
 
-        return $talkResponse;
+        $this->joindinEvent->setTalkLocation($response->getHeader('location')[0]);
+
+        return $response;
     }
 }

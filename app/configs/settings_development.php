@@ -29,6 +29,12 @@ return [
             "host" => "127.0.0.1",
             "dbname" => "phpminds"
         ],
+        'events' => [
+            'title' => 'PHPMiNDS',
+            'description' => "PHP Minds meet in Nottingham on the 3rd Thursday of each month.\n
+            Follow us on Twitter @PHPMinds \n
+            You can join us on IRC Freenode in #phpminds and on Slack (https://phpminds.herokuapp.com/)"
+        ],
 
         'joindin' => [
             "baseUrl" => "http://api.dev.joind.in/",

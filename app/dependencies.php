@@ -136,7 +136,7 @@ $container['App\Action\HomeAction'] = function ($c) {
 $container['App\Action\AdminDashboardAction'] = function ($c) {
 
     return new App\Action\AdminDashboardAction(
-        $c->get('view'), $c->get('logger')
+        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('event.manager')
     );
 };
 

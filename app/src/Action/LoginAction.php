@@ -33,7 +33,6 @@ final class LoginAction
         $name = $request->getAttribute($nameKey);
         $value = $request->getAttribute($valueKey);
 
-
         $email = '';
         $msg = '';
         if ($request->isPost()) {

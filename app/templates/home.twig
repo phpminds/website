@@ -1,10 +1,6 @@
 {% extends "base.twig" %}
 {% block content %}
 
-		<div class="large-12 columns banner">
-			<img class="phpminds-logo" src="imgs/phpminds-banner.svg" alt="phpminds - php usergroup" />
-			<h2> [ a witty strapline goes here ]</h2>
-		</div>
         
         <div class="row">
 <div class="large-10 columns h-event">
@@ -12,20 +8,59 @@
 <h4> on {{ event.date_time }}</h4>
 
         <div class="p-summary">
-            <p>{{ event.description | raw }}</p>
+
   		    <p class="right"><a class="button alert" href="{{ event.event_url }}">RSVP</a></p>
         </div>
 
 </div>
 </div>
-
 <div id="map"></div>
-<div class="sub-banner">
-		this is content  {{ "test" | content | raw }}
-			this is content  {{ "speaker" | content | raw }}				
-</div>
-	
-        
+<section class="section-lite-green past-events">
+
+	<div class="row">
+	<div class="large-10 columns">
+		<h3><i class="fa fa-calendar-times-o"></i> Past Events</h3>
+		 {{ "past-events" | content | raw }}
+
+	</div>
+
+	</div>
+</section>
+	<section class="supporters">
+
+		<div class="row">
+			<div class="large-10 columns">
+				<h3><i class="fa fa-flag-o"></i> Supporters</h3>
+				{{ "supporters-content" | content | raw }}
+				<div class="row">
+					<div class="small-6 large-4  columns">
+
+						<div class="supporter">
+							<div class="supporter-icon-box">
+								<img class="supporter-icon" src="imgs/JH-Logo–Colour–RGB.svg" alt="JH Nottingham"/>
+							</div>
+							<h4 class="supporter-heading">JH Nottingham</h4>
+							<span class="supporter-description">{{ "supporters-content-jh" | content | raw }}</span>
+						</div>
+
+					</div>
+
+					<div class="small-6 large-4  columns">
+
+						<div class="supporter">
+							<div class="supporter-icon-box">
+								<img class="supporter-icon" src="imgs/your-logo-here.svg" alt="support us"/>
+							</div>
+							<h4 class="supporter-heading">Your Logo here </h4>
+							<span class="supporter-description">{{ "supporters-content-you" | content | raw }}</span>
+
+					</div>
+				</div>
+
+
+
+		</div>
+	</section>
         
 {% endblock %}
     

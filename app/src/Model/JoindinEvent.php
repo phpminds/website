@@ -8,32 +8,41 @@ class JoindinEvent
 {
     private $apiKey;
     private $baseUrl;
+    private $frontendBaseUrl;
     private $callbackUrl;
     private $token;
 
     private $eventLocation;
+    private $talkLocation;
 
-    private $talkID;
-    private $talkURL;
-
-    public function __construct($apiKey, $baseUrl, $callback, $token)
+    public function __construct($apiKey, $baseUrl, $frontendBaseUrl, $callback, $token)
     {
-        $this->apiKey       = $apiKey;
-        $this->baseUrl      = $baseUrl;
-        $this->callbackUrl  = $callback;
-        $this->token        = $token;
+        $this->apiKey           = $apiKey;
+        $this->baseUrl          = $baseUrl;
+        $this->frontendBaseUrl  = $frontendBaseUrl;
+        $this->callbackUrl      = $callback;
+        $this->token            = $token;
     }
 
+    /**
+     * @param $talkID
+     */
     public function setTalkID($talkID)
     {
         $this->talkID = $talkID;
     }
 
+    /**
+     * @param $url
+     */
     public function setTalkURL($url)
     {
         $this->talkURL = $url;
     }
 
+    /**
+     * @return array
+     */
     public function getHeaders()
     {
         return ['Authorization' => 'Bearer ' . $this->getToken()];
@@ -47,16 +56,33 @@ class JoindinEvent
         return $this->token;
     }
 
+    /**
+     * For front-end authentication using callback
+     *
+     * @return string
+     */
     public function authenticate()
     {
-        return $this->baseUrl .'user/oauth_allow?api_key=' . $this->apiKey . '&callback=' . $this->callbackUrl;
+        return $this->frontendBaseUrl .'user/oauth_allow?api_key=' . $this->apiKey . '&callback=' . $this->callbackUrl;
     }
 
+    /**
+     * Gets URL prefixed with the base URL
+     *
+     * @param string $action
+     * @return string
+     */
     public function getUrl($action = 'events')
     {
         return sprintf($this->baseUrl .'/%s/', $action);
     }
 
+    /**
+     * @param Event $event
+     * @param $name
+     * @param $description
+     * @return array
+     */
     public function getCreateEventPayload(Event $event, $name, $description)
     {
         return [

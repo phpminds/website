@@ -7,6 +7,7 @@ use App\Model\Event\Entity\Venue;
 use App\Model\Event\EventManager;
 use App\Model\Event\Entity\Talk;
 use App\Repository\SpeakersRepository;
+use App\Validator\EventValidator;
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;
 use App\Service\EventsService;
@@ -53,14 +54,30 @@ final class CreateEventAction
     public function dispatch(Request $request, Response $response, $args)
     {
 
-        $errors = [];
+        $speakers   = $this->eventManager->getSpeakers();
+        $venues     = $this->eventService->getVenues();
+        $supporters = $this->eventManager->getSupporters();
+
+        $errors     = [];
+        $frmErrors  = [];
+
         if ($request->isPost()) {
+            $validator = new EventValidator($_POST);
 
             try {
+
+                $validator
+                    ->talkValidation()
+                    ->dateValidation();
+
+                if (!$validator->isValid()) {
+                    throw new \Exception('Form not valid.');
+                }
+
                 $event = new \App\Model\Event\Event(
                     new Talk(
-                        $request->getParam('talk_title'),
-                        $request->getParam('talk_description'),
+                        strip_tags($request->getParam('talk_title'), '<p><a><br>'),
+                        strip_tags($request->getParam('talk_description'), '<p><a><br>'),
                         $this->eventManager->getSpeakerById((int)$request->getParam('speaker'))
                     ),
                     $request->getParam('start_date'),
@@ -70,9 +87,6 @@ final class CreateEventAction
                 );
 
                 $this->eventService->createEvent($event);
-
-                // TODO
-                // $event->isValid()
 
                 if ((int)$this->eventService->createMeetup()->getStatusCode() !== 201) {
                     throw new \Exception('Could not create meetup event.');
@@ -90,12 +104,14 @@ final class CreateEventAction
                     throw new \Exception('Could not create Joindin talk.');
                 }
 
-                $this->eventService->updateEvents();
+
+                return $response->withStatus(302)->withHeader('Location', '/event/' . $event->getId());
             } catch (\Exception $e) {
+                $frmErrors = $validator->getErrors();
                 $errors[] = $e->getMessage();
             }
-            // TODO
 
+            // TODO
             // Send email
             // To UG admins
             // To speaker - with link to joind.in
@@ -115,12 +131,12 @@ final class CreateEventAction
             $response,
             'admin/create-event.twig',
             [
-                'speakers' => $this->eventManager->getSpeakers(),
-                'venues' => $this->eventService->getVenues(),
-                'supporters' => $this->eventManager->getSupporters(),
+                'speakers' => $speakers,
+                'venues' => $venues,
+                'supporters' => $supporters,
                 'nameKey' => $nameKey, 'valueKey' => $valueKey,
                 'name' => $name, 'value' => $value,
-                'errors' => $errors
+                'errors' => $errors, 'frmErrors' => $frmErrors
             ]
         );
 

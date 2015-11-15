@@ -43,6 +43,11 @@ class EventsService
         $this->eventsRepository = $eventsRepository;
     }
 
+    public function getMeetupEvent()
+    {
+        return $this->meetupEvent;
+    }
+
     /**
      * @return array
      */

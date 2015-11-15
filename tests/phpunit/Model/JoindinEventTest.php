@@ -32,6 +32,7 @@ class JoindinEventTest extends \PHPUnit_Framework_TestCase
         $this->joindinEvent = new JoindinEvent(
             $joindin['key'],
             $joindin['baseUrl'],
+            $joindin['frontendBaseUrl'],
             $joindin['callback'],
             $joindin['token']
         );

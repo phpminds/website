@@ -2,7 +2,7 @@
 <html>
 <head>
     {% block head %}
-        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="{{ base_url() }}/css/style.css" />
         <title>{% block title %}{% endblock %} - PHPMiNDS</title>
     {% endblock %}
 </head>
@@ -65,8 +65,8 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="js/jquery.min.js"></script>
-    <script src="js/foundation.min.js"></script>
+    <script src="{{ base_url() }}/js/jquery.min.js"></script>
+    <script src="{{ base_url() }}/js/foundation.min.js"></script>
 
 {% endblock %}
 </body>

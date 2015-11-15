@@ -196,13 +196,20 @@ class JoindinEvent
         return $this->eventLocation;
     }
 
+    /**
+     * @return int
+     */
     public function getJoindinEventID()
     {
         $id = substr($this->getEventLocation(), strlen($this->baseUrl . '/events/'));
         if (substr($id, -1) == '/') {
-            return substr($id, 0, strlen($id) - 1);
+            return (int)substr($id, 0, strlen($id) - 1);
         }
 
-        return $id;
+        if (substr($id, 0, 1) == '/') {
+            return (int)substr($id, 1);
+        }
+
+        return (int)$id;
     }
 }

@@ -104,8 +104,9 @@ final class CreateEventAction
                     throw new \Exception('Could not create Joindin talk.');
                 }
 
+                $eventEntity = $this->eventService->updateEvents();
 
-                return $response->withStatus(302)->withHeader('Location', '/event/' . $event->getId());
+                return $response->withStatus(302)->withHeader('Location', '/event/' . $eventEntity->getId());
             } catch (\Exception $e) {
                 $frmErrors = $validator->getErrors();
                 $errors[] = $e->getMessage();

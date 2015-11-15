@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Model\Event\Entity\Speaker;
 use App\Model\Event\Event;
 use App\Model\Event\Entity\Venue;
 use App\Repository\EventsRepository;
@@ -43,6 +44,9 @@ class EventsService
         $this->eventsRepository = $eventsRepository;
     }
 
+    /**
+     * @return MeetupEvent
+     */
     public function getMeetupEvent()
     {
         return $this->meetupEvent;
@@ -57,7 +61,55 @@ class EventsService
         $response = $this->httpClient->get($eventUrl);
         $events = json_decode($response->getBody()->getContents(), true);
 
-        return $this->meetupEvent->formatResponse($events);
+        return $this->meetupEvent->formatResponse($events['results'][0] ?? []);
+    }
+
+    /**
+     * @return array
+     */
+    public function getAll()
+    {
+        $eventUrl = $this->meetupEvent->getEventUrl();
+        $response = $this->httpClient->get($eventUrl);
+        $result = json_decode($response->getBody()->getContents(), true);
+
+        $events = [];
+        foreach ($result['results'] as $event) {
+            $eventInfo = $this->meetupEvent->formatResponse($event);
+            $events[$eventInfo['id']] = $eventInfo;
+        }
+
+        return $events;
+    }
+
+    public function mergeEvents(&$meetupEvents, $speakers, $venues)
+    {
+        // key it on meetup ID
+        $localEvents = array_reduce($this->eventsRepository->getAll(), function($carry, $item) {
+            $carry[$item->meetup_id] = $item;
+            return $carry;
+        });
+
+        // Use only events which exist on the DB
+        $meetupEvents = array_intersect_key($meetupEvents, $localEvents);
+
+        foreach ($localEvents as $event) {
+            if (array_key_exists($event->meetup_id, $meetupEvents)) {
+
+                // check for speaker
+                if (array_key_exists($event->speaker_id, $speakers)) {
+                    /** @var Speaker $speaker */
+                    $speaker = $speakers[$event->speaker_id];
+                    $meetupEvents[$event->meetup_id]['speaker'] = $speaker->getFirstName() . ' '
+                                    . $speaker->getLastName() . ' (' . $speaker->getTwitter() . ')';
+                } else {
+                    $meetupEvents[$event->meetup_id]['speaker'] = '-';
+                }
+
+                $meetupEvents[$event->meetup_id]['joindin_url'] = $event->joindin_url ?? '-';
+
+            }
+        }
     }
 
     /**
@@ -75,13 +127,15 @@ class EventsService
 
         $venues = [];
         foreach ($result as $venue) {
-            $venues[] = Venue::create(
+            $venueInfo = Venue::create(
                 [
                     'id' => $venue['id'],
                     'name' => $venue['name'],
                     'address' => $venue['address_1']
                 ]
             );
+
+            $venues[$venueInfo->getId()] = $venueInfo;
         }
 
         return $venues;

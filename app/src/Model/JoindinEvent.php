@@ -96,15 +96,13 @@ class JoindinEvent
         ];
     }
 
+    /**
+     * @param Event $event
+     * @param string $language
+     * @return array
+     */
     public function getCreateEventTitlePayload(Event $event, $language = 'English - UK')
     {
-//        echo $event->getTalk()->getSpeaker();
-//        echo PHP_EOL;
-//        exit;
-        // create talk
-        // {"talk_title":"The first ever talk which works.","talk_description":"the first description","language":"English - UK","talk_type":"Talk","start_date":"2015-12-17T12:19:00+00:00","speakers":["Antonios Pavlakis"]}
-
-
         $speakers = [$event->getTalk()->getSpeaker()->getFirstName() . ' ' . $event->getTalk()->getSpeaker()->getLastName()];
 
         $payload = [
@@ -117,28 +115,69 @@ class JoindinEvent
 
         ];
 
-
-////
-//        print_r(json_encode($payload));
-//        echo PHP_EOL;
-//        exit;
-
         return $payload;
     }
 
+    /**
+     * @return mixed
+     */
     public function getBaseUrl()
     {
         return $this->baseUrl;
     }
 
+    /**
+     * Get the talk ID from the URL
+     *
+     * @return int
+     */
     public function getTalkID()
     {
-        return $this->talkID;
+        $id = substr(
+            $this->getTalkLocation(),
+            strlen(
+                $this->baseUrl . '/events/' .
+                $this->getJoindinEventID() . '/talks/'
+            )
+        );
+
+
+        if (substr($id, -1) == '/') {
+            return (int)substr($id, 0, strlen($id) - 1);
+        }
+
+        if (substr($id, 0, 1) == '/') {
+            return (int)substr($id, 1);
+        }
+
+        return (int)$id;
     }
 
+    /**
+     * Retrieve the front-end URL
+     *
+     * @return string
+     */
     public function getTalkUrl()
     {
-        return $this->talkURL;
+        return $this->frontendBaseUrl . '/talk/view/' . $this->getTalkID();
+
+    }
+
+    /**
+     * @param $talkLocation
+     */
+    public function setTalkLocation($talkLocation)
+    {
+        $this->talkLocation  = $talkLocation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTalkLocation()
+    {
+        return $this->talkLocation;
     }
 
     /**
@@ -146,7 +185,6 @@ class JoindinEvent
      */
     public function setEventLocation($eventLocation)
     {
-        echo $eventLocation . ' <<<' . PHP_EOL;
         $this->eventLocation = $eventLocation;
     }
 

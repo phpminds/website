@@ -118,8 +118,17 @@ class MeetupEvent
         return $this->eventLocation;
     }
 
-    public function getMeetupEventID()
+    public function getMeetupEventID() : int
     {
-        return substr($this->getEventLocation(), strlen($this->baseUrl . '/event/'));
+        $id = substr($this->getEventLocation(), strlen($this->baseUrl . '/event/'));
+        if (substr($id, -1) == '/') {
+            return substr($id, 0, strlen($id) - 1);
+        }
+
+        if (substr($id, 0, 1) == '/') {
+            return substr($id, 1);
+        }
+
+        return $id;
     }
 }

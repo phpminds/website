@@ -43,13 +43,11 @@ class MeetupEvent
         return $this->getUrl('venues');
     }
 
-    public function formatResponse(array $events = [])
+    public function formatResponse(array $event = [])
     {
-        if (empty($events['results'])) {
+        if (empty($event)) {
             return [];
         }
-
-        $event = $events['results'][0];
 
         $eventID = $event['id'];
         $subject = $event['name'];
@@ -69,10 +67,12 @@ class MeetupEvent
         }
 
         return [
+            'id'        => $eventID,
             'group'     => $groupName,
-            'subject' => $subject,
+            'subject'   => $subject,
             'date_time' => $eventDate . ' at ' . $eventTime,
-            'location' => $eventLocation,
+            'month' => date ('F jS Y', $event['time'] / 1000),
+            'location'  => $eventLocation,
             'event_url' => $eventUrl,
             'description' => $eventDescription
         ];

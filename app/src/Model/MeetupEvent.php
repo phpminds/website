@@ -14,6 +14,7 @@ class MeetupEvent
     private $publishStatus;
 
     private $eventLocation;
+    private $eventID = null;
 
     public function __construct($apiKey, $baseUrl, $groupUrlName, $publishStatus)
     {
@@ -23,9 +24,27 @@ class MeetupEvent
         $this->publishStatus    = $publishStatus;
     }
 
-    public function getUrl($action = 'events')
+    public function getUrl($action = 'events', $auth = true)
     {
-        return sprintf($this->baseUrl .'/%s/' . $this->getAuthString(), $action);
+        $authStr = '';
+        if ($auth) {
+            $authStr = $this->getAuthString();
+        }
+
+        return sprintf($this->baseUrl .'/%s/' . $authStr, $action);
+    }
+
+    public function setEventID($eventID)
+    {
+        $this->eventID = $eventID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroupUrlName()
+    {
+        return $this->groupUrlName;
     }
 
     public function getAuthString()
@@ -61,6 +80,7 @@ class MeetupEvent
         $eventCache = date ('my', $event['time'] / 1000);
 
         $venue = isset($event['venue']) ? $event['venue'] : '';
+
         $eventLocation = '';
         if ($venue) {
             $eventLocation = $venue['name'] . ', ' . $venue['address_1'] . ', ' . $venue['city'];
@@ -71,8 +91,10 @@ class MeetupEvent
             'group'     => $groupName,
             'subject'   => $subject,
             'date_time' => $eventDate . ' at ' . $eventTime,
-            'month' => date ('F jS Y', $event['time'] / 1000),
+            'date'      => date ('F jS Y', $event['time'] / 1000),
+            'time'      => $eventTime,
             'location'  => $eventLocation,
+            'venue_id'  => $venue['id'] ?? '',
             'event_url' => $eventUrl,
             'description' => $eventDescription
         ];
@@ -120,6 +142,10 @@ class MeetupEvent
 
     public function getMeetupEventID() : int
     {
+        if (!is_null($this->eventID)) {
+            return $this->eventID;
+        }
+
         $id = substr($this->getEventLocation(), strlen($this->baseUrl . '/event/'));
         if (substr($id, -1) == '/') {
             return substr($id, 0, strlen($id) - 1);

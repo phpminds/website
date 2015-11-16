@@ -55,13 +55,45 @@ class EventsService
     /**
      * @return array
      */
-    public function getEvent()
+    public function getLatestEvent()
+    {
+        $events = $this->getEvents();
+
+        return $this->meetupEvent->formatResponse($events['results'][0] ?? []);
+    }
+
+    protected function getEvents()
     {
         $eventUrl = $this->meetupEvent->getEventUrl();
         $response = $this->httpClient->get($eventUrl);
-        $events = json_decode($response->getBody()->getContents(), true);
 
-        return $this->meetupEvent->formatResponse($events['results'][0] ?? []);
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
+    public function getEventById($eventID)
+    {
+        $eventUrl = sprintf(
+                'https://api.meetup.com/%s/events/%s',
+                $this->meetupEvent->getGroupUrlName(),
+                $eventID
+        );
+
+        try {
+            $response = $this->httpClient->get(
+                $eventUrl,
+                [
+                    'headers' => [
+                        'Accept' => 'application/json'
+                    ]
+                ]
+            );
+        } catch (\Exception $e) {
+            return [];
+        }
+
+        $result = json_decode($response->getBody()->getContents(), true);
+
+        return $this->meetupEvent->formatResponse($result ?? []);
     }
 
     /**
@@ -69,9 +101,7 @@ class EventsService
      */
     public function getAll()
     {
-        $eventUrl = $this->meetupEvent->getEventUrl();
-        $response = $this->httpClient->get($eventUrl);
-        $result = json_decode($response->getBody()->getContents(), true);
+        $result = $events = $this->getEvents();
 
         $events = [];
         foreach ($result['results'] as $event) {

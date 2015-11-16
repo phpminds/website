@@ -38,23 +38,11 @@ class EventValidator
             $this->addError('Talk title should have at least 1 character.');
             throw new InvalidTalkTitle('Talk title should have at least 1 character.');
         }
-        preg_match('/^[A-Za-z0-9_:]$/', $title, $validTitle);
-
-        if (empty($validTitle)) {
-            $this->addError('Talk title can have letters, numbers, "_" and ":"');
-            throw new InvalidTalkTitle('Talk title can have letters, numbers, "_" and ":"');
-        }
 
         $description = $this->get('talk_description');
         if (strlen($description) < 20) {
             $this->addError('Talk description should have at least 20 character.');
             throw new InvalidTalkDescription('Talk description should have at least 1 character.');
-        }
-        preg_match('/^[A-Za-z0-9_:]$/', $description, $validDescription);
-
-        if (empty($validDescription)) {
-            $this->addError('Talk description can have letters, numbers, "_" and ":"');
-            throw new InvalidTalkDescription('Talk description can have letters, numbers, "_" and ":"');
         }
 
         try {

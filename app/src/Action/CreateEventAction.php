@@ -58,6 +58,20 @@ final class CreateEventAction
         $venues     = $this->eventService->getVenues();
         $supporters = $this->eventManager->getSupporters();
 
+        $eventInfo = ['title' => '', 'description' => ''];
+
+        if ($request->getParam('meetup_id')) {
+            $event = $this->eventService->getEventById((int)$request->getParam('meetup_id'));
+            if(!empty($event)) {
+                $eventInfo['title'] = $event['subject'];
+                $eventInfo['description'] = $event['description'];
+                $eventInfo['venue_id'] = $event['venue_id'];
+                $date = \DateTime::createFromFormat('F jS Y', $event['date']);
+                $eventInfo['date'] = $date->format("d/m/Y");
+            }
+
+        }
+
         $errors     = [];
         $frmErrors  = [];
 
@@ -77,7 +91,7 @@ final class CreateEventAction
                 $event = new \App\Model\Event\Event(
                     new Talk(
                         strip_tags($request->getParam('talk_title'), '<p><a><br>'),
-                        strip_tags($request->getParam('talk_description'), '<p><a><br>'),
+                        strip_tags($request->getParam('talk_description'), '<p><img><a><br>'),
                         $this->eventManager->getSpeakerById((int)$request->getParam('speaker'))
                     ),
                     $request->getParam('start_date'),
@@ -88,8 +102,13 @@ final class CreateEventAction
 
                 $this->eventService->createEvent($event);
 
-                if ((int)$this->eventService->createMeetup()->getStatusCode() !== 201) {
-                    throw new \Exception('Could not create meetup event.');
+                if (!$request->getParam('meetup_id')) {
+                    if ((int)$this->eventService->createMeetup()->getStatusCode() !== 201) {
+                        throw new \Exception('Could not create meetup event.');
+                    }
+                } else {
+                    // Do not create a meetup
+                    $this->eventService->getMeetupEvent()->setEventID((int)$request->getParam('meetup_id'));
                 }
 
                 if ((int)$this->eventService->createJoindinEvent($this->eventSettings['name'], $this->eventSettings['description'])->getStatusCode() !== 201) {
@@ -134,6 +153,7 @@ final class CreateEventAction
             [
                 'speakers' => $speakers,
                 'venues' => $venues,
+                'eventInfo' => $eventInfo,
                 'supporters' => $supporters,
                 'nameKey' => $nameKey, 'valueKey' => $valueKey,
                 'name' => $name, 'value' => $value,

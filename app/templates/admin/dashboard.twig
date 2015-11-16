@@ -20,7 +20,7 @@
                 <tbody>
                 {% for event in events %}
                     <tr>
-                        <td>{{ event.month }}</td>
+                        <td>{{ event.date }}</td>
                         <td><a href="{{ event.event_url  }}" target="_blank">{{ event.subject }}</a></td>
                         <td>{{ event.speaker }}</td>
                         <td><a href="{{ event.joindin_url }}" target="_blank">Go to Joindin talk</a></td>

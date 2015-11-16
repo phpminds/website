@@ -33,7 +33,7 @@ final class HomeAction
     {
         $this->logger->info("Home page action dispatched");
 
-        $event = $this->eventService->getEvent();
+        $event = $this->eventService->getLatestEvent();
 
 
         $this->view->render($response, 'home.twig', ['event' => $event]);

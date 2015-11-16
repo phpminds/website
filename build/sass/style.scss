@@ -2,6 +2,7 @@
 
 $include-html-top-bar-classes: $include-html-classes;
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Hind);
 /* Background color for the top bar */
 
 $topbar-bg: #fff;
@@ -12,6 +13,12 @@ html {
   margin: 0;
   padding: 0;
   font: 100%/135%;
+  h1,h2,h3,h4{
+    font-family: Hind,Helvetica, Arial, sans-serif;
+    display: inline-block;
+    width: 100%;
+
+  }
   body {
     margin: 0 auto;
     padding: 0;
@@ -170,8 +177,7 @@ html {
     .h-event {
       margin-top: 1.5em;
       h3 {
-        i {
-
+        i{
           font-size: 230%;
         }
         color: #AAA;
@@ -180,17 +186,18 @@ html {
         color: rgb(204, 170, 85);
         font-size: 80%;
       }
-      a {
-        text-decoration: none;
-        color: #296410;
-        line-height: 100%;
-        display: inline-block;
-        vertical-align: middle;
-        text-align: center;
-        cursor: pointer;
-        font-weight: bold;
 
-      }
+    }
+    a {
+      text-decoration: none;
+      color: #296410;
+      line-height: 100%;
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+
     }
     a:hover {
       color: rgba(106, 168, 79, 1.0);
@@ -203,43 +210,48 @@ html {
       height: 40em;
 
     }
-  }
-  footer {
-    text-align: center;
-    color: $white-smoke;
-    background: $phpminds-green;
-    margin: 0;
-    padding: 0 1em;
-    &.admin{
-      background: $white;
-      color:$black;
+
+    footer {
+      text-align: center;
+      color: $white-smoke;
+      background: $phpminds-green;
+      margin: 0;
+      padding: 0 1em;
+      &.admin {
+        background: $white;
+        color: $black;
+      }
+      div {
+        padding-top: 1em;
+
+        img {
+          width: 4em;
+          height: auto;
+        }
+        .footer-links a {
+          list-style: none;
+          font-weight: normal;
+          color: #fff;
+          padding: 3rem 0 2rem;
+          margin: 0;
+          font-size: 0.875rem;
+
+          &::after {
+            content: " | ";
+            padding: 0 0.2rem 0 0.4rem;
+          }
+
+          &:last-child::after {
+            content: "";
+            padding: 0 0.4rem 0 0.8rem;
+          }
+        }
+
+      }
     }
-    div {
-      padding-top: 1em;
+    i {
 
-      img {
-        width: 4em;
-        height: auto;
-      }
-      .footer-links a {
-        list-style: none;
-        font-weight: normal;
-        color: #fff;
-        padding: 3rem 0 2rem;
-        margin: 0;
-        font-size: 0.875rem;
-
-        &::after {
-          content: " | ";
-          padding: 0 0.2rem 0 0.4rem;
-        }
-
-        &:last-child::after {
-          content: "";
-          padding: 0 0.4rem 0 0.8rem;
-        }
-      }
-
+      padding-right: 0.2em;
     }
   }
 }

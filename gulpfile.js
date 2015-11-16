@@ -17,7 +17,7 @@ gulp.task('sass:watch', function () {
 });
 
 var paths = {
- scripts: ['bower_components/jquery/dist/jquery.min.js','bower_components/foundation/js/foundation.min.js','bower_components/foundation/js/foundation/foundation.topbar.js','build/js/app.js'], 
+ scripts: ['bower_components/sir-trevor-js/sir-trevor.js','bower_components/jquery/dist/jquery.min.js','bower_components/foundation/js/foundation.min.js','bower_components/foundation/js/foundation/foundation.topbar.js','build/js/app.js'],
  dist: 'public/js/'
 };
 

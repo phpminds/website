@@ -29,7 +29,7 @@
                     <div class="large-2 columns">
                         <label class="inline">Sponsor</label>
                     </div>
-                    <div class="large-5 columns">
+                    <div class="large-5 medium-4 columns">
                         <select id="supporters" name="supporter">
                             <option value="0">-- Select --</option>
                             {% for supporter in supporters %}
@@ -45,7 +45,7 @@
                     <div class="large-2 columns">
                         <label class="inline">Speaker</label>
                     </div>
-                    <div class="large-5 columns">
+                    <div class="large-5 medium-4 columns">
                         <select id="speakers" name="speaker">
                             <option value="0">-- Select --</option>
                             <option value="-1">Create speaker</option>
@@ -62,7 +62,7 @@
                     <div class="large-2 columns">
                         <label class="inline">Venue</label>
                     </div>
-                    <div class="large-5 columns">
+                    <div class="large-5 medium-4 columns">
                         <select id="venues" name="venue">
                             <option value="0">-- Select --</option>
                             {% for venue in venues %}
@@ -77,7 +77,7 @@
                     <div class="large-2 columns">
                         <label class="inline">Date</label>
                     </div>
-                    <div class="large-5 columns">
+                    <div class="large-5 medium-4 columns">
                         <input placeholder="Date" name="start_date" class="textbox-n" type="text" onfocus="(this.type='date')" {% if eventInfo.date is defined %}value="{{ eventInfo.date }}"{% endif %} id="date">
                     </div>
                     <div class="large-2 columns"></div>
@@ -87,7 +87,7 @@
                     <div class="large-2 columns">
                         <label class="inline">Start time</label>
                     </div>
-                    <div class="large-2 columns">
+                    <div class="large-2 medium-2 columns">
                         <select id="time.hour" name="start_time" name="time.hour">
                             {% for i in 8..22 %}
                                 <option value="{{ i }}:00">{{ i }}:00</option>
@@ -101,12 +101,12 @@
                     <div class="large-2 columns">
                         <label class="inline">Talk Title</label>
                     </div>
-                    <div class="large-10 columns">
+                    <div class="large-10 medium-5 columns">
                         <input type="text" id="talk_title" name="talk_title" placeholder="Talk title" value="{{ eventInfo.title }}">
                     </div>
                 </div>
 
-                <div class="row collapse">
+                <div class="row large-10 medium-5  collapse">
                     <label>Talk description / Abstract</label>
                     <textarea name="talk_description" id="talk_description" rows="4">{{ eventInfo.description  }}</textarea>
                 </div>

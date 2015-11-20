@@ -2,10 +2,10 @@
 <html>
 <head>
     {% block head %}
+        <title>{% block title %}{% endblock %} - PHPMiNDS</title>
         <link rel="stylesheet" href="/libs/foundation/css/foundation.css" />
         <script src="/libs/js/jquery.min.js"></script>
         <script src="/libs/foundation/js/foundation.min.js"></script>
-        <title>{% block title %}{% endblock %} - PHPMiNDS</title>
     {% endblock %}
 </head>
 <body>
@@ -30,7 +30,7 @@
                 <a href="#">Admin</a>
                 <ul class="dropdown">
                     <li><label>Events</label></li>
-                    <li><a href="/admin/events">List all events</a></li>
+                    <li><a href="/admin">List all events</a></li>
                     <li><a href="/create-event">Create Event</a></li>
                     <li><a href="/edit-event">Edit Event</a></li>
 

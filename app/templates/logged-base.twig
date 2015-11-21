@@ -3,10 +3,15 @@
 <head>
     {% block head %}
         <title>{% block title %}{% endblock %} - PHPMiNDS</title>
-        <link rel="stylesheet" href="/libs/foundation/css/foundation.css" />
-        <script src="/libs/js/jquery.min.js"></script>
-        <script src="/libs/foundation/js/foundation.min.js"></script>
     {% endblock %}
+    <link rel="stylesheet" href="/libs/foundation/css/foundation.css" />
+    <script src="/libs/js/jquery.min.js"></script>
+    <script src="/libs/foundation/js/foundation.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(document).foundation();
+        });
+    </script>
 </head>
 <body>
 
@@ -32,8 +37,6 @@
                     <li><label>Events</label></li>
                     <li><a href="/admin">List all events</a></li>
                     <li><a href="/create-event">Create Event</a></li>
-                    <li><a href="/edit-event">Edit Event</a></li>
-
                 </ul>
             </li>
         </ul>

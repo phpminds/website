@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+        <link rel="stylesheet" href="{{ base_url() }}/css/style.css" />
+        <title>{% block title %}{% endblock %} - PHPMiNDS</title>
+    {% endblock %}
+</head>
+<body>
+
+<nav class="top-bar" data-topbar>
+    <ul class="title-area">
+
+        <li class="name">
+            <h1>
+                <a href="#">
+                    PHPMiNDS
+                </a>
+            </h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+    </ul>
+
+    <section class="top-bar-section">
+        <ul class="right">
+            <li class="divider"></li>
+            <li class="has-dropdown">
+                <a href="#">Admin</a>
+                <ul class="dropdown">
+                    <li><label>Events</label></li>
+                    <li><a href="/admin/events">List all events</a></li>
+                    <li><a href="/create-event">Create Event</a></li>
+                    <li><a href="/edit-event">Edit Event</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </section>
+</nav>
+
+
+<div class="row">
+    <div class="large-9 columns">
+        {% block content %}{% endblock %}
+    </div>
+
+    <div class="large-3 columns">
+        {% block right_column %}{% endblock %}
+    </div>
+
+</div>
+
+
+{% block footer %}
+    <footer class="row admin">
+        <div class="large-12 columns">
+            <hr>
+            <div class="row">
+                <div class="large-6 columns">
+                    <p>&copy; Copyright PHPMiNDS</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ base_url() }}/js/jquery.min.js"></script>
+    <script src="{{ base_url() }}/js/foundation.min.js"></script>
+
+{% endblock %}
+</body>
+</html>

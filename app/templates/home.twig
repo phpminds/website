@@ -1,18 +1,104 @@
-<html>
-    <head>
-        <meta charset="utf-8"/>
-        <title>PHPMiNDS</title>
-        <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
-        <link href='{{ base_url() }}/css/style.css' rel='stylesheet' type='text/css'>
-    </head>
-    <body>
-        <h1>PHPMiNDS</h1>
-        <p>Next meetup on {{ event.date_time }}</p>
-        <div class="event">
-            <p>{{ event.subject }}</p>
-            <p>{{ event.description | raw }}</p>
-            <p><a href="{{ event.event_url }}">RSVP</a></p>
+{% extends "base.twig" %}
+{% block content %}
+
+    <div class="row">
+        <div class="large-offset-1 large-10 small-12 columns h-event">
+            <h3 class="p-name"><i class="fa fa-calendar"></i> {{ event.subject }}</h3>
+            <h4> on {{ event.date_time }}</h4>
+
+            <div class="p-summary">
+                <p>{{ event.description | raw }} <!--|length > 450 ? event.description|raw| slice(0, 450) ~ '...[read more]' : event.description|raw }}
+                    --></p>
+
+                <p class="right"><a class="button alert" href="{{ event.event_url }}">RSVP</a></p>
+            </div>
+
         </div>
-    </body>
-</html>
+    </div>
+    <div id="map"></div>
+    <section class="section-lite-green past-events">
+
+        <div class="row">
+            <div class=" large-offset-1 large-10 small-12 columns">
+                <h3><i class="fa fa-calendar-times-o"></i> Past Events</h3>
+                {{ "past-events" | content | raw }}
+
+            </div>
+
+        </div>
+    </section>
+    <section class="supporters">
+
+        <div class="row">
+            <div class="large-10 large-offset-1 small-12 columns">
+                <h3><i class="fa fa-flag-o"></i> Supporters</h3>
+                {{ "supporters-content" | content | raw }}
+                <div class="row">
+                    <div class="small-6 large-4  columns">
+
+                        <div class="supporter">
+                            <div class="supporter-icon-box">
+                                <img class="supporter-icon" src="imgs/JH-Logo–Colour–RGB.svg" alt="JH Nottingham"/>
+                            </div>
+                            <h4 class="supporter-heading">JH Nottingham</h4>
+                            <span class="supporter-description">{{ "supporters-content-jh" | content | raw }}</span>
+                        </div>
+
+                    </div>
+
+                    <div class="small-6 large-4  columns">
+
+                        <div class="supporter">
+                            <div class="supporter-icon-box">
+                                <img class="supporter-icon" src="imgs/your-logo-here.svg" alt="support us"/>
+                            </div>
+                            <h4 class="supporter-heading">Your Logo here </h4>
+                            <span class="supporter-description">{{ "supporters-content-you" | content | raw }}</span>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <section class="section-lite-green contact">
+        <div class="row">
+            <div class="large-10 large-offset-1 small-12 columns">
+                <h3><i class="fa fa-envelope-o"></i>Contact us </h3>
+
+                <div class="row">
+
+                    <div class="small-12 medium-4 large-4 columns">
+                        <p><a href="https://twitter.com/phpminds">twitter : @phpminds</a></p>
+
+                        <p><a href="mailto:adoni@phpminds.org">email : adoni@phpminds.org</a></p>
+                    </div>
+                    <div class="small-12 medium-4 large-4 columns">
+                        <p><a href="https://phpminds.herokuapp.com/">slack : @phpminds</a></p>
+
+                        <p><a href="">irc : #freenode phpminds</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class=" community">
+        <div class="row">
+            <div class="large-10 large-offset-1 small-12 columns">
+                <h3>
+                   Community
+                </h3>
+
+                <div class="row">
+
+                    {{ "community" | content | raw }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+    
         

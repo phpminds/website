@@ -1,0 +1,44 @@
+---
+server:
+    install: '1'
+    timezone: UTC
+    locale: en_US.UTF-8
+    packages: ['epel-release','curl', 'wget', 'nano', 'net-tools', 'gcc'] #, 'zlib-devel', 'bzip2-devel', 'openssl-devel', 'xz-libs', 'libselinux-python', 'MySQL-python']
+
+vagrant_local:
+    install: '1'
+    vm: {
+        base_box: bento/centos-7.1,
+        hostname: phpminds,
+        ip: 192.168.32.52,
+        memory: '512',
+        sharedfolder: ./,
+        enableWindows: '0',
+        useVagrantCloud: '1',
+        syncType: nfs 
+    }
+#php:
+#    install: '1'
+#    packages: ['php56w', 'php56w-common', 'php56w-cli', 'php56w-opcache', 'php56w-fpm', 'php56w-mysql', 'php56w-pdo', 'php56w-mcrypt', 'php56w-intl', 'php56w-devel']
+
+app:
+    env: development
+
+mysql:
+    install: '1'
+    packages: ['mariadb-server', 'mariadb','mariadb-devel']
+    root_password: Admin123
+    hosts: ['127.0.0.1', 'phpminds.dev', '::1', 'localhost']
+    mysql_old_root_password: ''
+    name: phpminds
+
+nginx:
+    install: '1'
+    packages: ['nginx']
+
+web_server:
+    app_env: development
+    app_web_dir: public
+    server_user: www-data
+    server_user_group: www-data
+    server_name: phpminds.dev

@@ -11,6 +11,7 @@ use App\Validator\EventValidator;
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;
 use App\Service\EventsService;
+use Slim\Flash\Messages;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -40,7 +41,13 @@ final class CreateEventAction
 
     private $eventSettings;
 
-    public function __construct(Twig $view, LoggerInterface $logger, EventsService $eventService, $csrf, EventManager $eventManager, array $eventSettings = [])
+    /**
+     * @var Messages
+     */
+    private $flash;
+
+    public function __construct(Twig $view, LoggerInterface $logger, EventsService $eventService,
+                                $csrf, EventManager $eventManager, array $eventSettings = [], Messages $flash)
     {
         $this->view             = $view;
         $this->logger           = $logger;
@@ -48,7 +55,7 @@ final class CreateEventAction
         $this->csrf             = $csrf;
         $this->eventManager     = $eventManager;
         $this->eventSettings    = $eventSettings;
-
+        $this->flash            = $flash;
     }
 
     public function dispatch(Request $request, Response $response, $args)
@@ -72,7 +79,7 @@ final class CreateEventAction
 
         }
 
-        $errors     = [];
+        $errors     = $this->flash->getMessage('event') ?? [];
         $frmErrors  = [];
 
         if ($request->isPost()) {
@@ -112,9 +119,8 @@ final class CreateEventAction
                 }
 
                 if ((int)$this->eventService->createJoindinEvent($this->eventSettings['name'], $this->eventSettings['description'])->getStatusCode() !== 201) {
-                    // TODO
-                    // Delete meetup event which was just created.
-                    throw new \Exception('Could not create Joindin event.');
+                    $this->flash->addMessage('event', 'Could not create Joindin event. Please try again.');
+                    return $response->withStatus(302)->withHeader('Location', '/create-event?meetup_id=' . $this->eventService->getMeetupEvent()->getMeetupEventID());
                 }
 
                 if ((int)$this->eventService->createJoindinTalk()->getStatusCode() !== 201) {

@@ -6,6 +6,7 @@
   shell: curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
 
 - name: Install vendors
+  sudo: true
   shell: /usr/local/bin/composer install -d /srv
 
 - name: Run DB migrations

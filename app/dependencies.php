@@ -20,6 +20,18 @@ $container['joindin.event'] = function ($c) {
     );
 };
 
+$container['parsedown'] = function($c)
+{
+    return new Parsedown();
+};
+
+
+
+$container['service.content'] = function ($c) {
+    $content = $c->get('settings')['content-folder'];
+    return new \App\Service\ContentService($c->get('parsedown'),$content['location']);
+};
+
 $container['service.event'] = function ($c) {
     return new \App\Service\EventsService(
         $c->get('http.client'),
@@ -129,7 +141,7 @@ $container['logger'] = function ($c) {
 
 $container['App\Action\HomeAction'] = function ($c) {
     return new App\Action\HomeAction(
-        $c->get('view'), $c->get('logger'), $c->get('service.event')
+        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('service.content')
     );
 };
 

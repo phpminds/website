@@ -24,7 +24,15 @@
         "guzzlehttp/guzzle": "^6.1",
         "aura/sql": "^2.4",
         "slim/csrf": "^0.4.0",
+        "erusev/parsedown": "^1.6"
+
+    },
+    "require-dev":{
         "robmorgan/phinx": "^0.4.6",
-        "phpunit/phpunit": "^5.0"
+        "phpunit/phpunit": "4.7.*",
+        "squizlabs/php_codesniffer": "2.*",
+        "mockery/mockery": "0.9.*"
+
     }
+
 }

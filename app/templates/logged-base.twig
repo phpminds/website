@@ -2,9 +2,7 @@
 <html>
 <head>
     {% block head %}
-        <link rel="stylesheet" href="/libs/foundation/css/foundation.css" />
-        <script src="/libs/js/jquery.min.js"></script>
-        <script src="/libs/foundation/js/foundation.min.js"></script>
+        <link rel="stylesheet" href="{{ base_url() }}/css/style.css" />
         <title>{% block title %}{% endblock %} - PHPMiNDS</title>
     {% endblock %}
 </head>
@@ -54,7 +52,7 @@
 
 
 {% block footer %}
-    <footer class="row">
+    <footer class="row admin">
         <div class="large-12 columns">
             <hr>
             <div class="row">
@@ -67,6 +65,8 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="{{ base_url() }}/js/jquery.min.js"></script>
+    <script src="{{ base_url() }}/js/foundation.min.js"></script>
 
 {% endblock %}
 </body>

@@ -28,6 +28,16 @@ class EventsServiceTest extends \PHPUnit_Framework_TestCase
         $joindin = $this->settings['settings']['joindin'];
         $meetup = $this->settings['settings']['meetups'];
 
+        $queue = $this->settings['settings']['queue'];
+        $connection = new \PhpAmqpLib\Connection\AMQPStreamConnection(
+            $queue['host'],
+            $queue['port'],
+            $queue['user'],
+            $queue['password']
+        );
+
+        $message = new \PhpAmqpLib\Message\AMQPMessage();
+
         $db = $this->settings['settings']['db'];
 
         $this->service = new EventsService(
@@ -38,7 +48,8 @@ class EventsServiceTest extends \PHPUnit_Framework_TestCase
                 new \App\Model\Db (
                 'mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'], $db['username'], $db['password']
                 )
-            )
+            ),
+            new \App\Service\QueueService($connection, $message)
         );
     }
 

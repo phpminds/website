@@ -8,3 +8,5 @@ Vagrantfile
 ansible/*
 phinx.yml
 .env
+node_modules/*
+bower_components/*

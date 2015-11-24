@@ -1,0 +1,32 @@
+{
+  "name": "phpminds-website",
+  "version": "1.0.0",
+  "description": "PHPMinds usergroup Nottingham",
+  "main": "gulpfile.js",
+  "dependencies": {
+    
+  },
+  "devDependencies": {
+    "bower": "^1.6.5",
+    "gulp": "^3.9.0",
+    "gulp-sass": "^2.1.0",
+    "gulp-sourcemaps": "^1.6.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phpminds/website.git"
+  },
+  "keywords": [
+    "php",
+    "phpminds"
+  ],
+  "author": "Antonios Pavlakis,Shaun Hare",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/phpminds/website/issues"
+  },
+  "homepage": "https://github.com/phpminds/website#readme"
+}

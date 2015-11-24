@@ -33,10 +33,9 @@ final class LoginAction
         $name = $request->getAttribute($nameKey);
         $value = $request->getAttribute($valueKey);
 
-
         $email = '';
         $msg = '';
-        if($request->isPost()) {
+        if ($request->isPost()) {
             $email = $request->getParam('email');
             $password = $request->getParam('password');
             if ($this->auth->isValid($email, $password)) {

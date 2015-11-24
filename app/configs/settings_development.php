@@ -25,7 +25,7 @@ return [
         ],
 
         'meetups' => [
-            "apiKey" => "add-your-key-here",
+            "apiKey" => "68b7a6a5ac1b5174141057671c411",
             "baseUrl" => "https://api.meetup.com/2",
             "publish_status" => 'draft', // always draft for Development
             "PHPMinds" =>  ["group_urlname" => "PHPMiNDS-in-Nottingham"]
@@ -36,6 +36,12 @@ return [
             "password" => "Admin123",
             "host" => "127.0.0.1",
             "dbname" => "phpminds"
+        ],
+        'events' => [
+            'title' => 'PHPMiNDS',
+            'description' => "PHP Minds meet in Nottingham on the 3rd Thursday of each month.\n
+            Follow us on Twitter @PHPMinds \n
+            You can join us on IRC Freenode in #phpminds and on Slack (https://phpminds.herokuapp.com/)"
         ],
 
         'joindin' => [
@@ -56,6 +62,9 @@ return [
         'auth-routes' => [
             '/admin',
             '/create-event'
+        ],
+         'content-folder' =>[
+            'location' => __DIR__ . '/../templates/content/'
         ]
     ],
 

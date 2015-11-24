@@ -37,7 +37,9 @@ class ContentService
 
 		if(!empty($filename = $this->createFileNameFromName($name))){
 
-			$content = file_get_contents($filename);
+			if(file_exists($filename)) {
+				$content = file_get_contents($filename);
+			}
 		}
 
 		return $this->parsedown->text($content);
@@ -55,10 +57,9 @@ class ContentService
 			 $filename .= ".md"; 
 		}
 
-		if(file_exists($filename))
-		{
+
 			return $filename;
-		}
+
 
 	}
 

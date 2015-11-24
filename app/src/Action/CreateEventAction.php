@@ -12,6 +12,7 @@ use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;
 use App\Service\EventsService;
 use Slim\Flash\Messages;
+use Slim\Csrf\Guard;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -32,6 +33,9 @@ final class CreateEventAction
      */
     private $eventService;
 
+    /**
+     * @var Guard
+     */
     private $csrf;
 
     /**
@@ -46,8 +50,10 @@ final class CreateEventAction
      */
     private $flash;
 
+
     public function __construct(Twig $view, LoggerInterface $logger, EventsService $eventService,
-                                $csrf, EventManager $eventManager, array $eventSettings = [], Messages $flash)
+                                Guard $csrf, EventManager $eventManager, array $eventSettings = [],
+                                Messages $flash)
     {
         $this->view             = $view;
         $this->logger           = $logger;
@@ -137,14 +143,7 @@ final class CreateEventAction
                 $errors[] = $e->getMessage();
             }
 
-            // TODO
-            // Send email
-            // To UG admins
-            // To speaker - with link to joind.in
-
         }
-
-
 
 
         $nameKey = $this->csrf->getTokenNameKey();

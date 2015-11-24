@@ -9,6 +9,9 @@ $topbar-bg: #fff;
 $menu-text-color: #aaa;
 $menu-text-hover-color: #000;
 $phpminds-green: rgba(106, 168, 79, 1.0);
+$section-border: rgba(0, 0, 0, 0.1);
+$lite-green:#C0E4B1;
+$link-color:#296410;
 html {
   margin: 0;
   padding: 0;
@@ -29,7 +32,6 @@ html {
     header {
       display: block;
       min-height: 2em;
-      background: #fafafa;
       padding: 0;
       border-bottom: 1px solid #aaaaaa;
       .top-bar {
@@ -88,8 +90,9 @@ html {
       }
       &.section-lite-green {
         border: 0;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        background-color: #C0E4B1;
+        border-bottom: 1px solid $section-border;
+        border-top: 1px solid $section-border;
+        background-color: $lite-green;
         margin: 0;
         padding-top: 1em;
         img {
@@ -193,7 +196,7 @@ html {
     }
     a {
       text-decoration: none;
-      color: #296410;
+      color: $link-color;
       line-height: 100%;
       display: inline-block;
       vertical-align: middle;

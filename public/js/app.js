@@ -100,6 +100,7 @@
 
 }(window.mapbox_map = window.mapbox_map || {}));
 
+
 $('a[href^="#"]').on('click', function(event) {
     var target = $(this.hash);
     if( target.length ) {

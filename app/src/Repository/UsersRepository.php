@@ -44,7 +44,7 @@ class UsersRepository extends RepositoryAbstract
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(":email", $user->email, \PDO::PARAM_STR);
-        $stmt->bindParam(":password", $user->password,  \PDO::PARAM_STR);
+        $stmt->bindParam(":password", $user->password, \PDO::PARAM_STR);
         $stmt->execute();
     }
 

@@ -75,9 +75,9 @@ class MeetupEvent
         $groupName = $event['group']['name'];
 
 
-        $eventDate = date ('l jS F Y', $event['time'] / 1000);
-        $eventTime = date ('g:ia', $event['time'] / 1000);
-        $eventCache = date ('my', $event['time'] / 1000);
+        $eventDate = date('l jS F Y', $event['time'] / 1000);
+        $eventTime = date('g:ia', $event['time'] / 1000);
+        $eventCache = date('my', $event['time'] / 1000);
 
         $venue = isset($event['venue']) ? $event['venue'] : '';
 

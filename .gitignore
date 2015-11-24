@@ -7,3 +7,4 @@ Vagrantfile
 .vagrant/*
 ansible/*
 phinx.yml
+.env

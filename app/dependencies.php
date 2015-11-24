@@ -25,13 +25,34 @@ $container['service.event'] = function ($c) {
         $c->get('http.client'),
         $c->get('meetup.event'),
         $c->get('joindin.event'),
-        $c->get('events.repository')
+        $c->get('events.repository'),
+        $c->get('queue.service')
     );
 };
 
 
 $container['http.client'] = function ($c) {
     return new \GuzzleHttp\Client();
+};
+
+$container['queue.service'] = function ($c) {
+    return new App\Service\QueueService($c->get('queue.connection'), $c->get('queue.message'));
+};
+
+$container['queue.connection'] = function ($c) {
+    $config = $c->get('settings')['queue'];
+
+    return new PhpAmqpLib\Connection\AMQPStreamConnection(
+        $config['host'],
+        $config['port'],
+        $config['user'],
+        $config['password']
+    );
+
+};
+
+$container['queue.message'] = function ($c) {
+    return new PhpAmqpLib\Message\AMQPMessage();
 };
 
 $container ['db'] = function ($c) {

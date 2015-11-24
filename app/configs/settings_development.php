@@ -40,9 +40,17 @@ return [
 
         'joindin' => [
             "baseUrl" => "http://api.dev.joind.in/v2.1",
+            "frontendBaseUrl" => "http://dev.joind.in",
             "key" => "22c3e521526e8a749227e464206577",
             "callback" => "phpminds.dev/callback/joindin",
             "token" => "9e22ee3d359eaec1" // access_token from callback
+        ],
+
+        'queue' => [
+            'host' => '127.0.0.1',
+            'port' => '5673',
+            'user' => 'admin',
+            'password' => 'Admin123',
         ],
 
         'auth-routes' => [

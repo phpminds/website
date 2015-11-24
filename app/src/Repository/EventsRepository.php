@@ -30,12 +30,12 @@ class EventsRepository extends RepositoryAbstract
             . ")";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(":meetup_id", $event->getMeetupID(), \PDO::PARAM_STR);
-        $stmt->bindParam(":meetup_venue_id", $event->getMeetupID(), \PDO::PARAM_STR);
-        $stmt->bindParam(":joindin_talk_id", $event->getMeetupID(), \PDO::PARAM_STR);
-        $stmt->bindParam(":joindin_url", $event->getMeetupID(), \PDO::PARAM_STR);
-        $stmt->bindParam(":speaker_id", $event->getMeetupID(), \PDO::PARAM_STR);
-        $stmt->bindParam(":sponsor_id", $event->getMeetupID(), \PDO::PARAM_STR);
+        $stmt->bindParam(":meetup_id", $event->getMeetupID(), \PDO::PARAM_INT);
+        $stmt->bindParam(":meetup_venue_id", $event->getMeetupVenueID(), \PDO::PARAM_INT);
+        $stmt->bindParam(":joindin_talk_id", $event->getJoindinTalkID(), \PDO::PARAM_INT);
+        $stmt->bindParam(":joindin_url", $event->getJoindinURL(), \PDO::PARAM_STR);
+        $stmt->bindParam(":speaker_id", $event->getSpeakerID(), \PDO::PARAM_INT);
+        $stmt->bindParam(":sponsor_id", $event->getSupporterID(), \PDO::PARAM_INT);
 
 
         $stmt->execute();

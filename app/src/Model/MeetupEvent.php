@@ -14,6 +14,7 @@ class MeetupEvent
     private $publishStatus;
 
     private $eventLocation;
+    private $eventID = null;
 
     public function __construct($apiKey, $baseUrl, $groupUrlName, $publishStatus)
     {
@@ -23,9 +24,27 @@ class MeetupEvent
         $this->publishStatus    = $publishStatus;
     }
 
-    public function getUrl($action = 'events')
+    public function getUrl($action = 'events', $auth = true)
     {
-        return sprintf($this->baseUrl .'/%s/' . $this->getAuthString(), $action);
+        $authStr = '';
+        if ($auth) {
+            $authStr = $this->getAuthString();
+        }
+
+        return sprintf($this->baseUrl .'/%s/' . $authStr, $action);
+    }
+
+    public function setEventID($eventID)
+    {
+        $this->eventID = $eventID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroupUrlName()
+    {
+        return $this->groupUrlName;
     }
 
     public function getAuthString()
@@ -43,13 +62,11 @@ class MeetupEvent
         return $this->getUrl('venues');
     }
 
-    public function formatResponse(array $events = [])
+    public function formatResponse(array $event = [])
     {
-        if (empty($events['results'])) {
+        if (empty($event)) {
             return [];
         }
-
-        $event = $events['results'][0];
 
         $eventID = $event['id'];
         $subject = $event['name'];
@@ -63,16 +80,21 @@ class MeetupEvent
         $eventCache = date('my', $event['time'] / 1000);
 
         $venue = isset($event['venue']) ? $event['venue'] : '';
+
         $eventLocation = '';
         if ($venue) {
             $eventLocation = $venue['name'] . ', ' . $venue['address_1'] . ', ' . $venue['city'];
         }
 
         return [
+            'id'        => $eventID,
             'group'     => $groupName,
-            'subject' => $subject,
+            'subject'   => $subject,
             'date_time' => $eventDate . ' at ' . $eventTime,
-            'location' => $eventLocation,
+            'date'      => date ('F jS Y', $event['time'] / 1000),
+            'time'      => $eventTime,
+            'location'  => $eventLocation,
+            'venue_id'  => $venue['id'] ?? '',
             'event_url' => $eventUrl,
             'description' => $eventDescription
         ];
@@ -118,8 +140,21 @@ class MeetupEvent
         return $this->eventLocation;
     }
 
-    public function getMeetupEventID()
+    public function getMeetupEventID() : int
     {
-        return substr($this->getEventLocation(), strlen($this->baseUrl . '/event/'));
+        if (!is_null($this->eventID)) {
+            return $this->eventID;
+        }
+
+        $id = substr($this->getEventLocation(), strlen($this->baseUrl . '/event/'));
+        if (substr($id, -1) == '/') {
+            return substr($id, 0, strlen($id) - 1);
+        }
+
+        if (substr($id, 0, 1) == '/') {
+            return substr($id, 1);
+        }
+
+        return $id;
     }
 }

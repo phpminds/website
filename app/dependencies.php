@@ -16,7 +16,7 @@ $container['joindin.event'] = function ($c) {
 
 
     return new \App\Model\JoindinEvent(
-        $joindin['key'], $joindin['baseUrl'], $joindin['callback'], $joindin['token']
+        $joindin['key'], $joindin['baseUrl'], $joindin['frontendBaseUrl'], $joindin['callback'], $joindin['token']
     );
 };
 
@@ -148,7 +148,7 @@ $container['App\Action\HomeAction'] = function ($c) {
 $container['App\Action\AdminDashboardAction'] = function ($c) {
 
     return new App\Action\AdminDashboardAction(
-        $c->get('view'), $c->get('logger')
+        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('event.manager')
     );
 };
 
@@ -176,6 +176,8 @@ $container['App\Action\LogoutAction'] = function ($c) {
 $container['App\Action\CreateEventAction'] = function ($c) {
 
     return new App\Action\CreateEventAction(
-        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('csrf'), $c->get('event.manager'), $c->get('settings')['events']
+        $c->get('view'), $c->get('logger'), $c->get('service.event'),
+        $c->get('csrf'), $c->get('event.manager'), $c->get('settings')['events'],
+        $c->get('flash')
     );
 };

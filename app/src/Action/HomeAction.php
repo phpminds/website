@@ -1,13 +1,25 @@
 <?php
 namespace App\Action;
 
+use App\Service\EventsService;
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;
 
 final class HomeAction
 {
+    /**
+     * @var Twig
+     */
     private $view;
+
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
+
+    /**
+     * @var EventsService
+     */
     private $eventService;
     private $contentService; 
 
@@ -23,11 +35,12 @@ final class HomeAction
     {
         $this->logger->info("Home page action dispatched");
 
-        $event = $this->eventService->getEvent();
-       
+
+        $event = $this->eventService->getLatestEvent();       
         $filter = $this->contentService->getTwigFilter();
         
         $this->view->getEnvironment()->addFilter($filter);
+
 
         $this->view->render($response, 'home.twig', ['event' => $event]);
         return $response;

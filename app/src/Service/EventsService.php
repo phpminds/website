@@ -7,7 +7,7 @@ use App\Model\Event\Event;
 use App\Model\Event\Entity\Venue;
 use App\Repository\EventsRepository;
 use App\Model\MeetupEvent;
-
+use App\Service\QueueService;
 
 class EventsService
 {
@@ -36,12 +36,19 @@ class EventsService
      */
     private $event;
 
-    public function __construct($httpClient, $meetupEvent, $joindinEvent, EventsRepository $eventsRepository)
+    /**
+     * @var QueueService
+     */
+    protected $queue;
+
+    public function __construct($httpClient, $meetupEvent, $joindinEvent,
+                                EventsRepository $eventsRepository, QueueService $queue)
     {
-        $this->httpClient = $httpClient;
-        $this->meetupEvent = $meetupEvent;
-        $this->joindinEvent = $joindinEvent;
+        $this->httpClient       = $httpClient;
+        $this->meetupEvent      = $meetupEvent;
+        $this->joindinEvent     = $joindinEvent;
         $this->eventsRepository = $eventsRepository;
+        $this->queue            = $queue;
     }
 
     /**
@@ -266,5 +273,16 @@ class EventsService
         $this->joindinEvent->setTalkLocation($response->getHeader('location')[0]);
 
         return $response;
+    }
+
+    public function notify()
+    {
+        // TODO
+        // Notify organisers through the queue
+
+        // json object with:
+            // event title, date
+            // link to meetup.com
+            // link to joindin talk
     }
 }

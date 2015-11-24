@@ -137,6 +137,8 @@ final class CreateEventAction
 
                 $eventEntity = $this->eventService->updateEvents();
 
+                $this->eventService->notify();
+
                 return $response->withStatus(302)->withHeader('Location', '/event/' . $eventEntity->getId());
             } catch (\Exception $e) {
                 $frmErrors = $validator->getErrors();

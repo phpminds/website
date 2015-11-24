@@ -68,6 +68,8 @@ html {
     }
     section {
       box-sizing: border-box;
+
+
       div.banner {
 
         background-color: $phpminds-green;
@@ -85,7 +87,8 @@ html {
         }
       }
       &.section-lite-green {
-
+        border: 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         background-color: #C0E4B1;
         margin: 0;
         padding-top: 1em;
@@ -110,7 +113,7 @@ html {
       padding-top: 0.5em;
     }
     .supporters {
-      margin: 1em 0;
+      padding: 1em 0;
       padding-bottom: 2em;
 
       .supporter {

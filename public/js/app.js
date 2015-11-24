@@ -99,3 +99,13 @@
     }
 
 }(window.mapbox_map = window.mapbox_map || {}));
+
+$('a[href^="#"]').on('click', function(event) {
+    var target = $(this.hash);
+    if( target.length ) {
+        event.preventDefault();
+        $('html, body').animate({
+            scrollTop: (target.offset().top -25)
+        }, 1000);
+    }
+});

@@ -17,7 +17,7 @@
 <body class="has-top-bar">
 <header class="top-bar-container fixed">
 
-    <nav class="top-bar" role="navigation">
+    <nav class="top-bar" data-topbar role="navigation">
         <ul class="title-area">
             <li class="name">
                 <h1><a href="#">phpminds</a></h1>
@@ -70,9 +70,13 @@
 <script src="{{ base_url() }}/js/foundation.topbar.js"></script>
 <script type="text/javascript" src="//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js"></script>
 <script src="{{ base_url() }}/js/app.js"></script>
-<script>mapbox_map.init(52.951662, -1.142597);
+<script>
+    $(document).foundation();
+    mapbox_map.init(52.951662, -1.142597);
     mapbox_map.setZoom(19);
-    mapbox_map.addMarker(52.951662, -1.142597).openPopup();</script>
+    mapbox_map.addMarker(52.951662, -1.142597).openPopup();
+    phpminds.scroller();
+</script>
 
 
 </body>

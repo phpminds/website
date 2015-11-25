@@ -37,7 +37,10 @@ html {
       .top-bar {
         box-shadow: 0 2px 3px rgba(0, 0, 0, .4);
         background: $topbar-bg;
+        .expanded{
 
+          color:$lite-green;
+        }
         ul.title-area {
           li.name h1 a {
             height: 2.5em;
@@ -52,6 +55,17 @@ html {
         .top-bar-section li:not(.has-form) a:not(.button) {
           background: $topbar-bg;
         }
+
+        .toggle-topbar.menu-icon
+        {
+          color: $lite-green;
+
+          a{
+            color: $lite-green;
+            font-weight: bold;
+          }
+        }
+
         ul.menu-top-menu {
 
           li {
@@ -260,6 +274,14 @@ html {
     i {
 
       padding-right: 0.2em;
+    }
+
+    .top-bar.expanded .toggle-topbar a span::after {
+      box-shadow: 0 0 0 1px $lite-green, 0 7px 0 1px $lite-green, 0 14px 0 1px $lite-green;
+    }
+    .top-bar .toggle-topbar.menu-icon a span::after {
+      box-shadow: 0 0 0 1px #888888, 0 7px 0 1px #888888, 0 14px 0 1px #888888;
+
     }
   }
 }

@@ -10,6 +10,9 @@ use App\Repository\SupportersRepository;
 class EventManager
 {
 
+    /**
+     * @var EventsRepository
+     */
     private $eventsRepo;
 
     /**
@@ -58,6 +61,11 @@ class EventManager
     public function getSupporterByID($supporterID)
     {
         return $this->supportersRepo->getSupporterByID($supporterID);
+    }
+
+    public function getDetailsByMeetupID($meetupID)
+    {
+        return $this->eventsRepo->getByMeetupID($meetupID);
     }
 
 }

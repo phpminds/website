@@ -181,3 +181,10 @@ $container['App\Action\CreateEventAction'] = function ($c) {
         $c->get('flash')
     );
 };
+
+$container['App\Action\EventDetailsAction'] = function ($c) {
+
+    return new App\Action\EventDetailsAction(
+        $c->get('view'), $c->get('logger'), $c->get('service.event')
+    );
+};

@@ -110,7 +110,7 @@
                if( target.length ) {
                    event.preventDefault();
                    $('html, body').animate({
-                       scrollTop: (target.offset().top -25)
+                       scrollTop: (target.offset().top -35)
                    }, 1000);
                }
            });

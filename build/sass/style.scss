@@ -40,11 +40,13 @@ html {
 
         ul.title-area {
           li.name h1 a {
-            height: 3em;
-            width: 9em;
+            height: 2.5em;
+            width: 10em;
             margin-bottom: 0;
             text-indent: -9999px;
-            background: url("../imgs/phpminds.svg") no-repeat;
+            background: url("../imgs/phpminds.svg") no-repeat 50% 50%;
+
+            background-size: cover;
           }
         }
         .top-bar-section li:not(.has-form) a:not(.button) {

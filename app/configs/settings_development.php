@@ -18,7 +18,7 @@ return [
         ],
 
         'meetups' => [
-            "apiKey" => "68b7a6a5ac1b5174141057671c411",
+            "apiKey" => "23244d135e6824301121411f6c4c6612",
             "baseUrl" => "https://api.meetup.com/2",
             "PHPMinds" =>  ["group_urlname" => "PHPMiNDS-in-Nottingham"]
         ],

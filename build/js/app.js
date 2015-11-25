@@ -100,13 +100,17 @@
 
 }(window.mapbox_map = window.mapbox_map || {}));
 
+(function (phpminds, $, undefined) {
 
-$('a[href^="#"]').on('click', function(event) {
-    var target = $(this.hash);
-    if( target.length ) {
-        event.preventDefault();
-        $('html, body').animate({
-            scrollTop: (target.offset().top -25)
-        }, 1000);
-    }
-});
+   var scroller = function(){ $('a[href^="#"]').on('click', function(event) {
+        var target = $(this.hash);
+        if( target.length ) {
+            event.preventDefault();
+            $('html, body').animate({
+                scrollTop: (target.offset().top -25)
+            }, 1000);
+        }
+    });
+   };
+
+})(window.phpminds = window.phpminds || {}, jQuery);

@@ -35,18 +35,21 @@ final class EventDetailsAction
 
     public function dispatch(Request $request, Response $response, $args)
     {
-        $meetupID = (int)$request->getParam('meetup_id');
+        $meetupID = $request->getParam('meetup_id', false);
+
         if (!$meetupID) {
-            // show error response
+            $eventDetails['errors'][] = 'A meetup ID needs to be provided.';
+        } else {
+            $eventDetails = [
+                'meetup_event' => $this->eventService->getEventById($meetupID),
+                'event_info' => $this->eventService->getEventInfo($meetupID)
+            ];
         }
 
         $this->view->render(
             $response,
             'admin/event-info.twig',
-            [
-                'meetup_event' => $this->eventService->getEventById($meetupID),
-                'event_info' => $this->eventService->getEventInfo($meetupID)
-            ]
+            $eventDetails
         );
 
         return $response;

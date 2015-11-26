@@ -71,9 +71,8 @@ class MeetupEvent
         $eventID = $event['id'];
         $subject = $event['name'];
         $eventDescription = isset($event['description']) ? $event['description'] : '';
-        $eventUrl = $event['event_url'];
+        $eventUrl = $event['event_url'] ?? $event['link'];
         $groupName = $event['group']['name'];
-
 
         $eventDate = date('l jS F Y', $event['time'] / 1000);
         $eventTime = date('g:ia', $event['time'] / 1000);

@@ -20,6 +20,7 @@
                 </div>
             {% endif %}
 
+            {% if meetup_event %}
             <h5 class="title"><a href="#panel1">{{ meetup_event.subject }}</a></h5>
             <div class="content" data-slug="panel1">
 
@@ -31,6 +32,7 @@
 
                 <p>It will be held at: <a href="https://maps.google.com/?q={{ meetup_event.location }}" target="_blank">{{ meetup_event.location }}</a></p>
             </div>
+            {% endif %}
 
         </section>
     </div>

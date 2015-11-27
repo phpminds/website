@@ -267,4 +267,13 @@ class EventsService
 
         return $response;
     }
+
+    /**
+     * @param $meetupID
+     * @return array
+     */
+    public function getEventInfo($meetupID) : array
+    {
+        return $this->eventsRepository->getByMeetupID($meetupID)[0];
+    }
 }

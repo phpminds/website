@@ -29,3 +29,6 @@ $app->post('/create-event', 'App\Action\CreateEventAction:dispatch')
 
 $app->post('/create-speaker', 'App\Action\CreateSpeakerAction:dispatch')
     ->setName('create-speaker');
+
+$app->get('/event-details', 'App\Action\EventDetailsAction:dispatch')
+    ->setName('event-details');

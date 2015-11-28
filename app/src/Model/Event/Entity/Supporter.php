@@ -88,14 +88,14 @@ class Supporter
     public static function create(array $params = []) : Supporter
     {
         $class = new self(
-            $params['name'],
-            $params['url'],
-            new Twitter($params['twitter']),
-            new Email($params['email']),
-            $params['logo']
+            $params['name'] ?? null,
+            $params['url'] ?? null,
+            new Twitter($params['twitter']) ?? null,
+            new Email($params['email']) ?? null,
+            $params['logo'] ?? null
         );
 
-        $class->setId($params['id']);
+        $class->setId($params['id'] ?? null);
 
         return $class;
     }

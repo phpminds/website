@@ -3,6 +3,7 @@
 namespace App\Model\Event\Entity;
 
 use App\Model\Event\Entity\Speaker;
+use App\Exception\Model\Event\Entity\InvalidTalkTitle;
 
 class Talk
 {
@@ -106,9 +107,9 @@ class Talk
     public static function create(array $params = []) : Talk
     {
         $class = new self(
-            $params['title'],
-            $params['description'],
-            $params['speaker'],
+            $params['title'] ?? null,
+            $params['description'] ?? null,
+            $params['speaker'], // Expects Speaker object
             $params['duration'],
             $params['slides']
         );

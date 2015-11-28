@@ -17,7 +17,7 @@ server {
 	server_name {{ web_server.server_name }};
 
 	location / {
-		try_files $uri $uri/ /index.php;
+		try_files $uri $uri/ /index.php?$query_string;
 	}
 
 	# This location block matches anything ending in .php and sends it to

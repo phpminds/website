@@ -2,9 +2,20 @@
 <html>
 <head>
     {% block head %}
-        <link rel="stylesheet" href="{{ base_url() }}/css/style.css" />
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/foundation.min.js"></script>
+    <script src="/js/modernizr.js"></script>
+    <script src="/js/sir-trevor.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(document).foundation();
+        });
+    </script>
         <title>{% block title %}{% endblock %} - PHPMiNDS</title>
     {% endblock %}
+    <link rel="stylesheet" href="{{ base_url() }}/css/style.css" />
+    <link rel="stylesheet" href="/libs/foundation/css/foundation.css" />
+
 </head>
 <body>
 
@@ -28,10 +39,8 @@
                 <a href="#">Admin</a>
                 <ul class="dropdown">
                     <li><label>Events</label></li>
-                    <li><a href="/admin/events">List all events</a></li>
+                    <li><a href="/admin">List all events</a></li>
                     <li><a href="/create-event">Create Event</a></li>
-                    <li><a href="/edit-event">Edit Event</a></li>
-
                 </ul>
             </li>
         </ul>

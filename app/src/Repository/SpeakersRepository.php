@@ -47,7 +47,8 @@ class SpeakersRepository extends RepositoryAbstract
         $results = $this->getAll(\PDO::FETCH_ASSOC);
         $speakers = [];
         foreach ($results as $speaker) {
-            $speakers[] = Speaker::create($speaker);
+            $speakerInfo = Speaker::create($speaker);
+            $speakers[$speakerInfo->getId()] = $speakerInfo;
         }
 
         return $speakers;

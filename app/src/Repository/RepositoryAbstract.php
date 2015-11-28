@@ -4,6 +4,9 @@ namespace App\Repository;
 
 class RepositoryAbstract
 {
+    /**
+     * @var \PDO
+     */
     protected $db;
 
     protected $table;

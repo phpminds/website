@@ -3,6 +3,15 @@
 
 $container = $app->getContainer();
 
+$container['notFoundHandler'] = function ($c) {
+    return function ($request, $response) use ($c) {
+        return $c['response']
+            ->withStatus(404)
+            ->withHeader('Content-Type', 'text/html')
+            ->withRedirect('/404');
+    };
+};
+
 $container['meetup.event'] = function ($c) {
     $meetup = $c->get('settings')['meetups'];
 
@@ -172,6 +181,14 @@ $container['App\Action\LogoutAction'] = function ($c) {
         $c->get('view'), $c->get('logger'), $c->get('auth.model')
     );
 };
+
+$container['App\Action\NotFoundAction'] = function ($c) {
+
+    return new App\Action\NotFoundAction(
+        $c->get('view'), $c->get('logger')
+    );
+};
+
 
 $container['App\Action\CreateEventAction'] = function ($c) {
 

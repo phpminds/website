@@ -5,9 +5,6 @@
   with_items: server.packages
   when: server.packages is defined
 
-- name: upgrade all packages
-  yum: name=* state=latest
-
 - name: Configure the timezone
   sudo: yes
   template: src=timezone.tpl dest=/etc/timezone
@@ -24,3 +21,4 @@
 - name: Configure firewall 80
   sudo: yes
   command: /sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 80 -j ACCEPT
+

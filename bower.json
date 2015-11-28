@@ -1,0 +1,30 @@
+{
+  "name": "phpminds-website",
+  "homepage": "https://github.com/phpminds/website",
+  "authors": [
+    "Shaun Hare <shaun@shaunhare.co.uk>",
+    "Antonios Pavlakis<info@phpminds>"
+  ],
+  "description": "Website for the php usergroup in Nottingham",
+  "main": "",
+  "moduleType": [],
+  "keywords": [
+    "php",
+    "phpminds"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "~5.5.3",
+    "sir-trevor-js": "~0.5.0"
+  },
+  "resolutions": {
+    "jquery": ">= 2.1.0"
+  }
+}

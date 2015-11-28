@@ -17,7 +17,7 @@ server {
 	server_name {{ web_server.server_name }};
 
 	location / {
-		try_files $uri $uri/ /index.php;
+		try_files $uri $uri/ /index.php?$query_string;
 	}
 
 	# This location block matches anything ending in .php and sends it to
@@ -35,6 +35,8 @@ server {
 		include fastcgi_params;
 
 	}
+
+	rewrite ^/(map|speak|past\-events|supporters|contact|code\-of\-conduct)$ $scheme://{{ web_server.server_name }}#$1;
 
 	# This location block is used to view PHP-FPM stats
 	location ~ ^/(php_status|php_ping)$ {

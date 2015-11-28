@@ -36,6 +36,8 @@ server {
 
 	}
 
+	rewrite ^/(map|speak|past\-events|supporters|contact|code\-of\-conduct)$ $scheme://{{ web_server.server_name }}#$1;
+
 	# This location block is used to view PHP-FPM stats
 	location ~ ^/(php_status|php_ping)$ {
 

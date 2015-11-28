@@ -20,7 +20,7 @@
     <nav class="top-bar" data-topbar role="navigation">
         <ul class="title-area">
             <li class="name">
-                <h1><a href="#home">phpminds</a></h1>
+                <h1><a href="/">phpminds</a></h1>
             </li>
             <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
             <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
@@ -28,26 +28,19 @@
         <section class="top-bar-section">
             <!-- Right Nav Section -->
             <ul class="right menu-top-menu">
-                <li><a href="#map">location</a></li>
-                <li><a href="#past-events">past events</a></li>
-                <li><a href="#speak">Speak</a></li>
-                <li><a href="#supporters">Supporters</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#code-of-conduct">Code of conduct</a></li>
+                <li><a href="/#map">location</a></li>
+                <li><a href="/#past-events">past events</a></li>
+                <li><a href="/#speak">Speak</a></li>
+                <li><a href="/#supporters">Supporters</a></li>
+                <li><a href="/#contact">Contact</a></li>
+                <li><a href="/#code-of-conduct">Code of conduct</a></li>
             </ul>
         </section>
     </nav>
 
 </header>
 
-<section>
 
-    <div class="large-12 columns banner">
-        <img class="phpminds-logo" src="imgs/phpminds-banner.svg" alt="phpminds - php usergroup"/>
-
-        <h2> [ a witty strapline goes here ]</h2>
-    </div>
-</section>
 {% block content %}{% endblock %}
 
 
@@ -72,9 +65,11 @@
 <script src="{{ base_url() }}/js/app.js"></script>
 <script>
     $(document).foundation();
-    mapbox_map.init(52.951662, -1.142597);
-    mapbox_map.setZoom(19);
-    mapbox_map.addMarker(52.951662, -1.142597).openPopup();
+    if(document.getElementById("map")) {
+        mapbox_map.init(52.951662, -1.142597);
+        mapbox_map.setZoom(19);
+        mapbox_map.addMarker(52.951662, -1.142597).openPopup();
+    }
     phpminds.scroller();
 </script>
 

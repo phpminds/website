@@ -99,7 +99,10 @@ html {
     section {
       box-sizing: border-box;
 
-
+      &.login{
+        padding-top: 4em;
+        margin: auto;
+      }
       div.banner {
 
         background-color: $phpminds-green;
@@ -146,10 +149,10 @@ html {
     .supporters {
       padding: 1em 0;
       padding-bottom: 2em;
-
+      min-height: 520px;
       .supporter {
 
-        height: 320px;
+        min-height: 320px;
         margin: 55px 0;
         text-align: center;
 
@@ -294,6 +297,9 @@ html {
     .top-bar .toggle-topbar.menu-icon a span::after {
       box-shadow: 0 0 0 1px #888888, 0 7px 0 1px #888888, 0 14px 0 1px #888888;
 
+    }
+    .login-button{
+      background: $lite-green;
     }
   }
 }

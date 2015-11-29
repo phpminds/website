@@ -1,0 +1,28 @@
+$strapline-color: #ccc
+
+#strapline
+  color: $strapline-color
+  transition: all 0.3s ease-in-out
+  animation: fade 13s ease-in
+
+
++keyframes(fade)
+  0%
+    opacity: 1
+  33%
+    opacity: 0.33
+  66%
+    opacity: 0.66
+  100%
+    opacity: 0
+
+=keyframes($name)
+  @-webkit-keyframes #{$name}
+    @content
+  @-moz-keyframes #{$name}
+    @content
+  @-ms-keyframes #{$name}
+    @content
+  @keyframes #{$name}
+    @content
+

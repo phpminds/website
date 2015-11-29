@@ -37,9 +37,21 @@ html {
       .top-bar {
         box-shadow: 0 2px 3px rgba(0, 0, 0, .4);
         background: $topbar-bg;
-        .expanded{
+        .name{
+          background: $white;
+        }
+        &.expanded{
 
           color:$lite-green;
+          ul.menu-top-menu {
+
+            li {
+              display:inline-block;
+              width: 100%;
+              border: 1px solid #aaa;
+              margin:0.2em;
+            }
+        }
         }
         ul.title-area {
           li.name h1 a {

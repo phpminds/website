@@ -10,9 +10,6 @@
     - nginx
 #    - queue
     - app
-
-
-
 - hosts: production
   sudo: true
   vars_files:

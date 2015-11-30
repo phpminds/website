@@ -1,0 +1,7 @@
+---
+  - name: update DO box
+    digital_ocean:
+        state=present
+        command=ssh
+        name=dev.phpminds.org
+        api_token=DO-API-TOKEN

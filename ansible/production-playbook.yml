@@ -1,0 +1,16 @@
+---
+- hosts: production
+  sudo: true
+  vars_files:
+    - vars/production.yml
+  roles:
+    - deploy
+    - server
+    - mysql
+    - php7
+    - nginx
+    - queue
+    - app
+
+
+

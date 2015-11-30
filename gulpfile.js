@@ -3,7 +3,8 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
- 
+var minifyCss = require('gulp-minify-css');
+
 gulp.task('sass', function () {
   gulp.src('./build/sass/**/+(*.scss|*.sass)')
     .pipe(sourcemaps.init())
@@ -35,5 +36,13 @@ gulp.task('prefix', function () {
             cascade: false
         }))
         .pipe(gulp.dest('public/css/text.css'));
+});
+
+
+
+gulp.task('minify-css', function() {
+    return gulp.src('public/css/*.css')
+        .pipe(minifyCss({compatibility: 'ie8'}))
+        .pipe(gulp.dest('public/css/'));
 });
 gulp.task('default',['sass:watch','move','prefix']);

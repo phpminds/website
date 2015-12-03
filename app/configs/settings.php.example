@@ -25,7 +25,7 @@ return [
         ],
 
         'meetups' => [
-            "apiKey" => "68b7a6a5ac1b5174141057671c411",
+            "apiKey" => "add-your-key-here",
             "baseUrl" => "https://api.meetup.com/2",
             "publish_status" => 'draft', // always draft for Development
             "PHPMinds" =>  ["group_urlname" => "PHPMiNDS-in-Nottingham"]
@@ -53,7 +53,9 @@ return [
 
         'auth-routes' => [
             '/admin',
-            '/create-event'
+            '/create-event',
+            '/create-speaker',
+            '/event-details'
         ],
          'content-folder' =>[
             'location' => __DIR__ . '/../templates/content/'

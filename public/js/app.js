@@ -1,5 +1,6 @@
 // Mapbox js 
 
+
 (function(mapbox_map) {
 	
 	var map = {}; 
@@ -14,14 +15,17 @@
 	mapbox_map.init= function(lat,lon){
 
 
-		this.map =  L.mapbox.map('map', 'sdh100shaun.map-k4g2kpbm')
-    	.setView([lat, lon], 14);
+            this.map =  L.mapbox.map('map', 'sdh100shaun.map-k4g2kpbm')
+                .setView([lat, lon], 14);
+
 
 	};
 
     mapbox_map.setZoom = function(a)
     {
         this.map.setZoom(a)
+        return mapbox_map;
+
     }
 	mapbox_map.center = function(lat,lon)
 	{
@@ -99,3 +103,40 @@
     }
 
 }(window.mapbox_map = window.mapbox_map || {}));
+
+(function (phpminds, $, undefined) {
+
+   phpminds.scroller = function(){
+
+       $("document").ready(function(){
+           $('a[href^="/#"]').on('click', function(event) {
+               var target = $(this.hash);
+               if( target.length ) {
+                   event.preventDefault();
+                   $('html, body').animate({
+                       scrollTop: (target.offset().top - 35)
+                   }, 1000);
+
+                   var url = this.hash.replace('#','');
+                   history.pushState(this.hash, null, url)
+
+               }
+           });
+       });
+   };
+
+})(window.phpminds = window.phpminds || {}, jQuery);
+
+
+$(window).bind("load", function () {
+    var footer = $("footer");
+    var pos = footer.position();
+    var height = $(window).height();
+    height = height - pos.top;
+    height = height - footer.height();
+    if (height > 0) {
+        footer.css({
+            'margin-top': height + 'px'
+        });
+    }
+});

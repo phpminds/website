@@ -10,17 +10,18 @@
     <title>PHPMiNDS</title>
     <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
     <link href='{{ base_url() }}/css/style.css' rel='stylesheet' type='text/css'>
+    <link href='{{ base_url() }}/css/text.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <script src='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.css' rel='stylesheet'/>
 </head>
-<body class="has-top-bar">
+<body class="has-top-bar" id="home">
 <header class="top-bar-container fixed">
 
-    <nav class="top-bar" role="navigation">
+    <nav class="top-bar" data-topbar role="navigation">
         <ul class="title-area">
             <li class="name">
-                <h1><a href="#">phpminds</a></h1>
+                <h1><a href="/">phpminds</a></h1>
             </li>
             <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
             <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
@@ -28,26 +29,19 @@
         <section class="top-bar-section">
             <!-- Right Nav Section -->
             <ul class="right menu-top-menu">
-                <li><a href="#">location</a></li>
-                <li><a href="#">past events</a></li>
-                <li><a href="#">Speak</a></li>
-                <li><a href="#">Supporters</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Community</a></li>
+                <li><a href="/#map">location</a></li>
+                <li><a href="/#past-events">past events</a></li>
+                <li><a href="/#speak">Speak</a></li>
+                <li><a href="/#supporters">Supporters</a></li>
+                <li><a href="/#contact">Contact</a></li>
+                <li><a href="/#code-of-conduct">Code of conduct</a></li>
             </ul>
         </section>
     </nav>
 
 </header>
 
-<section>
 
-    <div class="large-12 columns banner">
-        <img class="phpminds-logo" src="imgs/phpminds-banner.svg" alt="phpminds - php usergroup"/>
-
-        <h2> [ a witty strapline goes here ]</h2>
-    </div>
-</section>
 {% block content %}{% endblock %}
 
 
@@ -58,9 +52,9 @@
 
 
             <p class="footer-links">
-                <a href="">&copy; phpminds.org {{ now |date("Y") }} </a>
-                <a href="">built with <img src="imgs/php7.svg" alt="built with php7"/> </a>
-                <a href=""><i class="fa fa-github"></i> Contribute on github</a></p>
+                <a href="http://phpminds.org">&copy; phpminds.org {{ now |date("Y") }} </a>
+                <a href="http://php.net/">built with <img src="imgs/php7.svg" alt="built with php7"/> </a>
+                <a href="http://github.com/phpminds"><i class="fa fa-github"></i> Contribute on github</a></p>
         </div>
     </div>
 </footer>
@@ -70,9 +64,15 @@
 <script src="{{ base_url() }}/js/foundation.topbar.js"></script>
 <script type="text/javascript" src="//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js"></script>
 <script src="{{ base_url() }}/js/app.js"></script>
-<script>mapbox_map.init(52.951662, -1.142597);
-    mapbox_map.setZoom(19);
-    mapbox_map.addMarker(52.951662, -1.142597).openPopup();</script>
+<script>
+    $(document).foundation();
+    if(document.getElementById("map")) {
+        mapbox_map.init(52.951662, -1.142597);
+        mapbox_map.setZoom(19);
+        mapbox_map.addMarker(52.951662, -1.142597).openPopup();
+    }
+    phpminds.scroller();
+</script>
 
 
 </body>

@@ -1,6 +1,13 @@
 {% extends "base.twig" %}
 {% block content %}
+    <section>
 
+        <div class="large-12 columns banner">
+            <img class="phpminds-logo" src="imgs/phpminds-banner.svg" alt="phpminds - php usergroup"/>
+
+            <h2 id="strapline"> [ meeting every 3rd Thursday of the month in Nottingham ]</h2>
+        </div>
+    </section>
     <div class="row">
         <div class="large-offset-1 large-10 small-12 columns h-event">
             <h3 class="p-name"><i class="fa fa-calendar"></i> {{ event.subject }}</h3>
@@ -16,7 +23,7 @@
         </div>
     </div>
     <div id="map"></div>
-    <section class="section-lite-green past-events">
+    <section class="section-lite-green past-events" id="past-events">
 
         <div class="row">
             <div class=" large-offset-1 large-10 small-12 columns">
@@ -25,13 +32,28 @@
 
             </div>
 
+
+        </div>
+        <div class="row" id="speak">
+            <div class=" large-offset-1 large-10 small-12 columns">
+                <h3><i class="fa fa-bullhorn"></i> Speak to us </h3>
+                {{ "speak" | content | raw }}
+
+            </div>
+        </div>
+        <div class="row" id="code-of-conduct">
+            <div class=" large-offset-1 large-10 small-12 columns">
+                <h3>Code of conduct </h3>
+                {{ "code-of-conduct" | content | raw }}
+
+            </div>
         </div>
     </section>
-    <section class="supporters">
+    <section class="supporters" id="supporters">
 
         <div class="row">
             <div class="large-10 large-offset-1 small-12 columns">
-                <h3><i class="fa fa-flag-o"></i> Supporters</h3>
+                <h3>Supporters</h3>
                 {{ "supporters-content" | content | raw }}
                 <div class="row">
                     <div class="small-6 large-4  columns">
@@ -64,7 +86,7 @@
         </div>
 
     </section>
-    <section class="section-lite-green contact">
+    <section class="section-lite-green contact" id="contact">
         <div class="row">
             <div class="large-10 large-offset-1 small-12 columns">
                 <h3><i class="fa fa-envelope-o"></i>Contact us </h3>
@@ -74,31 +96,18 @@
                     <div class="small-12 medium-4 large-4 columns">
                         <p><a href="https://twitter.com/phpminds">twitter : @phpminds</a></p>
 
-                        <p><a href="mailto:adoni@phpminds.org">email : adoni@phpminds.org</a></p>
+                        <!--<p><a href="mailto:team@phpminds.org">email : team@phpminds.org</a></p> -->
                     </div>
                     <div class="small-12 medium-4 large-4 columns">
                         <p><a href="https://phpminds.herokuapp.com/">slack : @phpminds</a></p>
 
-                        <p><a href="">irc : #freenode phpminds</a></p>
+                        <p><a href="https://www.irccloud.com/#!/ircs://irc.freenode.net:6697/%23phpminds">irc : #freenode phpminds</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class=" community">
-        <div class="row">
-            <div class="large-10 large-offset-1 small-12 columns">
-                <h3>
-                   Community
-                </h3>
 
-                <div class="row">
-
-                    {{ "community" | content | raw }}
-                </div>
-            </div>
-        </div>
-    </section>
 {% endblock %}
     
         

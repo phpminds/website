@@ -10,23 +10,70 @@ Vagrant.require_version ">= 1.5"
 
 Vagrant.configure("2") do |config|
 
-    config.vm.provider :virtualbox do |v|
-        v.name = "phpminds"
-        v.customize [
-            "modifyvm", :id,
-            "--name", "phpminds",
-            "--memory", 512,
-            "--natdnshostresolver1", "on",
-            "--cpus", 1,
-        ]
+    config.vm.define "local" do |local|
+
+        local.vm.provider :virtualbox do |v|
+            v.name = "phpminds"
+            v.customize [
+                "modifyvm", :id,
+                "--name", "phpminds",
+                "--memory", 512,
+                "--natdnshostresolver1", "on",
+                "--cpus", 1,
+            ]
+        end
+
+        local.vm.box = 'bento/centos-7.1'
+        
+        local.vm.network :private_network, ip: "192.168.32.52", auto_correct: true
+        local.vm.network :forwarded_port, host: 15672, guest: 15672
+        local.ssh.forward_agent = true
+        local.vm.synced_folder "./", "/srv", type: "nfs"
     end
 
-    config.vm.box = 'bento/centos-7.1'
-    
-    config.vm.network :private_network, ip: "192.168.32.52", auto_correct: true
-    config.vm.network :forwarded_port, host: 15672, guest: 15672
-    config.ssh.forward_agent = true
 
+
+    config.vm.define "amazon" do |amazon|
+      
+
+        amazon.vm.box = "dummybox-aws"
+        amazon.vm.box_url="https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
+
+        required_plugins = %w( vagrant-aws )
+        required_plugins.each do |plugin|
+         system "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
+        end
+
+        amazon.vm.provider :aws do |aws, override|
+ 
+        #AWS Settings
+        aws.access_key_id = ENV['AWS_ACCESS_KEY_ID']
+        aws.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+        aws.region = ENV['AWS_REGION']
+        aws.security_groups = [ ENV['AWS_SECURITY_GROUP'] ]
+        aws.tags = {
+          'Name' => 'site',
+          'Team' => 'phpminds',
+          'Status' => 'active'
+        }
+     
+       
+        aws.region_config "eu-west-1" do |region|
+          region.ami = ENV['AWS_AMI']
+          region.instance_type = 't2.micro'
+          region.keypair_name = ENV['AWS_KEYPAIR_NAME']
+          region.security_groups = ENV['AWS_SECURITY_GROUP']
+        end
+ 
+        #Override Settings
+        override.ssh.username = ENV['AWS_SSH_USER']
+        override.ssh.private_key_path = ENV['AWS_SSH_KEY_PATH']
+        
+       end
+  
+    end
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+    config.ssh.pty = true
     #############################################################
     # Ansible provisioning (you need to have ansible installed)
     #############################################################
@@ -41,5 +88,5 @@ Vagrant.configure("2") do |config|
         ansible.limit = 'all'
     end
 
-    config.vm.synced_folder "./", "/srv", type: "nfs"
+    
 end

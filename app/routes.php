@@ -13,6 +13,9 @@ $app->post('/login', 'App\Action\LoginAction:dispatch')
 $app->get('/logout', 'App\Action\LogoutAction:dispatch')
     ->setName('logout');
 
+$app->get('/404', 'App\Action\NotFoundAction:dispatch')
+    ->setName('notfound');
+
 
 // -- auth --
 $app->get('/admin', 'App\Action\AdminDashboardAction:dispatch')

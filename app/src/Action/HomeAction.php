@@ -33,9 +33,6 @@ final class HomeAction
 
     public function dispatch($request, $response, $args)
     {
-        $this->logger->info("Home page action dispatched");
-
-
         $event = $this->eventService->getLatestEvent();       
         $filter = $this->contentService->getTwigFilter();
         

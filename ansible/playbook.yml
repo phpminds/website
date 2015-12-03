@@ -1,4 +1,3 @@
----
 - hosts: development
   sudo: true
   vars_files:

@@ -1,0 +1,23 @@
+---
+- hosts: development
+  sudo: true
+  vars_files:
+    - vars/all.yml
+  roles:
+    - server
+    - mysql
+    - php7
+    - nginx
+#    - queue
+    - app
+- hosts: production
+  sudo: true
+  vars_files:
+    - vars/prod.yml
+  roles:
+    - server
+    - mysql
+    - php7
+    - nginx
+    #    - queue
+    - app

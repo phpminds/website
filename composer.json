@@ -1,14 +1,19 @@
 {
-    "name": "akrabat/slim3-skeleton",
-    "description": "Simple Slim Framework 3 skeleton with Twig & Monolog.",
-    "license": "BSD-3-Clause",
+    "name": "phpminds/website",
+    "description": "A user-group website with meetup.com and joind.in integration.",
+    "license": "MIT",
     "type": "project",
-    "keywords": ["slim-framework", "skeleton"],
+    "keywords": ["slim-framework", "phpminds"],
     "authors": [
         {
-            "name": "Rob Allen",
-            "email": "rob@akrabat.com",
-            "homepage": "http://akrabat.com"
+            "name": "Antonis Pavlakis",
+            "email": "adoni@pavlakis.info",
+            "homepage": "http://pavlakis.info"
+        },
+        {
+            "name": "Shaun Hare",
+            "email": "shaun@shaunhare.co.uk",
+            "homepage": "http://shaunhare.co.uk"
         }
     ],
     "autoload": {
@@ -21,6 +26,16 @@
         "slim/twig-view": "^1.1",
         "slim/flash": "^0.1.0",
         "monolog/monolog": "^1.13",
-        "guzzlehttp/guzzle": "^6.1"
+        "guzzlehttp/guzzle": "^6.1",
+        "aura/sql": "^2.4",
+        "slim/csrf": "^0.4.0",
+        "erusev/parsedown": "^1.6",
+        "robmorgan/phinx": "^0.4.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.0",
+        "squizlabs/php_codesniffer": "2.*",
+        "mockery/mockery": "0.9.*"
     }
+
 }

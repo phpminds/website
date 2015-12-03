@@ -1,0 +1,54 @@
+{% extends "base.twig" %}
+{% block content %}
+<div>
+    {% if msg %}
+        <p>{{ msg }}</p>
+    {% endif %}
+</div>
+
+<section class="login">
+
+
+<div class="row">
+    <div class="column large-10 small-10 medium-10">
+    <form method="post" action="/login">
+
+
+        <input type="hidden" value="{{ name }}" name="{{ nameKey }}">
+        <input type="hidden" value="{{ value }}" name="{{ valueKey }}">
+
+        <div class="row collapse prefix-radius">
+
+
+                <div class="small-3 columns">
+                    <label class="prefix"><i class="fa fa-envelope-o"></i> Email:</label>
+                </div>
+                <div class="small-9 columns">
+                    <input type="text" value="" name="email">
+                </div>
+
+
+        </div>
+
+        <div class="row collapse prefix-radius">
+
+
+            <div class="small-3 columns">
+                <label class="prefix"><i class="fa fa-lock"></i>Password:</label>
+            </div>
+            <div class="small-9 columns">
+                <input type="password" value="" name="password">
+            </div>
+
+
+        </div>
+
+
+
+        <button name="submit" class="login-button right">Login</button>
+    </form>
+    </div>
+</div>
+
+</section>
+{% endblock content %}

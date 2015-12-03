@@ -17,5 +17,10 @@ return [
             'path' => __DIR__ . '/../log/app.log',
         ],
 
+        'auth-routes' => [
+            '/admin',
+            ''
+        ]
     ],
+
 ];

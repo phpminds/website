@@ -1,7 +1,7 @@
 
 ![](https://cdn.rawgit.com/phpminds/website/develop/public/imgs/phpminds.svg)
 
-This is a new PHP User Group which in Nottingham.
+This is a new PHP User Group which is in Nottingham.
 
 Our aim is to bring the PHP community together to collaborate, network and share knowledge in a friendly and professional environment.
 
@@ -17,12 +17,12 @@ This repository contains the source code for
 Integrations with 
 
 - [x] meetup.com
-- [ ] joind.in
+- [x] joind.in
 
 
 
 
-## Contributers
+## Contributors
 Created by the @phpminds team - contributions welcome 
 
 Licence :  MIT see licence.md 

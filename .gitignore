@@ -4,6 +4,7 @@ log/*
 cache/*
 app/configs/*
 Vagrantfile
+.env
 .vagrant/*
 ansible/*
 phinx.yml

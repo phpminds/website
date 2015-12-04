@@ -274,6 +274,6 @@ class EventsService
      */
     public function getEventInfo($meetupID) : array
     {
-        return $this->eventsRepository->getByMeetupID($meetupID)[0];
+        return $this->eventsRepository->getByMeetupID($meetupID)[0] ?: [];
     }
 }

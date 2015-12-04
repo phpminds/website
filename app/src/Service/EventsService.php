@@ -112,6 +112,11 @@ class EventsService
         return $events;
     }
 
+    /**
+     * @param $meetupEvents
+     * @param $speakers
+     * @param $venues
+     */
     public function mergeEvents(&$meetupEvents, $speakers, $venues)
     {
         // key it on meetup ID
@@ -120,9 +125,12 @@ class EventsService
             return $carry;
         });
 
+        if (empty($localEvents)) {
+            return;
+        }
+
         // Use only events which exist on the DB
         $meetupEvents = array_intersect_key($meetupEvents, $localEvents);
-
         foreach ($localEvents as $event) {
             if (array_key_exists($event->meetup_id, $meetupEvents)) {
 
@@ -274,6 +282,6 @@ class EventsService
      */
     public function getEventInfo($meetupID) : array
     {
-        return $this->eventsRepository->getByMeetupID($meetupID)[0];
+        return $this->eventsRepository->getByMeetupID($meetupID)[0] ?: [];
     }
 }

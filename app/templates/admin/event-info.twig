@@ -28,7 +28,11 @@
 
                 <p>The event on meetup can be found at: <a href="{{ meetup_event.event_url }}" target="_blank">{{ meetup_event.event_url }}</a></p>
 
+                {% if not event_info.joindin_url %}
+                <p>A joind.in talk was not found. <a href="/create-event?meetup_id={{ meetup_event.id }}">Create one</a></p>
+                {% else %}
                 <p>A talk has also been created on Joind.in and can be found at: <a href="{{ event_info.joindin_url }}" target="_blank">{{ event_info.joindin_url  }}</a></p>
+                {% endif %}
 
                 <p>It will be held at: <a href="https://maps.google.com/?q={{ meetup_event.location }}" target="_blank">{{ meetup_event.location }}</a></p>
             </div>

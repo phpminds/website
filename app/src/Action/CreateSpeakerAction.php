@@ -40,7 +40,6 @@ final class CreateSpeakerAction
     {
         if($request->isPost()) {
             $speaker = new Speaker(
-                null,
                 $request->getParam('first_name'),
                 $request->getParam('last_name'),
                 new Email($request->getParam('email')),

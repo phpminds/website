@@ -156,11 +156,14 @@ class JoindinEvent
     /**
      * Retrieve the front-end URL
      *
+     * @param  mixed string|null $talkLocation
      * @return string
      */
-    public function getTalkUrl()
+    public function getTalkUrl($talkLocation = null)
     {
-        return $this->frontendBaseUrl . '/talk/view/' . $this->getTalkID();
+        $talkLocation ?: '/talk/view/' . $this->getTalkID();
+
+        return $this->frontendBaseUrl . $talkLocation;
 
     }
 

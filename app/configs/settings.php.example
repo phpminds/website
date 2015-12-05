@@ -17,6 +17,10 @@ return [
             'path' => __DIR__ . '/../../log/app.log',
         ],
 
+        'file_store' => [
+            'path' => __DIR__ . '/../../var/data/'
+        ],
+
         'events' => [
             'title' => 'PHPMiNDS',
             'description' => "PHP Minds meet in Nottingham on the 3rd Thursday of each month.\n

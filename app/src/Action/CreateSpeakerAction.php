@@ -51,6 +51,7 @@ final class CreateSpeakerAction
                 $this->speakersRepository->save($speaker);
                 $msg['id'] = $speaker->id;
             } catch (\Exception $e) {
+                $this->logger->debug($e->getMessage());
                 return $response->withStatus(200)
                     ->withHeader('Content-Type', 'application/json')
                     ->write(json_encode(['error' => $e->getMessage()]));

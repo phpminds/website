@@ -125,6 +125,7 @@ final class CreateEventAction
                 }
 
                 if ((int)$this->eventService->createJoindinEvent($this->eventSettings['name'], $this->eventSettings['description'])->getStatusCode() !== 201) {
+                    $this->logger->debug("Could not create Joindin event. Please try again.");
                     $this->flash->addMessage('event', 'Could not create Joindin event. Please try again.');
                     return $response->withStatus(302)->withHeader('Location', '/create-event?meetup_id=' . $this->eventService->getMeetupEvent()->getMeetupEventID());
                 }
@@ -139,6 +140,7 @@ final class CreateEventAction
 
                 return $response->withStatus(302)->withHeader('Location', '/event/' . $eventEntity->getId());
             } catch (\Exception $e) {
+                $this->logger->debug($e->getMessage());
                 $frmErrors = $validator->getErrors();
                 $errors[] = $e->getMessage();
             }

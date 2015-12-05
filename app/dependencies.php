@@ -25,7 +25,7 @@ $container['joindin.event'] = function ($c) {
 
 
     return new \App\Model\JoindinEvent(
-        $joindin['key'], $joindin['baseUrl'], $joindin['frontendBaseUrl'], $joindin['callback'], $joindin['token']
+        $joindin['key'], $joindin['baseUrl'], $joindin['frontendBaseUrl'], $joindin['callback'], $c->get('file.repository')
     );
 };
 

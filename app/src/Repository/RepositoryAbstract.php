@@ -30,7 +30,7 @@ class RepositoryAbstract
         $stmt->execute();
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
-        return $stmt->fetch();
+        return $stmt->fetch() ?: [];
     }
 
     protected function getColumns()

@@ -142,6 +142,7 @@ final class CreateEventAction
             } catch (\Exception $e) {
                 $this->logger->debug($e->getMessage());
                 $frmErrors = $validator->getErrors();
+                $this->logger->debug(print_r($frmErrors, true));
                 $errors[] = $e->getMessage();
             }
 

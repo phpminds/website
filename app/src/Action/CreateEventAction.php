@@ -108,7 +108,7 @@ final class CreateEventAction
                         $this->eventManager->getSpeakerById((int)$request->getParam('speaker'))
                     ),
                     $request->getParam('start_date'),
-                    $request->getParam('start_time'),
+                    $request->getParam('start_time') < 10 ? '0' . $request->getParam('start_time') :  $request->getParam('start_time'),
                     $this->eventService->getVenueById($request->getParam('venue')),
                     $this->eventManager->getSupporterByID($request->getParam('supporter'))
                 );

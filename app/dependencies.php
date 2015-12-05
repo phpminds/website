@@ -65,6 +65,12 @@ $container ['db'] = function ($c) {
 
 // Repositories
 
+$container['file.repository'] = function ($c) {
+    return new \App\Repository\FileRepository(
+        $c->get('settings')['file_store']['path']
+    );
+};
+
 $container['users.repository'] = function ($c) {
     return new \App\Repository\UsersRepository($c->get('db'));
 };
@@ -203,5 +209,12 @@ $container['App\Action\EventDetailsAction'] = function ($c) {
 
     return new App\Action\EventDetailsAction(
         $c->get('view'), $c->get('logger'), $c->get('service.event')
+    );
+};
+
+$container['App\Action\CallbackAction'] = function ($c) {
+
+    return new App\Action\CallbackAction(
+        $c->get('logger'), $c->get('auth.model'), $c->get('file.repository')
     );
 };

@@ -57,7 +57,7 @@ class JoindinEvent
     public function getToken($userID = null)
     {
         if ($userID && !isset($this->token)) {
-            $this->token = $this->fileRepository->get($userID . 'joindin');
+            $this->token = $this->fileRepository->get($userID . '_joindin');
         }
         return $this->token;
     }

@@ -244,14 +244,15 @@ class EventsService
     /**
      * @param $eventName
      * @param $eventDescription
+     * @param $userID
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function createJoindinEvent($eventName, $eventDescription)
+    public function createJoindinEvent($eventName, $eventDescription, $userID)
     {
         $response = $this->httpClient->post(
             $this->joindinEvent->getUrl('events'), [
             'json' => $this->joindinEvent->getCreateEventPayload($this->event, $eventName, $eventDescription),
-            'headers' => $this->joindinEvent->getHeaders()
+            'headers' => $this->joindinEvent->getHeaders($userID)
         ]);
 
         $this->joindinEvent->setEventLocation($response->getHeader('location')[0]);

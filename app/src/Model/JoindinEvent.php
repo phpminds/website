@@ -45,9 +45,9 @@ class JoindinEvent
     /**
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders($userID = null)
     {
-        return ['Authorization' => 'Bearer ' . $this->getToken()];
+        return ['Authorization' => 'Bearer ' . $this->getToken($userID)];
     }
 
     /**

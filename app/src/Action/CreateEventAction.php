@@ -2,6 +2,7 @@
 
 namespace App\Action;
 
+use App\Model\Auth;
 use App\Model\Event\Entity\Event;
 use App\Model\Event\Entity\Venue;
 use App\Model\Event\EventManager;
@@ -43,6 +44,11 @@ final class CreateEventAction
      */
     private $eventManager;
 
+    /**
+     * @var Auth
+     */
+    private $auth;
+
     private $eventSettings;
 
     /**
@@ -53,7 +59,7 @@ final class CreateEventAction
 
     public function __construct(Twig $view, LoggerInterface $logger, EventsService $eventService,
                                 Guard $csrf, EventManager $eventManager, array $eventSettings = [],
-                                Messages $flash)
+                                Auth $auth, Messages $flash)
     {
         $this->view             = $view;
         $this->logger           = $logger;
@@ -61,6 +67,7 @@ final class CreateEventAction
         $this->csrf             = $csrf;
         $this->eventManager     = $eventManager;
         $this->eventSettings    = $eventSettings;
+        $this->auth             = $auth;
         $this->flash            = $flash;
     }
 
@@ -124,7 +131,11 @@ final class CreateEventAction
                     $this->eventService->getMeetupEvent()->setEventID((int)$request->getParam('meetup_id'));
                 }
 
-                if ((int)$this->eventService->createJoindinEvent($this->eventSettings['name'], $this->eventSettings['description'])->getStatusCode() !== 201) {
+                if ((int)$this->eventService->createJoindinEvent(
+                        $this->eventSettings['title'],
+                        $this->eventSettings['description'],
+                        $this->auth->getUserId()
+                    )->getStatusCode() !== 201) {
                     $this->logger->debug("Could not create Joindin event. Please try again.");
                     $this->flash->addMessage('event', 'Could not create Joindin event. Please try again.');
                     return $response->withStatus(302)->withHeader('Location', '/create-event?meetup_id=' . $this->eventService->getMeetupEvent()->getMeetupEventID());

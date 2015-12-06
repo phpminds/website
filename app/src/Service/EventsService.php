@@ -283,12 +283,6 @@ class EventsService
      */
     public function getEventInfo($meetupID) : array
     {
-        $eventsInfo = $this->eventsRepository->getByMeetupID($meetupID)[0] ?: [];
-
-        if(!empty($eventsInfo)) {
-            $eventsInfo['joindin_url'] = $this->joindinEvent->getTalkUrl($eventsInfo['joindin_url']);
-        }
-
-        return $eventsInfo;
+        return $this->eventsRepository->getByMeetupID($meetupID)[0] ?: [];
     }
 }

@@ -149,7 +149,7 @@ final class CreateEventAction
 
                 $eventEntity = $this->eventService->updateEvents();
 
-                return $response->withStatus(302)->withHeader('Location', 'event-details?meetup_id=' . $eventEntity->getId());
+                return $response->withStatus(302)->withHeader('Location', 'event-details?meetup_id=' . $eventEntity->getMeetupID());
             } catch (\Exception $e) {
                 $this->logger->debug($e->getMessage());
                 $frmErrors = $validator->getErrors();

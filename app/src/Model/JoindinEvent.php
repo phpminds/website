@@ -167,7 +167,9 @@ class JoindinEvent
      */
     public function getTalkUrl($talkLocation = null)
     {
-        $talkLocation ?: '/talk/view/' . $this->getTalkID();
+        if (is_null($talkLocation)) {
+            $talkLocation =  '/talk/view/' . $this->getTalkID();
+        }
 
         return $this->frontendBaseUrl . $talkLocation;
 

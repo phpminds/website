@@ -4,6 +4,7 @@ namespace App\Action;
 
 use App\Service\EventsService;
 use Psr\Log\LoggerInterface;
+use Slim\Flash\Messages;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Views\Twig;
@@ -26,11 +27,18 @@ final class EventDetailsAction
      */
     private $eventService;
 
-    public function __construct(Twig $view, LoggerInterface $logger, EventsService $eventService)
+
+    /**
+     * @var Messages
+     */
+    private $flash;
+
+    public function __construct(Twig $view, LoggerInterface $logger, EventsService $eventService, Messages $flash)
     {
         $this->view             = $view;
         $this->logger           = $logger;
         $this->eventService     = $eventService;
+        $this->flash            = $flash;
     }
 
     public function dispatch(Request $request, Response $response, $args)
@@ -45,6 +53,8 @@ final class EventDetailsAction
                 'event_info' => $this->eventService->getEventInfo($meetupID)
             ];
         }
+
+        $eventDetails['errors'] = $this->flash->getMessage('event') ?? [];
 
         $this->view->render(
             $response,

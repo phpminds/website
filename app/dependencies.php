@@ -208,7 +208,7 @@ $container['App\Action\CreateEventAction'] = function ($c) {
 $container['App\Action\EventDetailsAction'] = function ($c) {
 
     return new App\Action\EventDetailsAction(
-        $c->get('view'), $c->get('logger'), $c->get('service.event')
+        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('flash')
     );
 };
 

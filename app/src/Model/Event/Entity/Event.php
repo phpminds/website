@@ -10,6 +10,8 @@ class Event
 
     private $meetupVenueID;
 
+    private $joindinEventName;
+
     private $joindinTalkID;
 
     private $joindinURL;
@@ -18,10 +20,11 @@ class Event
 
     private $supporterID;
 
-    public function __construct($meetupID, $meetupVenueID, $joindinTalkID, $joindinURL, $speakerID, $supporterID)
+    public function __construct($meetupID, $meetupVenueID, $joindinEventName, $joindinTalkID, $joindinURL, $speakerID, $supporterID)
     {
         $this->meetupID         = $meetupID;
         $this->meetupVenueID    = $meetupVenueID;
+        $this->joindinEventName = $joindinEventName;
         $this->joindinTalkID    = $joindinTalkID;
         $this->joindinURL       = $joindinURL;
         $this->speakerID        = $speakerID;
@@ -35,6 +38,24 @@ class Event
     {
         $this->id = $id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getJoindinEventName()
+    {
+        return $this->joindinEventName;
+    }
+
+    /**
+     * @param mixed $joindinEventName
+     */
+    public function setJoindinEventName($joindinEventName)
+    {
+        $this->joindinEventName = $joindinEventName;
+    }
+
+
     /**
      * @return mixed
      */
@@ -96,6 +117,7 @@ class Event
         $class = new self(
             $params['meetup_id'] ?? null,
             $params['meetup_venue_id'] ?? null,
+            $params['joindin_event_name'] ?? null,
             $params['joindin_talk_id'] ?? null,
             $params['joindin_url'] ?? null,
             $params['speaker_id'] ?? null,

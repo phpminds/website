@@ -131,19 +131,27 @@ final class CreateEventAction
                     $this->eventService->getMeetupEvent()->setEventID((int)$request->getParam('meetup_id'));
                 }
 
-                if ((int)$this->eventService->createJoindinEvent(
-                        $this->eventSettings['title'],
-                        $this->eventSettings['description'],
-                        $this->auth->getUserId()
-                    )->getStatusCode() !== 201) {
+                // TODO
+                // Check if a JOINDIN event already exists
+                $createJoindInEvent = $this->eventService->createJoindinEvent(
+                    $this->eventSettings['title'],
+                    $this->eventSettings['description'],
+                    $this->auth->getUserId()
+                );
+
+                if ((int)$createJoindInEvent->getStatusCode() === 202) {
+                    // event pending. Save to DB and show message to user
+                    $this->flash->addMessage('event', 'JoindIn Event is pending. Wait for approval before creating a Talk.');
+                    return $response->withStatus(302)->withHeader('Location', '/create-event?meetup_id=' . $this->eventService->getMeetupEvent()->getMeetupEventID());
+                }
+
+                if ((int)$createJoindInEvent->getStatusCode() !== 201) {
                     $this->logger->debug("Could not create Joindin event. Please try again.");
                     $this->flash->addMessage('event', 'Could not create Joindin event. Please try again.');
                     return $response->withStatus(302)->withHeader('Location', '/create-event?meetup_id=' . $this->eventService->getMeetupEvent()->getMeetupEventID());
                 }
 
                 if ((int)$this->eventService->createJoindinTalk()->getStatusCode() !== 201) {
-                    // TODO
-                    // Delete meetup event and JoindIn event just created.
                     throw new \Exception('Could not create Joindin talk.');
                 }
 

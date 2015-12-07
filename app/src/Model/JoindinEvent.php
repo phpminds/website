@@ -142,11 +142,9 @@ class JoindinEvent
         $id = substr(
             $this->getTalkLocation(),
             strlen(
-                $this->baseUrl . '/events/' .
-                $this->getJoindinEventID() . '/talks/'
+                $this->baseUrl . '/talks/'
             )
         );
-
 
         if (substr($id, -1) == '/') {
             return (int)substr($id, 0, strlen($id) - 1);
@@ -162,16 +160,11 @@ class JoindinEvent
     /**
      * Retrieve the front-end URL
      *
-     * @param  mixed string|null $talkLocation
      * @return string
      */
-    public function getTalkUrl($talkLocation = null)
+    public function getTalkUrl()
     {
-        if (is_null($talkLocation)) {
-            $talkLocation =  '/talk/view/' . $this->getTalkID();
-        }
-
-        return $this->frontendBaseUrl . $talkLocation;
+        return $this->frontendBaseUrl . '/talk/view/' . $this->getTalkID();
 
     }
 

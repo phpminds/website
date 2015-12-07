@@ -120,6 +120,9 @@ final class CreateEventAction
                     $this->eventManager->getSupporterByID($request->getParam('supporter'))
                 );
 
+                $event->setName($this->eventSettings['title']);
+                $event->setDescription($this->eventSettings['description']);
+
                 $this->eventService->createEvent($event);
 
                 if (!$request->getParam('meetup_id')) {
@@ -134,8 +137,6 @@ final class CreateEventAction
                 // TODO
                 // Check if a JOINDIN event already exists
                 $createJoindInEvent = $this->eventService->createJoindinEvent(
-                    $this->eventSettings['title'],
-                    $this->eventSettings['description'],
                     $this->auth->getUserId()
                 );
 

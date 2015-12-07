@@ -85,15 +85,13 @@ class JoindinEvent
 
     /**
      * @param Event $event
-     * @param $name
-     * @param $description
      * @return array
      */
-    public function getCreateEventPayload(Event $event, $name, $description)
+    public function getCreateEventPayload(Event $event)
     {
         return [
-            'name' => $name . ' ' . $event->getDate()->format('F Y'),
-            'description' => $description,
+            'name' => $event->getName(),
+            'description' => $event->getDescription(),
             'start_date' => $event->getDate()->setTimezone(new \DateTimeZone( 'UTC' ))->format('Y-m-d H:i:s'),
             'end_date' => $event->getEndDate()->setTimezone(new \DateTimeZone( 'UTC' ))->format('Y-m-d H:i:s'),
             'tz_continent' => $event->getVenue()->getContinent(),

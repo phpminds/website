@@ -82,7 +82,18 @@ final class CreateEventAction
 
         if ($request->getParam('meetup_id')) {
             $event = $this->eventService->getEventById((int)$request->getParam('meetup_id'));
+
             if(!empty($event)) {
+
+
+                // todo
+                // if event exists in DB - possibly event pending in joindin
+                // redirect with message - functionality to create talk (only)
+                if (!empty($this->eventManager->getDetailsByMeetupID($request->getParam('meetup_id')))) {
+                    $this->flash->addMessage('event', 'Event already exists. Check its status.');
+                    return $response->withStatus(302)->withHeader('Location', 'event-details?meetup_id=' . $request->getParam('meetup_id'));
+                }
+
                 $eventInfo['title'] = $event['subject'];
                 $eventInfo['description'] = $event['description'];
                 $eventInfo['venue_id'] = $event['venue_id'];

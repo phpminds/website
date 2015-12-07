@@ -214,6 +214,7 @@ class EventsService
         $eventEntity = new \App\Model\Event\Entity\Event(
             $this->meetupEvent->getMeetupEventID(),
             $this->event->getVenue()->getId(),
+            $this->event->getName(),
             $this->joindinEvent->getTalkID(),
             $this->joindinEvent->getTalkUrl(),
             $this->event->getTalk()->getSpeaker()->getId(),
@@ -242,16 +243,14 @@ class EventsService
     }
 
     /**
-     * @param $eventName
-     * @param $eventDescription
      * @param $userID
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function createJoindinEvent($eventName, $eventDescription, $userID)
+    public function createJoindinEvent($userID)
     {
         $response = $this->httpClient->post(
             $this->joindinEvent->getUrl('events'), [
-            'json' => $this->joindinEvent->getCreateEventPayload($this->event, $eventName, $eventDescription),
+            'json' => $this->joindinEvent->getCreateEventPayload($this->event),
             'headers' => $this->joindinEvent->getHeaders($userID)
         ]);
 

@@ -189,6 +189,13 @@ $container['App\Action\NotFoundAction'] = function ($c) {
     );
 };
 
+$container['App\Action\CommunityAction'] = function ($c) {
+
+    return new App\Action\CommunityAction(
+        $c->get('view'), $c->get('logger')
+    );
+};
+
 
 $container['App\Action\CreateEventAction'] = function ($c) {
 

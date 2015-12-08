@@ -73,4 +73,21 @@ class EventsRepository extends RepositoryAbstract
 
         return $stmt->fetchAll();
     }
+
+    public function eventExists($eventName)
+    {
+        $sql = 'SELECT COUNT(*)'
+                . ' FROM '. $this->table
+                . ' WHERE joindin_event_name = :event_name';
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(":event_name", $eventName, \PDO::PARAM_STR);
+
+        $stmt->execute();
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+
+        $result = $stmt->fetchColumn();
+
+        return (int)$result[0] > 0;
+    }
 }

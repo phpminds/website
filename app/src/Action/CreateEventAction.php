@@ -184,13 +184,16 @@ final class CreateEventAction
             $response,
             'admin/create-event.twig',
             [
-                'speakers' => $speakers,
-                'venues' => $venues,
-                'eventInfo' => $eventInfo,
-                'supporters' => $supporters,
-                'nameKey' => $nameKey, 'valueKey' => $valueKey,
-                'name' => $name, 'value' => $value,
-                'errors' => $errors, 'frmErrors' => $frmErrors
+                'speakers'      => $speakers,
+                'venues'        => $venues,
+                'eventInfo'     => $eventInfo,
+                'supporters'    => $supporters,
+                'nameKey'       => $nameKey,
+                'valueKey'      => $valueKey,
+                'name'          => $name,
+                'value'         => $value,
+                'errors'        => $errors,
+                'frmErrors' => $frmErrors
             ]
         );
 

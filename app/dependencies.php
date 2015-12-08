@@ -34,6 +34,13 @@ $container['parsedown'] = function($c)
     return new Parsedown();
 };
 
+$container['service.joindin'] = function ($c) {
+    return new \App\Service\JoindinService($c->get('http.client'), $c->get('joindin.event'));
+};
+
+$container['service.meetup'] = function ($c) {
+    return new \App\Service\MeetupService($c->get('http.client'), $c->get('meetup.event'));
+};
 
 
 $container['service.content'] = function ($c) {
@@ -43,9 +50,8 @@ $container['service.content'] = function ($c) {
 
 $container['service.event'] = function ($c) {
     return new \App\Service\EventsService(
-        $c->get('http.client'),
-        $c->get('meetup.event'),
-        $c->get('joindin.event'),
+        $c->get('service.meetup'),
+        $c->get('service.joindin'),
         $c->get('events.repository')
     );
 };

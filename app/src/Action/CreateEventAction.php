@@ -145,11 +145,13 @@ final class CreateEventAction
                     $this->eventService->getMeetupEvent()->setEventID((int)$request->getParam('meetup_id'));
                 }
 
-                // TODO
-                // Check if a JOINDIN event already exists
-                $createJoindInEvent = $this->eventService->createJoindinEvent(
-                    $this->auth->getUserId()
-                );
+                try {
+                    $createJoindInEvent = $this->eventService->createJoindinEvent(
+                        $this->auth->getUserId()
+                    );
+                } catch (\Exception $e) {
+                    throw $e;
+                }
 
                 if ((int)$createJoindInEvent->getStatusCode() === 202) {
                     // event pending. Save to DB and show message to user

@@ -159,8 +159,6 @@ final class CreateEventAction
                 } else if ((int)$createJoindInEvent->getStatusCode() !== 201) {
                     $this->logger->debug("Could not create Joindin event. Please try again.");
                     $this->flash->addMessage('event', 'Could not create Joindin event. Please try again.');
-                } else if ((int)$this->eventService->createJoindinTalk()->getStatusCode() !== 201) {
-                    throw new \Exception('Could not create Joindin talk.');
                 }
 
                 $eventEntity = $this->eventService->updateEvents();

@@ -5,6 +5,4 @@ install:
   - composer install
 script: phpunit --configuration tests/phpunit.xml
 
-branches:
-  only:
-    -feature/community-supporters
+

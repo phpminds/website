@@ -87,11 +87,12 @@ class JoindinEvent
      * Gets URL prefixed with the base URL
      *
      * @param string $action
+     * @param string $end
      * @return string
      */
-    public function getUrl($action = 'events')
+    public function getUrl($action = 'events', $end = '/')
     {
-        return sprintf($this->baseUrl .'/%s/', $action);
+        return sprintf($this->baseUrl .'/%s' . $end, $action);
     }
 
     /**

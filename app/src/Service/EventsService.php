@@ -56,7 +56,7 @@ class EventsService
      */
     public function getLatestEvent()
     {
-        $this->meetupService->getLatestEvent();
+        return $this->meetupService->getLatestEvent();
     }
 
     public function getEventById($eventID)

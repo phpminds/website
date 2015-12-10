@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Config\JoindinConfig;
 use App\Model\Event\Event;
 use App\Repository\FileRepository;
 
@@ -11,18 +12,20 @@ class JoindinEvent
     private $baseUrl;
     private $frontendBaseUrl;
     private $callbackUrl;
+    private $username;
     private $token;
 
     private $eventLocation;
     private $talkLocation;
     private $fileRepository;
 
-    public function __construct($apiKey, $baseUrl, $frontendBaseUrl, $callback, FileRepository $fileRepository)
+    public function __construct(JoindinConfig $config, FileRepository $fileRepository)
     {
-        $this->apiKey           = $apiKey;
-        $this->baseUrl          = $baseUrl;
-        $this->frontendBaseUrl  = $frontendBaseUrl;
-        $this->callbackUrl      = $callback;
+        $this->apiKey           = $config->apiKey;
+        $this->baseUrl          = $config->baseUrl;
+        $this->frontendBaseUrl  = $config->frontendBaseUrl;
+        $this->callbackUrl      = $config->callback;
+        $this->username         = $config->username;
         $this->fileRepository   = $fileRepository;
     }
 

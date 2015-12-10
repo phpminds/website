@@ -90,4 +90,17 @@ class EventsRepository extends RepositoryAbstract
 
         return (int)$result[0] > 0;
     }
+
+    /**
+     * @return array
+     */
+    public function getAllPending()
+    {
+        // a pending event has a joindin_talk_id of ZERO
+        $sql = 'SELECT meetup_id, joindin_event_name'
+            . ' FROM '. $this->table
+            . ' WHERE joindin_talk_id = 0 ';
+
+        return $this->db->query($sql, \PDO::FETCH_OBJ)->fetchAll();
+    }
 }

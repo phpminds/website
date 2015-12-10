@@ -12,20 +12,39 @@ $container['notFoundHandler'] = function ($c) {
     };
 };
 
-$container['meetup.event'] = function ($c) {
+/* ---------- Configs ------------ */
+$container['meetup.config'] = function ($c) {
     $meetup = $c->get('settings')['meetups'];
 
-    return new \App\Model\MeetupEvent(
-        $meetup['apiKey'], $meetup['baseUrl'], $meetup['PHPMinds']['group_urlname'], $meetup['publish_status']
-    );
+    return new App\Config\MeetupConfig([
+        'apiKey'        => $meetup['apiKey'],
+        'baseUrl'       => $meetup['baseUrl'],
+        'groupUrlName'  => $meetup['PHPMinds']['group_urlname'],
+        'publishStatus' => $meetup['publish_status']
+    ]);
+
+};
+
+$container['joindin.config'] = function ($c) {
+    $joindin = $c->get('settings')['joindin'];
+
+    return new App\Config\JoindinConfig([
+        'apiKey'            => $joindin['key'],
+        'baseUrl'           => $joindin['baseUrl'],
+        'frontendBaseUrl'   => $joindin['frontendBaseUrl'],
+        'callback'          => $joindin['callback'],
+        'username'          => $joindin['username']
+    ]);
+};
+
+$container['meetup.event'] = function ($c) {
+    return new \App\Model\MeetupEvent($c->get('meetup.config'));
 };
 
 $container['joindin.event'] = function ($c) {
-    $joindin = $c->get('settings')['joindin'];
-
 
     return new \App\Model\JoindinEvent(
-        $joindin['key'], $joindin['baseUrl'], $joindin['frontendBaseUrl'], $joindin['callback'], $c->get('file.repository')
+        $c->get('joindin.config'), $c->get('file.repository')
     );
 };
 
@@ -229,5 +248,12 @@ $container['App\Action\CallbackAction'] = function ($c) {
 
     return new App\Action\CallbackAction(
         $c->get('logger'), $c->get('auth.model'), $c->get('file.repository')
+    );
+};
+
+$container['App\Action\EventStatusAction'] = function ($c) {
+
+    return new App\Action\EventStatusAction(
+        $c->get('logger'), $c->get('service.event')
     );
 };

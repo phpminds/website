@@ -25,7 +25,7 @@ $container['joindin.event'] = function ($c) {
 
 
     return new \App\Model\JoindinEvent(
-        $joindin['key'], $joindin['baseUrl'], $joindin['frontendBaseUrl'], $joindin['callback'], $joindin['token']
+        $joindin['key'], $joindin['baseUrl'], $joindin['frontendBaseUrl'], $joindin['callback'], $c->get('file.repository')
     );
 };
 
@@ -34,6 +34,13 @@ $container['parsedown'] = function($c)
     return new Parsedown();
 };
 
+$container['service.joindin'] = function ($c) {
+    return new \App\Service\JoindinService($c->get('http.client'), $c->get('joindin.event'));
+};
+
+$container['service.meetup'] = function ($c) {
+    return new \App\Service\MeetupService($c->get('http.client'), $c->get('meetup.event'));
+};
 
 
 $container['service.content'] = function ($c) {
@@ -43,9 +50,8 @@ $container['service.content'] = function ($c) {
 
 $container['service.event'] = function ($c) {
     return new \App\Service\EventsService(
-        $c->get('http.client'),
-        $c->get('meetup.event'),
-        $c->get('joindin.event'),
+        $c->get('service.meetup'),
+        $c->get('service.joindin'),
         $c->get('events.repository')
     );
 };
@@ -64,6 +70,12 @@ $container ['db'] = function ($c) {
 };
 
 // Repositories
+
+$container['file.repository'] = function ($c) {
+    return new \App\Repository\FileRepository(
+        $c->get('settings')['file_store']['path']
+    );
+};
 
 $container['users.repository'] = function ($c) {
     return new \App\Repository\UsersRepository($c->get('db'));
@@ -202,13 +214,20 @@ $container['App\Action\CreateEventAction'] = function ($c) {
     return new App\Action\CreateEventAction(
         $c->get('view'), $c->get('logger'), $c->get('service.event'),
         $c->get('csrf'), $c->get('event.manager'), $c->get('settings')['events'],
-        $c->get('flash')
+        $c->get('auth.model'), $c->get('flash')
     );
 };
 
 $container['App\Action\EventDetailsAction'] = function ($c) {
 
     return new App\Action\EventDetailsAction(
-        $c->get('view'), $c->get('logger'), $c->get('service.event')
+        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('flash')
+    );
+};
+
+$container['App\Action\CallbackAction'] = function ($c) {
+
+    return new App\Action\CallbackAction(
+        $c->get('logger'), $c->get('auth.model'), $c->get('file.repository')
     );
 };

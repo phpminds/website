@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Model\Event\Entity\Speaker;
 use App\Model\Event\Event;
-use App\Model\Event\Entity\Venue;
 use App\Repository\EventsRepository;
 use App\Model\MeetupEvent;
 
@@ -17,31 +16,31 @@ class EventsService
     protected $httpClient;
 
     /**
-     * @var MeetupEvent
+     * @var MeetupService
      */
-    protected $meetupEvent;
+    protected $meetupService;
 
     /**
-     * @var \App\Model\JoindinEvent
+     * @var JoindinService
      */
-    protected $joindinEvent;
+    protected $joindinEventService;
+
+    /**
+     * @var
+     */
+    protected $event;
 
     /**
      * @var EventsRepository
      */
     protected $eventsRepository;
 
-    /**
-     * @var Event
-     */
-    private $event;
 
-    public function __construct($httpClient, $meetupEvent, $joindinEvent, EventsRepository $eventsRepository)
+    public function __construct(MeetupService $meetupService, JoindinService $joindinEventService, EventsRepository $eventsRepository)
     {
-        $this->httpClient = $httpClient;
-        $this->meetupEvent = $meetupEvent;
-        $this->joindinEvent = $joindinEvent;
-        $this->eventsRepository = $eventsRepository;
+        $this->meetupService            = $meetupService;
+        $this->joindinEventService      = $joindinEventService;
+        $this->eventsRepository         = $eventsRepository;
     }
 
     /**
@@ -49,7 +48,7 @@ class EventsService
      */
     public function getMeetupEvent()
     {
-        return $this->meetupEvent;
+        return $this->meetupService->getMeetupEvent();
     }
 
     /**
@@ -57,43 +56,12 @@ class EventsService
      */
     public function getLatestEvent()
     {
-        $events = $this->getEvents();
-
-        return $this->meetupEvent->formatResponse($events['results'][0] ?? []);
-    }
-
-    protected function getEvents()
-    {
-        $eventUrl = $this->meetupEvent->getEventUrl();
-        $response = $this->httpClient->get($eventUrl);
-
-        return json_decode($response->getBody()->getContents(), true);
+        $this->meetupService->getLatestEvent();
     }
 
     public function getEventById($eventID)
     {
-        $eventUrl = sprintf(
-                'https://api.meetup.com/%s/events/%s',
-                $this->meetupEvent->getGroupUrlName(),
-                $eventID
-        );
-
-        try {
-            $response = $this->httpClient->get(
-                $eventUrl,
-                [
-                    'headers' => [
-                        'Accept' => 'application/json'
-                    ]
-                ]
-            );
-        } catch (\Exception $e) {
-            return [];
-        }
-
-        $result = json_decode($response->getBody()->getContents(), true);
-
-        return $this->meetupEvent->formatResponse($result ?? []);
+        return $this->meetupService->getEventById($eventID);
     }
 
     /**
@@ -101,15 +69,7 @@ class EventsService
      */
     public function getAll()
     {
-        $result = $events = $this->getEvents();
-
-        $events = [];
-        foreach ($result['results'] as $event) {
-            $eventInfo = $this->meetupEvent->formatResponse($event);
-            $events[$eventInfo['id']] = $eventInfo;
-        }
-
-        return $events;
+        return $this->meetupService->getAll();
     }
 
     /**
@@ -155,45 +115,16 @@ class EventsService
      */
     public function getVenues()
     {
-        $venuesUrl = $this->meetupEvent->getVenuesUrl();
-
-        $result = json_decode(
-            $this->httpClient->get($venuesUrl)->getBody()->getContents(),
-            true
-        )['results'];
-
-
-        $venues = [];
-        foreach ($result as $venue) {
-            $venueInfo = Venue::create(
-                [
-                    'id' => $venue['id'],
-                    'name' => $venue['name'],
-                    'address' => $venue['address_1']
-                ]
-            );
-
-            $venues[$venueInfo->getId()] = $venueInfo;
-        }
-
-        return $venues;
+       return $this->meetupService->getVenues();
     }
 
     /**
      * @param $venueID
-     * @return Venue
+     * @return \App\Model\Event\Entity\Venue
      */
     public function getVenueById($venueID)
     {
-        $venues = $this->getVenues();
-        foreach ($venues as $venue) {
-            /** @var Venue $venue */
-            if ($venue->getId() === (int)$venueID) {
-                return $venue;
-            }
-        }
-
-        return new Venue(null, null, null);
+        return $this->meetupService->getVenueById($venueID);
     }
 
     /**
@@ -212,10 +143,11 @@ class EventsService
     public function updateEvents()
     {
         $eventEntity = new \App\Model\Event\Entity\Event(
-            $this->meetupEvent->getMeetupEventID(),
+            $this->meetupService->getMeetupEvent()->getMeetupEventID(),
             $this->event->getVenue()->getId(),
-            $this->joindinEvent->getTalkID(),
-            $this->joindinEvent->getTalkUrl(),
+            $this->event->getName(),
+            $this->joindinEventService->getJoindinEvent()->getTalkID(),
+            $this->joindinEventService->getJoindinEvent()->getTalkUrl(),
             $this->event->getTalk()->getSpeaker()->getId(),
             $this->event->getSupporter()->getId()
         );
@@ -230,33 +162,21 @@ class EventsService
      */
     public function createMeetup()
     {
-        $response = $this->httpClient->post(
-            $this->meetupEvent->getUrl('event'), [
-                'form_params' => $this->meetupEvent->getCreateEventPayload($this->event)
-            ]
-        );
-
-        $this->meetupEvent->setEventLocation($response->getHeader('location')[0]);
-
-        return $response;
+        return $this->meetupService->createMeetup();
     }
 
     /**
-     * @param $eventName
-     * @param $eventDescription
+     * @param $userID
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Exception
      */
-    public function createJoindinEvent($eventName, $eventDescription)
+    public function createJoindinEvent($userID)
     {
-        $response = $this->httpClient->post(
-            $this->joindinEvent->getUrl('events'), [
-            'json' => $this->joindinEvent->getCreateEventPayload($this->event, $eventName, $eventDescription),
-            'headers' => $this->joindinEvent->getHeaders()
-        ]);
+        if ($this->eventsRepository->eventExists($this->event->getName())) {
+            throw new \Exception('An event by the name: ' . $this->event->getName() . ', already exists.');
+        }
 
-        $this->joindinEvent->setEventLocation($response->getHeader('location')[0]);
-
-        return $response;
+        return $this->joindinEventService->createEvent($userID);
     }
 
     /**
@@ -265,15 +185,7 @@ class EventsService
      */
     public function createJoindinTalk($language = 'English - UK')
     {
-        $response = $this->httpClient->post(
-            $this->joindinEvent->getUrl('events/' . $this->joindinEvent->getJoindinEventID() .'/talks'), [
-            'json' => $this->joindinEvent->getCreateEventTitlePayload($this->event, $language),
-            'headers' => $this->joindinEvent->getHeaders()
-        ]);
-
-        $this->joindinEvent->setTalkLocation($response->getHeader('location')[0]);
-
-        return $response;
+        return $this->joindinEventService->createTalk($language);
     }
 
     /**
@@ -283,5 +195,10 @@ class EventsService
     public function getEventInfo($meetupID) : array
     {
         return $this->eventsRepository->getByMeetupID($meetupID)[0] ?: [];
+    }
+
+    public function isEventApproved($meetupID = null)
+    {
+        //return $this->joindinService->isEventApproved($meetupID);
     }
 }

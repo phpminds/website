@@ -1,0 +1,10 @@
+language: php
+php:
+  - '7.0'
+install:
+  - composer install
+script: phpunit --configuration tests/phpunit.xml
+
+branches:
+  only:
+    -feature/community-supporters

@@ -66,6 +66,14 @@ class JoindinEvent
     }
 
     /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
      * For front-end authentication using callback
      *
      * @return string

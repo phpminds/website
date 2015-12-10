@@ -60,24 +60,72 @@ class JoindinService
     }
 
     /**
+     * @param Event $event
      * @param string $language
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function createTalk($language = 'English - UK')
+    public function createTalk(Event $event, $language = 'English - UK')
     {
         $response = $this->httpClient->post(
-            $this->joindinEvent->getUrl('events/' . $this->joindinEvent->getJoindinEventID() .'/talks'), [
-            'json' => $this->joindinEvent->getCreateEventTitlePayload($this->event, $language),
-            'headers' => $this->joindinEvent->getHeaders()
-        ]);
+            $this->joindinEvent->getUrl('events/' . $this->joindinEvent->getJoindinEventID() .'/talks'),
+                [
+                    'json' => $this->joindinEvent->getCreateEventTitlePayload($event, $language),
+                    'headers' => $this->joindinEvent->getHeaders()
+                ]
+        );
 
         $this->joindinEvent->setTalkLocation($response->getHeader('location')[0]);
 
         return $response;
     }
 
-    public function isEventApproved($meetupID)
+    /**
+     * Approved events should show in the upcoming list
+     *
+     * @param array $events
+     * @return bool
+     */
+    public function areEventsApproved(array &$events)
     {
+        $response = $this->httpClient->get(
+            $this->joindinEvent->getUrl('users/hosted?username=' . $this->joindinEvent->getUsername(), '')
+        );
 
+        // get the URI for the hosted events
+        $usernameInfo = json_decode($response->getBody()->getContents(), true);
+
+        $hostedEventsUri = '';
+        if (!empty($usernameInfo['users'])) {
+            if (!isset($usernameInfo['users'][0]['hosted_events_uri'])) {
+                return false;
+            }
+
+            $hostedEventsUri = $usernameInfo['users'][0]['hosted_events_uri'];
+        }
+
+        $response = $this->httpClient->get(
+            $hostedEventsUri
+        );
+
+        $hostedEvents = json_decode($response->getBody()->getContents(), true)['events'];
+
+        if (empty($hostedEvents)) {
+            return false;
+        }
+
+        $events = array_reduce($events, function($carry, $item){
+            $carry[$item->joindin_event_name] = $item;
+            return $carry;
+        });
+
+        $found = false;
+        foreach ($hostedEvents as $event) {
+            if (array_key_exists($event['name'], $events)) {
+                $found = true;
+                $events[$event['name']]->uri = $event['uri'];
+            }
+        }
+
+        return $found;
     }
 }

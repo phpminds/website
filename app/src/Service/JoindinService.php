@@ -61,16 +61,17 @@ class JoindinService
 
     /**
      * @param Event $event
+     * @param $userID
      * @param string $language
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function createTalk(Event $event, $language = 'English - UK')
+    public function createTalk(Event $event, $userID, $language = 'English - UK')
     {
         $response = $this->httpClient->post(
             $this->joindinEvent->getUrl('events/' . $this->joindinEvent->getJoindinEventID() .'/talks'),
                 [
                     'json' => $this->joindinEvent->getCreateEventTitlePayload($event, $language),
-                    'headers' => $this->joindinEvent->getHeaders()
+                    'headers' => $this->joindinEvent->getHeaders($userID)
                 ]
         );
 

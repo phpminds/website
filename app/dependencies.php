@@ -71,7 +71,7 @@ $container['service.event'] = function ($c) {
     return new \App\Service\EventsService(
         $c->get('service.meetup'),
         $c->get('service.joindin'),
-        $c->get('events.repository')
+        $c->get('event.manager')
     );
 };
 

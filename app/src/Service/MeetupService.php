@@ -4,6 +4,7 @@ namespace App\Service;
 
 
 use App\Model\Event\Entity\Venue;
+use App\Model\Event\Event;
 use App\Model\MeetupEvent;
 
 class MeetupService
@@ -64,13 +65,14 @@ class MeetupService
     }
 
     /**
+     * @param Event $event
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function createMeetup()
+    public function createMeetup(Event $event)
     {
         $response = $this->httpClient->post(
             $this->meetupEvent->getUrl('event'), [
-                'form_params' => $this->meetupEvent->getCreateEventPayload($this->event)
+                'form_params' => $this->meetupEvent->getCreateEventPayload($event)
             ]
         );
 

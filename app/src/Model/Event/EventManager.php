@@ -99,7 +99,7 @@ class EventManager
      */
     public function getByMeetupID($meetupID)
     {
-        return $this->eventsRepo->$this->getByMeetupID($meetupID);
+        return $this->eventsRepo->getByMeetupID($meetupID);
     }
 
     /**

@@ -81,7 +81,7 @@ class EventsService
     public function mergeEvents(&$meetupEvents, $speakers, $venues)
     {
         // key it on meetup ID
-        $localEvents = array_reduce($this->eventManager->getAll(), function($carry, $item) {
+        $localEvents = array_reduce($this->eventManager->getAllEvents(), function($carry, $item) {
             $carry[$item->meetup_id] = $item;
             return $carry;
         });
@@ -167,7 +167,7 @@ class EventsService
      */
     public function createMeetup()
     {
-        return $this->meetupService->createMeetup();
+        return $this->meetupService->createMeetup($this->event);
     }
 
     /**

@@ -13,6 +13,14 @@ $container['notFoundHandler'] = function ($c) {
 };
 
 /* ---------- Configs ------------ */
+
+$container['events.config'] = function ($c) {
+
+    return new App\Config\EventsConfig($c->get('settings')['events']);
+
+};
+
+
 $container['meetup.config'] = function ($c) {
     $meetup = $c->get('settings')['meetups'];
 
@@ -225,7 +233,7 @@ $container['App\Action\CreateEventAction'] = function ($c) {
 
     return new App\Action\CreateEventAction(
         $c->get('view'), $c->get('logger'), $c->get('service.event'),
-        $c->get('csrf'), $c->get('event.manager'), $c->get('settings')['events'],
+        $c->get('csrf'), $c->get('event.manager'), $c->get('events.config'),
         $c->get('auth.model'), $c->get('flash')
     );
 };

@@ -2,6 +2,7 @@
 
 namespace App\Action;
 
+use App\Config\EventsConfig;
 use App\Factory\EventFactory;
 use App\Model\Auth;
 use App\Model\Event\Entity\Event;
@@ -50,7 +51,10 @@ final class CreateEventAction
      */
     private $auth;
 
-    private $eventSettings;
+    /**
+     * @var EventsConfig
+     */
+    private $eventsConfig;
 
     /**
      * @var Messages
@@ -59,7 +63,7 @@ final class CreateEventAction
 
 
     public function __construct(Twig $view, LoggerInterface $logger, EventsService $eventService,
-                                Guard $csrf, EventManager $eventManager, array $eventSettings = [],
+                                Guard $csrf, EventManager $eventManager, EventsConfig $eventsConfig,
                                 Auth $auth, Messages $flash)
     {
         $this->view             = $view;
@@ -67,7 +71,7 @@ final class CreateEventAction
         $this->eventService     = $eventService;
         $this->csrf             = $csrf;
         $this->eventManager     = $eventManager;
-        $this->eventSettings    = $eventSettings;
+        $this->eventsConfig     = $eventsConfig;
         $this->auth             = $auth;
         $this->flash            = $flash;
     }
@@ -86,10 +90,6 @@ final class CreateEventAction
 
             if(!empty($event)) {
 
-
-                // todo
-                // if event exists in DB - possibly event pending in joindin
-                // redirect with message - functionality to create talk (only)
                 if (!empty($this->eventManager->getDetailsByMeetupID($request->getParam('meetup_id')))) {
                     $this->flash->addMessage('event', 'Event already exists. Check its status.');
                     return $response->withStatus(302)->withHeader('Location', 'event-details?meetup_id=' . $request->getParam('meetup_id'));
@@ -124,7 +124,11 @@ final class CreateEventAction
                 $venue = $this->eventService->getVenueById($request->getParam('venue'));
                 $supporter = $this->eventManager->getSupporterByID($request->getParam('supporter'));
 
-                $event = EventFactory::getByRequest($request, $speaker, $venue, $supporter, $this->eventSettings['title'], $this->eventSettings['description']);
+
+                $event = EventFactory::getByRequest(
+                    $request, $speaker, $venue, $supporter,
+                    $this->eventsConfig->title, $this->eventsConfig->description
+                );
 
                 $this->eventService->createEvent($event);
 

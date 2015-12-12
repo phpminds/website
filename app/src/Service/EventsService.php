@@ -180,12 +180,13 @@ class EventsService
     }
 
     /**
+     * @param int $userID
      * @param string $language
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function createJoindinTalk($language = 'English - UK')
+    public function createJoindinTalk($userID, $language = 'English - UK')
     {
-        return $this->joindinEventService->createTalk($language);
+        return $this->joindinEventService->createTalk($this->event, $userID, $language);
     }
 
     /**

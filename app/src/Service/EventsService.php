@@ -3,8 +3,9 @@
 namespace App\Service;
 
 use App\Model\Event\Entity\Speaker;
+use App\Model\Event\Entity\Talk;
 use App\Model\Event\Event;
-use App\Repository\EventsRepository;
+use App\Model\Event\EventManager;
 use App\Model\MeetupEvent;
 
 
@@ -26,21 +27,21 @@ class EventsService
     protected $joindinEventService;
 
     /**
-     * @var
+     * @var Event
      */
     protected $event;
 
     /**
-     * @var EventsRepository
+     * @var EventManager
      */
-    protected $eventsRepository;
+    protected $eventManager;
 
 
-    public function __construct(MeetupService $meetupService, JoindinService $joindinEventService, EventsRepository $eventsRepository)
+    public function __construct(MeetupService $meetupService, JoindinService $joindinEventService, EventManager $eventManager)
     {
         $this->meetupService            = $meetupService;
         $this->joindinEventService      = $joindinEventService;
-        $this->eventsRepository         = $eventsRepository;
+        $this->eventManager             = $eventManager;
     }
 
     /**
@@ -172,7 +173,7 @@ class EventsService
      */
     public function createJoindinEvent($userID)
     {
-        if ($this->eventsRepository->eventExists($this->event->getName())) {
+        if ($this->eventManager->eventExists($this->event->getName())) {
             throw new \Exception('An event by the name: ' . $this->event->getName() . ', already exists.');
         }
 

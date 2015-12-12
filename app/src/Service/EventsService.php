@@ -200,11 +200,55 @@ class EventsService
      */
     public function getEventInfo($meetupID) : array
     {
-        return $this->eventsRepository->getByMeetupID($meetupID)[0] ?: [];
+        return $this->eventManager->getByMeetupID($meetupID)[0] ?: [];
     }
 
-    public function isEventApproved($meetupID = null)
+    public function manageApprovedEvents($userID)
     {
-        //return $this->joindinService->isEventApproved($meetupID);
+
+        $events = $this->eventManager->getAllPendingEvents();
+
+        if (count($events) > 0) {
+
+            if($this->joindinEventService->areEventsApproved($events)) {
+
+                foreach ($events as $eventName => $event) {
+
+                    // API call
+                    $meetupEvent = $this->getEventById($event->meetup_id);
+                    $this->getMeetupEvent()->setEventID($event->meetup_id);
+
+                    $speaker = $this->eventManager->getSpeakerById($event->speaker_id);
+                    $supporter = $this->eventManager->getSupporterByID($event->supporter_id);
+                    $venue = $this->getVenueById($meetupEvent['venue_id']);
+
+                    $talk = Talk::create([
+                        'title'         => $meetupEvent['subject'],
+                        'description'   => $meetupEvent['description'],
+                        'speaker'       => $speaker,
+                        'duration'      => 'PT2H' // default to 2 hours
+                    ]);
+
+                    $startDate = \DateTime::createFromFormat("F jS Y", $meetupEvent['date']);
+                    $startTime = \DateTime::createFromFormat("g:ia", $meetupEvent['time']);
+
+
+                    $this->event = new Event(
+                        $talk, $startDate->format('d/m/Y'), $startTime->format('H:i'), $venue, $supporter
+                    );
+
+
+                    $this->joindinEventService->getJoindinEvent()->setEventLocation($event->uri);
+                    $this->createJoindinTalk($userID);
+                    $this->updateEvents($eventName);
+
+                }
+            }
+
+            return 'Created [' . count($events) . '] Talks';
+        }
+
+        return 'No pending events found.';
     }
+
 }

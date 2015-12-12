@@ -140,20 +140,24 @@ class EventsService
     /**
      * Save event references to the DB
      *
+     * @param  string $eventName If null, use it through the event object
+     * @return \App\Model\Event\Entity\Event
      */
-    public function updateEvents()
+    public function updateEvents($eventName = null)
     {
+        $eventName = $eventName ?? $this->event->getName();
+
         $eventEntity = new \App\Model\Event\Entity\Event(
             $this->meetupService->getMeetupEvent()->getMeetupEventID(),
             $this->event->getVenue()->getId(),
-            $this->event->getName(),
+            $eventName,
             $this->joindinEventService->getJoindinEvent()->getTalkID(),
             $this->joindinEventService->getJoindinEvent()->getTalkUrl(),
             $this->event->getTalk()->getSpeaker()->getId(),
             $this->event->getSupporter()->getId()
         );
 
-        $this->eventsRepository->save($eventEntity);
+        $this->eventManager->saveEvent($eventEntity);
 
         return $eventEntity;
     }

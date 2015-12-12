@@ -81,7 +81,7 @@ class EventsService
     public function mergeEvents(&$meetupEvents, $speakers, $venues)
     {
         // key it on meetup ID
-        $localEvents = array_reduce($this->eventsRepository->getAll(), function($carry, $item) {
+        $localEvents = array_reduce($this->eventManager->getAll(), function($carry, $item) {
             $carry[$item->meetup_id] = $item;
             return $carry;
         });

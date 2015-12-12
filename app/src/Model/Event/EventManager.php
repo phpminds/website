@@ -105,6 +105,14 @@ class EventManager
     /**
      * @return array
      */
+    public function getAllEvents()
+    {
+        return $this->eventsRepo->getAll();
+    }
+
+    /**
+     * @return array
+     */
     public function getAllPendingEvents()
     {
         $pendingEvents = $this->eventsRepo->getAllPending();

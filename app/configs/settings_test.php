@@ -44,6 +44,7 @@ return [
 
         'joindin' => [
             "baseUrl" => "http://api.dev.joind.in/v2.1",
+            "frontendBaseUrl" => "http://dev.joind.in",
             "key" => "22c3e521526e8a749227e464206577",
             "callback" => "phpminds.dev/callback/joindin",
             "username" => 'dev-phpminds'

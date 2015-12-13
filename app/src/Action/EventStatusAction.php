@@ -43,7 +43,9 @@ final class EventStatusAction
         $userID = 1;
 
         // Create talks for approved events
-        echo $this->eventsService->manageApprovedEvents($userID);
+        $result = $this->eventsService->manageApprovedEvents($userID);
+        $this->logger->info(__CLASS__ . ' :: ' . $result);
+        echo $result;
         echo PHP_EOL;
         exit;
     }

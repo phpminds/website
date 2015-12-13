@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Config\MeetupConfig;
 use App\Model\Event\Entity\Talk;
 use App\Model\Event\Entity\Venue;
 use App\Model\Event\Event;
@@ -16,12 +17,12 @@ class MeetupEvent
     private $eventLocation;
     private $eventID = null;
 
-    public function __construct($apiKey, $baseUrl, $groupUrlName, $publishStatus)
+    public function __construct(MeetupConfig $config)
     {
-        $this->apiKey           = $apiKey;
-        $this->baseUrl          = $baseUrl;
-        $this->groupUrlName     = $groupUrlName;
-        $this->publishStatus    = $publishStatus;
+        $this->apiKey           = $config->apiKey;
+        $this->baseUrl          = $config->baseUrl;
+        $this->groupUrlName     = $config->groupUrlName;
+        $this->publishStatus    = $config->publishStatus;
     }
 
     public function getUrl($action = 'events', $auth = true)

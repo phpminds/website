@@ -41,18 +41,12 @@ return [
             "host" => "127.0.0.1",
             "dbname" => "phpminds"
         ],
-        'events' => [
-            'title' => 'PHPMiNDS',
-            'description' => "PHP Minds meet in Nottingham on the 3rd Thursday of each month.\n
-            Follow us on Twitter @PHPMinds \n
-            You can join us on IRC Freenode in #phpminds and on Slack (https://phpminds.herokuapp.com/)"
-        ],
 
         'joindin' => [
             "baseUrl" => "http://api.dev.joind.in/v2.1",
             "key" => "22c3e521526e8a749227e464206577",
             "callback" => "phpminds.dev/callback/joindin",
-            "token" => "9e22ee3d359eaec1" // access_token from callback
+            "username" => 'dev-phpminds'
         ],
 
         'auth-routes' => [

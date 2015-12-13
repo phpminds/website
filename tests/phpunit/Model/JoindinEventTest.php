@@ -29,19 +29,27 @@ class JoindinEventTest extends \PHPUnit_Framework_TestCase
 
         $joindin = $settings['settings']['joindin'];
 
+        $joindinConfig = new \App\Config\JoindinConfig([
+            'apiKey'            => $joindin['key'],
+            'baseUrl'           => $joindin['baseUrl'],
+            'frontendBaseUrl'   => $joindin['frontendBaseUrl'],
+            'callback'          => $joindin['callback'],
+            'username'          => $joindin['username']
+        ]);
+
+        $fileRepository = new \App\Repository\FileRepository(
+            $settings['settings']['file_store']['path']
+        );
+
         $this->joindinEvent = new JoindinEvent(
-            $joindin['key'],
-            $joindin['baseUrl'],
-            $joindin['frontendBaseUrl'],
-            $joindin['callback'],
-            $joindin['token']
+            $joindinConfig, $fileRepository
         );
 
 
         $email = new Email('phpminds.org@gmail.com');
         $twitter = new Twitter('@PHPMiNDS');
 
-        $startDate = '2015-12-17';
+        $startDate = "17/12/2015";
         $startTime = '20:00';
         $eventDuration = 'PT2H';
 
@@ -60,13 +68,26 @@ class JoindinEventTest extends \PHPUnit_Framework_TestCase
             $venue,
             $supporter
         );
+
+        $this->event->setName("PHPMinds");
+        $this->event->setDescription("Event description");
     }
 
 
     public function testCanCreateAnEventPayload()
     {
-        $createEventPayload = $this->joindinEvent->getCreateEventPayload($this->event, 'a name', 'a description');
+        $eventPayload = $this->joindinEvent->getCreateEventPayload($this->event, 'a name', 'a description');
 
-//        print_r($createEventPayload);
+        $expectedPayload = [
+            'name' => 'PHPMinds December 2015',
+            'description' => 'Event description',
+            'start_date' => '2015-12-17 20:00:00',
+            'end_date' => '2015-12-17 22:00:00',
+            'tz_continent' => 'Europe',
+            'tz_place' => 'London',
+            'location' => 'a little venue'
+        ];
+
+        $this->assertSame($expectedPayload, $eventPayload);
     }
 }

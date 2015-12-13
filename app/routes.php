@@ -35,3 +35,6 @@ $app->get('/event-details', 'App\Action\EventDetailsAction:dispatch')
 
 $app->get('/callback/{callback}', 'App\Action\CallbackAction:dispatch')
     ->setName('calbacks');
+
+$app->get('/status', 'App\Action\EventStatusAction:dispatch')
+    ->setName('status');

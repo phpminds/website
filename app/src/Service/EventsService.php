@@ -3,8 +3,9 @@
 namespace App\Service;
 
 use App\Model\Event\Entity\Speaker;
+use App\Model\Event\Entity\Talk;
 use App\Model\Event\Event;
-use App\Repository\EventsRepository;
+use App\Model\Event\EventManager;
 use App\Model\MeetupEvent;
 
 
@@ -26,21 +27,21 @@ class EventsService
     protected $joindinEventService;
 
     /**
-     * @var
+     * @var Event
      */
     protected $event;
 
     /**
-     * @var EventsRepository
+     * @var EventManager
      */
-    protected $eventsRepository;
+    protected $eventManager;
 
 
-    public function __construct(MeetupService $meetupService, JoindinService $joindinEventService, EventsRepository $eventsRepository)
+    public function __construct(MeetupService $meetupService, JoindinService $joindinEventService, EventManager $eventManager)
     {
         $this->meetupService            = $meetupService;
         $this->joindinEventService      = $joindinEventService;
-        $this->eventsRepository         = $eventsRepository;
+        $this->eventManager             = $eventManager;
     }
 
     /**
@@ -56,7 +57,7 @@ class EventsService
      */
     public function getLatestEvent()
     {
-        $this->meetupService->getLatestEvent();
+        return $this->meetupService->getLatestEvent();
     }
 
     public function getEventById($eventID)
@@ -80,7 +81,7 @@ class EventsService
     public function mergeEvents(&$meetupEvents, $speakers, $venues)
     {
         // key it on meetup ID
-        $localEvents = array_reduce($this->eventsRepository->getAll(), function($carry, $item) {
+        $localEvents = array_reduce($this->eventManager->getAllEvents(), function($carry, $item) {
             $carry[$item->meetup_id] = $item;
             return $carry;
         });
@@ -139,20 +140,24 @@ class EventsService
     /**
      * Save event references to the DB
      *
+     * @param  string $eventName If null, use it through the event object
+     * @return \App\Model\Event\Entity\Event
      */
-    public function updateEvents()
+    public function updateEvents($eventName = null)
     {
+        $eventName = $eventName ?? $this->event->getName();
+
         $eventEntity = new \App\Model\Event\Entity\Event(
             $this->meetupService->getMeetupEvent()->getMeetupEventID(),
             $this->event->getVenue()->getId(),
-            $this->event->getName(),
+            $eventName,
             $this->joindinEventService->getJoindinEvent()->getTalkID(),
             $this->joindinEventService->getJoindinEvent()->getTalkUrl(),
             $this->event->getTalk()->getSpeaker()->getId(),
             $this->event->getSupporter()->getId()
         );
 
-        $this->eventsRepository->save($eventEntity);
+        $this->eventManager->saveEvent($eventEntity);
 
         return $eventEntity;
     }
@@ -162,7 +167,7 @@ class EventsService
      */
     public function createMeetup()
     {
-        return $this->meetupService->createMeetup();
+        return $this->meetupService->createMeetup($this->event);
     }
 
     /**
@@ -172,7 +177,7 @@ class EventsService
      */
     public function createJoindinEvent($userID)
     {
-        if ($this->eventsRepository->eventExists($this->event->getName())) {
+        if ($this->eventManager->eventExists($this->event->getName())) {
             throw new \Exception('An event by the name: ' . $this->event->getName() . ', already exists.');
         }
 
@@ -180,12 +185,13 @@ class EventsService
     }
 
     /**
+     * @param int $userID
      * @param string $language
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function createJoindinTalk($language = 'English - UK')
+    public function createJoindinTalk($userID, $language = 'English - UK')
     {
-        return $this->joindinEventService->createTalk($language);
+        return $this->joindinEventService->createTalk($this->event, $userID, $language);
     }
 
     /**
@@ -194,11 +200,55 @@ class EventsService
      */
     public function getEventInfo($meetupID) : array
     {
-        return $this->eventsRepository->getByMeetupID($meetupID)[0] ?: [];
+        return $this->eventManager->getByMeetupID($meetupID)[0] ?: [];
     }
 
-    public function isEventApproved($meetupID = null)
+    public function manageApprovedEvents($userID)
     {
-        //return $this->joindinService->isEventApproved($meetupID);
+
+        $events = $this->eventManager->getAllPendingEvents();
+
+        if (count($events) > 0) {
+
+            if($this->joindinEventService->areEventsApproved($events)) {
+
+                foreach ($events as $eventName => $event) {
+
+                    // API call
+                    $meetupEvent = $this->getEventById($event->meetup_id);
+                    $this->getMeetupEvent()->setEventID($event->meetup_id);
+
+                    $speaker = $this->eventManager->getSpeakerById($event->speaker_id);
+                    $supporter = $this->eventManager->getSupporterByID($event->supporter_id);
+                    $venue = $this->getVenueById($meetupEvent['venue_id']);
+
+                    $talk = Talk::create([
+                        'title'         => $meetupEvent['subject'],
+                        'description'   => $meetupEvent['description'],
+                        'speaker'       => $speaker,
+                        'duration'      => 'PT2H' // default to 2 hours
+                    ]);
+
+                    $startDate = \DateTime::createFromFormat("F jS Y", $meetupEvent['date']);
+                    $startTime = \DateTime::createFromFormat("g:ia", $meetupEvent['time']);
+
+
+                    $this->event = new Event(
+                        $talk, $startDate->format('d/m/Y'), $startTime->format('H:i'), $venue, $supporter
+                    );
+
+
+                    $this->joindinEventService->getJoindinEvent()->setEventLocation($event->uri);
+                    $this->createJoindinTalk($userID);
+                    $this->updateEvents($eventName);
+
+                }
+            }
+
+            return 'Created [' . count($events) . '] Talks';
+        }
+
+        return 'No pending events found.';
     }
+
 }

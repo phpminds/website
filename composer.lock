@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b02478ae1125e76a813c8a0871beb410",
-    "content-hash": "f52c2743b8ff7973e58e44543bf7e89a",
+    "hash": "f0286df100871b598aa7db37df18e8fb",
+    "content-hash": "d6c89ccb096934ffd31e7d8558e8cd0f",
     "packages": [
         {
             "name": "aura/sql",
@@ -1650,16 +1650,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.1.0",
+            "version": "5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "01fb97441708f1616a97cfd3f5c36101db81c635"
+                "reference": "119ddce28d6d724b09c43357c034e1fc6be645c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/01fb97441708f1616a97cfd3f5c36101db81c635",
-                "reference": "01fb97441708f1616a97cfd3f5c36101db81c635",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/119ddce28d6d724b09c43357c034e1fc6be645c5",
+                "reference": "119ddce28d6d724b09c43357c034e1fc6be645c5",
                 "shasum": ""
             },
             "require": {
@@ -1720,7 +1720,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-12-03 16:45:01"
+            "time": "2015-12-07 15:40:57"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

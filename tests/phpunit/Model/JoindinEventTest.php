@@ -25,7 +25,7 @@ class JoindinEventTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $settings = require __DIR__ . '/../../../app/configs/settings_development.php';
+        $settings = require __DIR__ . '/../../../app/configs/settings_test.php';
 
         $joindin = $settings['settings']['joindin'];
 

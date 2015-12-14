@@ -8,6 +8,11 @@ use App\Model\Event\Entity\Talk;
 
 class Event
 {
+    private $name;
+
+    private $description;
+
+
     /**
      *
      * @var Talk
@@ -30,9 +35,41 @@ class Event
     public function __construct(Talk $talk, $startDate, $startTime, Venue $venue, Supporter $supporter)
     {
         $this->talk         = $talk;
-        $this->date         = new \DateTime($startDate . ' ' . $startTime);
+        $this->date         = \DateTime::createFromFormat("d/m/Y H:i", $startDate . ' ' . $startTime);
         $this->venue        = $venue;
         $this->supporter    = $supporter;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name  . ' ' . $this->getDate()->format('F Y');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 
     /**

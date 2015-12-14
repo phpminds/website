@@ -1,4 +1,4 @@
 <?php
 
 // keep index.php clean
-require '../run.php';
+require dirname(__DIR__) . '/run.php';

@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/phpminds/website.svg)](https://travis-ci.org/phpminds/website)
 
 ![](https://cdn.rawgit.com/phpminds/website/develop/public/imgs/phpminds.svg)
 

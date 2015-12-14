@@ -58,7 +58,7 @@ class EventValidator
     public function dateValidation()
     {
         try {
-            $date = new \DateTime($this->get('start_date') . ' ' . $this->get('start_time'));
+            $date =  \DateTime::createFromFormat("m/d/Y H:i", $this->get('start_date') . ' ' . $this->get('start_time'));
         } catch (\Exception $e) {
             $this->addError($e->getMessage());
         }

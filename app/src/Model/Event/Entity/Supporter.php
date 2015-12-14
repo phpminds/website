@@ -90,8 +90,8 @@ class Supporter
         $class = new self(
             $params['name'] ?? null,
             $params['url'] ?? null,
-            new Twitter($params['twitter']) ?? null,
-            new Email($params['email']) ?? null,
+            new Twitter($params['twitter'] ?? null) ?? null,
+            new Email($params['email'] ?? null) ?? null,
             $params['logo'] ?? null
         );
 

@@ -1,6 +1,9 @@
 language: php
-php:
-  '7.0'
-install:
-  composer install
+php: '7.0'
+install: composer install
 script: phpunit --configuration tests/phpunit/phpunit.xml
+deploy:
+  provider: script
+  script: scripts/deploy.sh
+  on:
+    branch: develop

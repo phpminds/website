@@ -24,6 +24,9 @@ Integrations with
 
 
 ## Contributors
-Created by the @phpminds team - contributions welcome 
+Created by the @phpminds team - contributions welcomed
+
+@pavlakis
+@sdh100shaun
 
 Licence :  MIT see licence.md 

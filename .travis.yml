@@ -2,6 +2,8 @@ language: php
 php: '7.0'
 install: composer install
 script: phpunit --configuration tests/phpunit/phpunit.xml
+addons:
+  ssh_known_hosts:phpminds.org
 deploy:
   provider: script
   script: scripts/deploy.sh

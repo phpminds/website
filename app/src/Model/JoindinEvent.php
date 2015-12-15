@@ -2,7 +2,9 @@
 
 namespace App\Model;
 
+use App\Config\JoindinConfig;
 use App\Model\Event\Event;
+use App\Repository\FileRepository;
 
 class JoindinEvent
 {
@@ -10,18 +12,21 @@ class JoindinEvent
     private $baseUrl;
     private $frontendBaseUrl;
     private $callbackUrl;
+    private $username;
     private $token;
 
     private $eventLocation;
     private $talkLocation;
+    private $fileRepository;
 
-    public function __construct($apiKey, $baseUrl, $frontendBaseUrl, $callback, $token)
+    public function __construct(JoindinConfig $config, FileRepository $fileRepository)
     {
-        $this->apiKey           = $apiKey;
-        $this->baseUrl          = $baseUrl;
-        $this->frontendBaseUrl  = $frontendBaseUrl;
-        $this->callbackUrl      = $callback;
-        $this->token            = $token;
+        $this->apiKey           = $config->apiKey;
+        $this->baseUrl          = $config->baseUrl;
+        $this->frontendBaseUrl  = $config->frontendBaseUrl;
+        $this->callbackUrl      = $config->callback;
+        $this->username         = $config->username;
+        $this->fileRepository   = $fileRepository;
     }
 
     /**
@@ -43,17 +48,29 @@ class JoindinEvent
     /**
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders($userID = null)
     {
-        return ['Authorization' => 'Bearer ' . $this->getToken()];
+        return ['Authorization' => 'Bearer ' . $this->getToken($userID)];
     }
 
     /**
+     * @param  mixed int|null $userID
      * @return String
      */
-    public function getToken()
+    public function getToken($userID = null)
     {
+        if ($userID && !isset($this->token)) {
+            $this->token = $this->fileRepository->get($userID . '_joindin');
+        }
         return $this->token;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
     }
 
     /**
@@ -70,24 +87,23 @@ class JoindinEvent
      * Gets URL prefixed with the base URL
      *
      * @param string $action
+     * @param string $end
      * @return string
      */
-    public function getUrl($action = 'events')
+    public function getUrl($action = 'events', $end = '/')
     {
-        return sprintf($this->baseUrl .'/%s/', $action);
+        return sprintf($this->baseUrl .'/%s' . $end, $action);
     }
 
     /**
      * @param Event $event
-     * @param $name
-     * @param $description
      * @return array
      */
-    public function getCreateEventPayload(Event $event, $name, $description)
+    public function getCreateEventPayload(Event $event)
     {
         return [
-            'name' => $name . ' ' . $event->getDate()->format('F Y'),
-            'description' => $description,
+            'name' => $event->getName(),
+            'description' => $event->getDescription(),
             'start_date' => $event->getDate()->setTimezone(new \DateTimeZone( 'UTC' ))->format('Y-m-d H:i:s'),
             'end_date' => $event->getEndDate()->setTimezone(new \DateTimeZone( 'UTC' ))->format('Y-m-d H:i:s'),
             'tz_continent' => $event->getVenue()->getContinent(),
@@ -136,11 +152,9 @@ class JoindinEvent
         $id = substr(
             $this->getTalkLocation(),
             strlen(
-                $this->baseUrl . '/events/' .
-                $this->getJoindinEventID() . '/talks/'
+                $this->baseUrl . '/talks/'
             )
         );
-
 
         if (substr($id, -1) == '/') {
             return (int)substr($id, 0, strlen($id) - 1);

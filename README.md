@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/phpminds/website.svg)](https://travis-ci.org/phpminds/website)
 
 ![](https://cdn.rawgit.com/phpminds/website/develop/public/imgs/phpminds.svg)
 
@@ -23,6 +24,9 @@ Integrations with
 
 
 ## Contributors
-Created by the @phpminds team - contributions welcome 
+Created by the @phpminds team - contributions welcomed
+
+@pavlakis
+@sdh100shaun
 
 Licence :  MIT see licence.md 

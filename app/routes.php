@@ -32,3 +32,9 @@ $app->post('/create-speaker', 'App\Action\CreateSpeakerAction:dispatch')
 
 $app->get('/event-details', 'App\Action\EventDetailsAction:dispatch')
     ->setName('event-details');
+
+$app->get('/callback/{callback}', 'App\Action\CallbackAction:dispatch')
+    ->setName('calbacks');
+
+$app->get('/status', 'App\Action\EventStatusAction:dispatch')
+    ->setName('status');

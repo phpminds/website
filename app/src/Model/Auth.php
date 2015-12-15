@@ -20,7 +20,6 @@ class Auth
 
     public function registerUser($email, $password)
     {
-        // username exists ??
         $hash = password_hash($password, PASSWORD_BCRYPT);
         $user = new \stdClass();
         $user->email = $email;
@@ -47,6 +46,20 @@ class Auth
             $_SESSION['auth']['user_id'] = $this->user->id;
             $_SESSION['auth']['email'] = $this->user->email;
         }
+    }
+
+    public function getUserId()
+    {
+        if (!$this->isLoggedIn()) {
+            return false;
+        }
+
+        return $_SESSION['auth']['user_id'] ;
+    }
+
+    public function isLoggedIn()
+    {
+        return isset($_SESSION['auth']);
     }
 
     public function clear()

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <!-- Set the viewport width to device width for mobile -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHPMiNDS</title>
+    <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+    <link href='{{ base_url() }}/css/style.css' rel='stylesheet' type='text/css'>
+    <link href='{{ base_url() }}/css/text.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.css' rel='stylesheet'/>
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-194x194.png" sizes="194x194">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#6ba84d">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body class="has-top-bar" id="home">
+<header class="top-bar-container fixed">
+
+    <nav class="top-bar" data-topbar role="navigation">
+        <ul class="title-area">
+            <li class="name">
+                <h1><a href="/">phpminds</a></h1>
+            </li>
+            <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+        </ul>
+        <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <ul class="right menu-top-menu">
+                <li><a href="/#map">location</a></li>
+                <li><a href="/#past-events">past events</a></li>
+                <li><a href="/#speak">Speak</a></li>
+                <li><a href="/#supporters">Supporters</a></li>
+                <li><a href="/#contact">Contact</a></li>
+                <li><a href="/#code-of-conduct">Code of conduct</a></li>
+            </ul>
+        </section>
+    </nav>
+
+</header>
+
+
+{% block content %}{% endblock %}
+
+
+<footer>
+
+    <div class="row">
+        <div class="small-12 small-centered medium-8 medium-centered large-10 large-centered columns">
+
+
+            <p class="footer-links">
+                <a href="http://phpminds.org">&copy; phpminds.org {{ now |date("Y") }} </a>
+                <a href="http://php.net/">built with <img src="imgs/php7.svg" alt="built with php7"/> </a>
+                <a href="http://github.com/phpminds"><i class="fa fa-github"></i> Contribute on github</a></p>
+        </div>
+    </div>
+</footer>
+
+<script src="{{ base_url() }}/js/jquery.min.js"></script>
+<script src="{{ base_url() }}/js/foundation.min.js"></script>
+<script src="{{ base_url() }}/js/foundation.topbar.js"></script>
+<script type="text/javascript" src="//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js"></script>
+<script src="{{ base_url() }}/js/app.js"></script>
+<script>
+    $(document).foundation();
+    if(document.getElementById("map")) {
+        mapbox_map.init(52.951662, -1.142597);
+        mapbox_map.setZoom(19);
+        mapbox_map.addMarker(52.951662, -1.142597).openPopup();
+    }
+    phpminds.scroller();
+</script>
+
+{% include 'ga.twig' ignore missing %}
+
+</body>
+</html>

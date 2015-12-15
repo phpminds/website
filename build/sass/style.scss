@@ -1,0 +1,306 @@
+@import "../../bower_components/foundation/scss/foundation";
+
+$include-html-top-bar-classes: $include-html-classes;
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Hind);
+/* Background color for the top bar */
+
+$topbar-bg: #fff;
+$menu-text-color: #aaa;
+$menu-text-hover-color: #000;
+$phpminds-green: rgba(106, 168, 79, 1.0);
+$section-border: rgba(0, 0, 0, 0.1);
+$lite-green:#C0E4B1;
+$link-color:#296410;
+html {
+  margin: 0;
+  padding: 0;
+  font: 100%/135%;
+  h1,h2,h3,h4{
+    font-family: Hind,Helvetica, Arial, sans-serif;
+
+    width: 100%;
+
+  }
+  body {
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    font-family: "Open sans", Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    font-size: 1.2em;
+    header {
+      display: block;
+      min-height: 2em;
+      padding: 0;
+      border-bottom: 1px solid #aaaaaa;
+      .top-bar {
+        box-shadow: 0 2px 3px rgba(0, 0, 0, .4);
+        background: $topbar-bg;
+        .name{
+          background: $white;
+        }
+        &.expanded{
+
+          color:$lite-green;
+          ul.menu-top-menu {
+
+            li {
+              display:inline-block;
+              width: 100%;
+              border: 1px solid #aaa;
+              margin:0.2em;
+            }
+
+        }
+        }
+        ul.title-area {
+          li.name h1 a {
+            height: 2.5em;
+            width: 10em;
+            margin-bottom: 0;
+            text-indent: -9999px;
+            background: url("../imgs/phpminds.svg") no-repeat 50% 50%;
+
+            background-size: cover;
+          }
+        }
+        .top-bar-section li:not(.has-form) a:not(.button) {
+          background: $topbar-bg;
+        }
+
+        .toggle-topbar.menu-icon
+        {
+          color: $lite-green;
+
+          a{
+            color: $lite-green;
+            font-weight: bold;
+          }
+        }
+
+        ul.menu-top-menu {
+
+          li {
+            float: left;
+            background: $topbar-bg;
+            a {
+
+              color: $menu-text-color;
+              text-transform: capitalize;
+              font-weight: 800;
+              &:hover {
+                color: $menu-text-hover-color;
+              }
+            }
+          }
+        }
+      }
+    }
+    section {
+      box-sizing: border-box;
+
+      &.login{
+        padding-top: 4em;
+        margin: auto;
+      }
+      div.banner {
+
+        background-color: $phpminds-green;
+        margin: 0;
+        min-height: 13em;
+        img {
+          margin: auto 1em;
+          max-height: 10em;
+        }
+
+        h2 {
+          color: $white;
+          text-align: center;
+          font-size: 230%;
+        }
+      }
+      &.section-lite-green {
+        border: 0;
+        border-bottom: 1px solid $section-border;
+        border-top: 1px solid $section-border;
+        background-color: $lite-green;
+        margin: 0;
+        padding-top: 1em;
+        img {
+          margin: auto 1em;
+          max-height: 10em;
+        }
+
+        h3 {
+          color: #296410;
+          text-align: justify;
+
+        }
+
+      }
+
+    }
+    .contact {
+      min-height: 5em;
+    }
+    .past-events {
+      padding-top: 0.5em;
+    }
+    .supporters {
+      padding: 1em 0;
+      padding-bottom: 2em;
+      min-height: 520px;
+      .supporter {
+
+        min-height: 320px;
+        margin: 55px 0;
+        text-align: center;
+
+        -webkit-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+
+        .supporter-icon-box {
+          position: relative;
+          top: 35px;
+          display: inline-block;
+          margin-bottom: 40px;
+          padding: 10px;
+          background: white;
+          -webkit-transition: all 0.3s ease;
+          transition: all 0.3s ease;
+        }
+
+        .supporter-heading {
+          position: relative;
+          top: 35px;
+          -webkit-transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .supporter-description {
+          p {
+
+            width: 80%;
+            margin: 0 auto;
+            opacity: 0;
+            -webkit-transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            -webkit-transform: scale(0);
+            -ms-transform: scale(0);
+            transform: scale(0);
+          }
+        }
+        .supporter-icon-box > img.supporter-icon {
+          width: 100%;
+        }
+
+        &:hover .supporter-icon-box {
+          top: -30px;
+        }
+
+        &:hover .supporter-heading {
+          top: -30px;
+        }
+
+        &:hover .supporter-description p {
+          opacity: 1;
+          -webkit-transform: scale(1);
+          -ms-transform: scale(1);
+          transform: scale(1);
+        }
+      }
+    }
+
+    .h-event {
+      margin-top: 1.5em;
+      h3 {
+        i{
+          font-size: 230%;
+        }
+        color: #AAA;
+      }
+      h4 {
+        color: rgb(204, 170, 85);
+        font-size: 80%;
+      }
+
+    }
+    a {
+      text-decoration: none;
+      color: $link-color;
+      line-height: 100%;
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+
+    }
+    a:hover {
+      color: rgba(106, 168, 79, 1.0);
+    }
+    a:active {
+      color: rgba(106, 168, 79, 1.0);
+    }
+    #map {
+      width: 100%;
+      height: 40em;
+
+    }
+
+    footer {
+      text-align: center;
+      color: $white-smoke;
+      background: $phpminds-green;
+      margin: 0;
+      padding: 0 1em;
+      &.admin {
+        background: $white;
+        color: $black;
+      }
+      div {
+        padding-top: 1em;
+
+        img {
+          width: 4em;
+          height: auto;
+        }
+        .footer-links a {
+          list-style: none;
+          font-weight: normal;
+          color: #fff;
+          padding: 3rem 0 2rem;
+          margin: 0;
+          font-size: 0.875rem;
+
+          &::after {
+            content: " | ";
+            padding: 0 0.2rem 0 0.4rem;
+          }
+
+          &:last-child::after {
+            content: "";
+            padding: 0 0.4rem 0 0.8rem;
+          }
+        }
+
+      }
+    }
+    i {
+
+      padding-right: 0.2em;
+    }
+
+    .top-bar.expanded .toggle-topbar a span::after {
+      box-shadow: 0 0 0 1px $lite-green, 0 7px 0 1px $lite-green, 0 14px 0 1px $lite-green;
+    }
+    .top-bar .toggle-topbar.menu-icon a span::after {
+      box-shadow: 0 0 0 1px #888888, 0 7px 0 1px #888888, 0 14px 0 1px #888888;
+
+    }
+    .login-button{
+      background: $lite-green;
+    }
+  }
+}

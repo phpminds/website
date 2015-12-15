@@ -1,8 +1,13 @@
 vendor/
 log/*
+var/*
 .idea/*
 cache/*
 app/configs/*
 Vagrantfile
+.env
 .vagrant/*
 ansible/*
+phinx.yml
+node_modules/*
+bower_components/*

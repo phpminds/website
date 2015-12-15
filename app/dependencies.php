@@ -88,6 +88,10 @@ $container['http.client'] = function ($c) {
     return new \GuzzleHttp\Client();
 };
 
+$container['cache'] = function () {
+    return new \Slim\HttpCache\CacheProvider();
+};
+
 $container ['db'] = function ($c) {
     $db = $c->get('settings')['db'];
 
@@ -132,6 +136,7 @@ $container['event.manager'] = function ($c) {
 
 $container['auth.middleware'] = function ($c) {
     return new App\Middleware\AuthCheck($_SESSION, 'auth', $c->get('settings')['auth-routes']);
+
 };
 
 $container['csrf'] = function ($c) {
@@ -189,7 +194,7 @@ $container['logger'] = function ($c) {
 
 $container['App\Action\HomeAction'] = function ($c) {
     return new App\Action\HomeAction(
-        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('service.content')
+        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('service.content'), $c->get('cache')
     );
 };
 

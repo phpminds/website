@@ -87,7 +87,7 @@ class MeetupEvent
         }
 
         return [
-            'id'        => $eventID,
+            'id' => $eventID,
             'group'     => $groupName,
             'subject'   => $subject,
             'date_time' => $eventDate . ' at ' . $eventTime,

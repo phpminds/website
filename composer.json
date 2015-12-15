@@ -22,11 +22,12 @@
         }
     },
     "require": {
-        "slim/slim": "^3.0@beta",
+        "slim/slim": "^3.0",
         "slim/twig-view": "^1.1",
         "slim/flash": "^0.1.0",
         "monolog/monolog": "^1.13",
         "guzzlehttp/guzzle": "^6.1",
+        "slim/http-cache": "^0.3.0",
         "aura/sql": "^2.4",
         "slim/csrf": "^0.4.0",
         "erusev/parsedown": "^1.6",

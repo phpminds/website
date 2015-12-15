@@ -1,7 +1,7 @@
 <?php
 // Routes
 
-$app->get('/', 'App\Action\HomeAction:dispatch')
+$app->get('/', 'App\Action\HomeAction:dispatch') 
     ->setName('homepage');
 
 $app->get('/login', 'App\Action\LoginAction:dispatch')
@@ -38,3 +38,4 @@ $app->get('/callback/{callback}', 'App\Action\CallbackAction:dispatch')
 
 $app->get('/status', 'App\Action\EventStatusAction:dispatch')
     ->setName('status');
+

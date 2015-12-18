@@ -48,8 +48,8 @@ final class HomeAction
     {
         $event = $this->eventService->getLatestEvent();       
         $filter = $this->contentService->getTwigFilter();
-        
         $this->view->getEnvironment()->addFilter($filter);
+
 
 
         $resWithETag = $this->cache->withETag($response, $event['id']);

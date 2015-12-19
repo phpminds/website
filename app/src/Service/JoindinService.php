@@ -37,6 +37,17 @@ class JoindinService
         $this->joindinEvent = $joindinEvent;
     }
 
+    /**
+     * @param Event $event
+     */
+    public function setEvent(Event $event)
+    {
+        $this->event = $event;
+    }
+
+    /**
+     * @return JoindinEvent
+     */
     public function getJoindinEvent()
     {
         return $this->joindinEvent;

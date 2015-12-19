@@ -181,6 +181,7 @@ class EventsService
             throw new \Exception('An event by the name: ' . $this->event->getName() . ', already exists.');
         }
 
+        $this->joindinEventService->setEvent($this->event);
         return $this->joindinEventService->createEvent($userID);
     }
 

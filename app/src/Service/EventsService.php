@@ -126,7 +126,7 @@ class EventsService
     {
         $this->createEvent($event);
 
-        if (!is_null($meetupID)) {
+        if (is_null($meetupID)) {
             if ((int)$this->createMeetup()->getStatusCode() !== 201) {
                 throw new \Exception('Could not create meetup event.');
             }
@@ -141,7 +141,7 @@ class EventsService
             throw $e;
         }
 
-        $eventEntity = $this->eventService->updateEvents();
+        $eventEntity = $this->updateEvents();
 
         return [
             'meetup' => $this->createMeetup()->getStatusCode(),

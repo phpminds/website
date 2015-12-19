@@ -18,8 +18,12 @@ class EventFactory
 
         $event = new Event(
             $talk,
-            \DateTime::createFromFormat("m/d/Y", $request->getParam('start_date'))->format('d/m/Y'),
-            $request->getParam('start_time') < 10 ? '0' . $request->getParam('start_time') :  $request->getParam('start_time'),
+            \DateTime::createFromFormat(
+                "d/m/Y H:i",
+                $request->getParam('start_date') . ' '
+                . ($request->getParam('start_time') < 10 ? '0' . $request->getParam('start_time') :  $request->getParam('start_time'))
+
+            ),
             $venue,
             $supporter
         );

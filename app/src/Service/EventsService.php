@@ -60,6 +60,10 @@ class EventsService
         return $this->meetupService->getLatestEvent();
     }
 
+    /**
+     * @param $eventID
+     * @return array
+     */
     public function getEventById($eventID)
     {
         return $this->meetupService->getEventById($eventID);
@@ -226,6 +230,10 @@ class EventsService
         return $this->eventManager->getByMeetupID($meetupID)[0] ?: [];
     }
 
+    /**
+     * @param $userID
+     * @return string
+     */
     public function manageApprovedEvents($userID)
     {
 

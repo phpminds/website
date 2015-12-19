@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonis
- * Date: 07/12/2015
- * Time: 23:58
- */
 
 namespace App\Service;
 

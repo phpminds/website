@@ -86,12 +86,6 @@ class EventsService
             return $carry;
         });
 
-        if (empty($localEvents)) {
-            return;
-        }
-
-        // Use only events which exist on the DB
-        $meetupEvents = array_intersect_key($meetupEvents, $localEvents);
         foreach ($localEvents as $event) {
             if (array_key_exists($event->meetup_id, $meetupEvents)) {
 
@@ -126,6 +120,34 @@ class EventsService
     public function getVenueById($venueID)
     {
         return $this->meetupService->getVenueById($venueID);
+    }
+
+    public function createMainEvents(Event $event, $userID, $meetupID = null)
+    {
+        $this->createEvent($event);
+
+        if (!is_null($meetupID)) {
+            if ((int)$this->createMeetup()->getStatusCode() !== 201) {
+                throw new \Exception('Could not create meetup event.');
+            }
+        } else {
+            // Do not create a meetup
+            $this->getMeetupEvent()->setEventID((int)$meetupID);
+        }
+
+        try {
+            $createJoindInEvent = $this->createJoindinEvent($userID);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        $eventEntity = $this->eventService->updateEvents();
+
+        return [
+            'meetup' => $this->createMeetup()->getStatusCode(),
+            'joindin' => $createJoindInEvent->getStatusCode(),
+            'meetup_id' => $eventEntity->getMeetupID()
+        ];
     }
 
     /**

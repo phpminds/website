@@ -78,6 +78,35 @@ class EventsService
     }
 
     /**
+     * @param int $meetupID
+     * @return array
+     */
+    public function getInfoByMeetupID($meetupID = null)
+    {
+        $eventInfo = ['title' => '', 'description' => '', 'event_exists'];
+
+        if (!is_null($meetupID)) {
+            $event = $this->getEventById((int)$meetupID);
+
+            if(!empty($event)) {
+
+                if (!empty($this->eventManager->getDetailsByMeetupID($meetupID))) {
+                    $eventInfo['event_exists'] = true;
+                } else {
+                    $eventInfo['title'] = $event['subject'];
+                    $eventInfo['description'] = $event['description'];
+                    $eventInfo['venue_id'] = $event['venue_id'];
+                    $date = \DateTime::createFromFormat('F jS Y', $event['date']);
+                    $eventInfo['date'] = $date->format("d/m/Y");
+                }
+            }
+        }
+
+        return $eventInfo;
+
+    }
+
+    /**
      * @param $meetupEvents
      * @param $speakers
      * @param $venues

@@ -63,8 +63,10 @@ class JoindinEventTest extends \PHPUnit_Framework_TestCase
 
         $this->event = new Event(
             $talk,
-            $startDate,
-            $startTime,
+            \DateTime::createFromFormat(
+                "d/m/Y H:i",
+                $startDate . ' ' . $startTime
+            ),
             $venue,
             $supporter
         );

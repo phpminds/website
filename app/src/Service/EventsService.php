@@ -169,7 +169,7 @@ class EventsService
         }
 
         try {
-            $createJoindInEvent = $this->createJoindinEvent($userID);
+            $joindinEvent = $this->createJoindinEvent($userID);
         } catch (\Exception $e) {
             throw $e;
         }
@@ -177,8 +177,7 @@ class EventsService
         $eventEntity = $this->updateEvents();
 
         return [
-            'meetup' => $this->createMeetup()->getStatusCode(),
-            'joindin' => $createJoindInEvent->getStatusCode(),
+            'joindin_status' => $joindinEvent->getStatusCode(),
             'meetup_id' => $eventEntity->getMeetupID()
         ];
     }

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonis
- * Date: 07/12/2015
- * Time: 23:58
- */
 
 namespace App\Service;
 
@@ -37,6 +31,17 @@ class JoindinService
         $this->joindinEvent = $joindinEvent;
     }
 
+    /**
+     * @param Event $event
+     */
+    public function setEvent(Event $event)
+    {
+        $this->event = $event;
+    }
+
+    /**
+     * @return JoindinEvent
+     */
     public function getJoindinEvent()
     {
         return $this->joindinEvent;

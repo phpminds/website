@@ -130,36 +130,21 @@ final class CreateEventAction
                     $this->eventsConfig->title, $this->eventsConfig->description
                 );
 
-                $this->eventService->createEvent($event);
-
-                if (!$request->getParam('meetup_id')) {
-                    if ((int)$this->eventService->createMeetup()->getStatusCode() !== 201) {
-                        throw new \Exception('Could not create meetup event.');
-                    }
-                } else {
-                    // Do not create a meetup
-                    $this->eventService->getMeetupEvent()->setEventID((int)$request->getParam('meetup_id'));
-                }
-
                 try {
-                    $createJoindInEvent = $this->eventService->createJoindinEvent(
-                        $this->auth->getUserId()
-                    );
+                    $createEventInfo = $this->eventService->createMainEvents($event, $this->auth->getUserId(), $request->getParam('meetup_id'));
                 } catch (\Exception $e) {
                     throw $e;
                 }
 
-                if ((int)$createJoindInEvent->getStatusCode() === 202) {
+                if ((int)$createEventInfo['joindin'] === 202) {
                     // event pending. Save to DB and show message to user
                     $this->flash->addMessage('event', 'JoindIn Event is pending. Wait for approval before creating a Talk.');
-                } else if ((int)$createJoindInEvent->getStatusCode() !== 201) {
+                } else if ((int)$createEventInfo['joindin'] !== 201) {
                     $this->logger->debug("Could not create Joindin event. Please try again.");
                     $this->flash->addMessage('event', 'Could not create Joindin event. Please try again.');
                 }
 
-                $eventEntity = $this->eventService->updateEvents();
-
-                return $response->withStatus(302)->withHeader('Location', 'event-details?meetup_id=' . $eventEntity->getMeetupID());
+                return $response->withStatus(302)->withHeader('Location', 'event-details?meetup_id=' . $createEventInfo['meetup_id']);
             } catch (\Exception $e) {
                 $this->logger->debug($e->getMessage());
                 $frmErrors = $validator->getErrors();

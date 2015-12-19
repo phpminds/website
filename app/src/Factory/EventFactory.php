@@ -4,10 +4,11 @@ namespace App\Factory;
 
 use App\Model\Event\Entity\Talk;
 use App\Model\Event\Event;
+use Slim\Http\Request;
 
 class EventFactory
 {
-    public static function getByRequest($request, $speaker, $venue, $supporter, $title, $description)
+    public static function getByRequest(Request $request, $speaker, $venue, $supporter, $title, $description)
     {
         $talk =  new Talk(
             strip_tags($request->getParam('talk_title'), '<p><a><br>'),
@@ -17,7 +18,7 @@ class EventFactory
 
         $event = new Event(
             $talk,
-            \DateTime::createFromFormat("Y-m-d", $request->getParam('start_date'))->format('d/m/Y'),
+            \DateTime::createFromFormat("m/d/Y", $request->getParam('start_date'))->format('d/m/Y'),
             $request->getParam('start_time') < 10 ? '0' . $request->getParam('start_time') :  $request->getParam('start_time'),
             $venue,
             $supporter

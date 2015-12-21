@@ -47,5 +47,16 @@ class MeetupEventTest extends \App\Tests\Helper
     public function testCanCreateAnEventPayload()
     {
         $eventPayload = $this->meetupEvent->getCreateEventPayload($this->event);
+
+        $expected = [
+            'name' => 'A title',
+            'description' => 'A description',
+            'venue_id' => 123,
+            'publish_status' => 'draft',
+            'time' => $this->event->getDate()->getTimestamp() * 1000,
+            'venue_visibility' => 'members'
+        ];
+
+        $this->assertEquals($expected, $eventPayload);
     }
 }

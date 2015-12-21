@@ -68,6 +68,7 @@ class Helper extends \PHPUnit_Framework_TestCase
                 $talk = new Talk('A title', 'A description', $speaker, $eventDuration);
 
                 $venue = new Venue('a little venue', 'by the sidewalk', 'Europe');
+                $venue->setId(123);
 
                 $supporter = new Supporter('a big fan', 'youareawso.me', $twitter, $email, 'http://nolo.go');
 

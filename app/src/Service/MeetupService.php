@@ -65,6 +65,10 @@ class MeetupService
         return $this->meetupEvent->formatResponse($events['results'][0] ?? []);
     }
 
+    /**
+     * get all events apart form last one in array
+     * @return array
+     */
     public function getPastEvents()
     {
         $pastEvents = [];
@@ -74,9 +78,9 @@ class MeetupService
         array_shift($events["results"]);
 
         foreach($events["results"] as $event){
-           array_push($pastEvents,$this->meetupEvent->formatResponse($event));
+           $pastEvents[] = $this->meetupEvent->formatResponse($event);
 
-        };
+        }
         return $pastEvents ?? [];
     }
     /**

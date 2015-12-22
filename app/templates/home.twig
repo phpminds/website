@@ -33,7 +33,7 @@
 
                 <ul>
                     {% for previousEvent in previousEvents %}
-                        <li>{{ previousEvent.subject|e }}</li>
+                        <li>{{ previousEvent.subject|e }} on {{ previousEvent.date }}</li>
                     {% endfor %}
                 </ul>
 

@@ -60,6 +60,10 @@ class EventsService
         return $this->meetupService->getLatestEvent();
     }
 
+    /**
+     * Get all events except for latest.
+     * @return array
+     */
     public function getPastEvents()
     {
         return $this->meetupService->getPastEvents();

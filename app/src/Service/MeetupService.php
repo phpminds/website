@@ -33,6 +33,7 @@ class MeetupService
     protected function getEvents()
     {
         $eventUrl = $this->meetupEvent->getEventUrl();
+
         $response = $this->httpClient->get($eventUrl);
 
         return json_decode($response->getBody()->getContents(), true);

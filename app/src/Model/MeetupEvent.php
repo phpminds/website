@@ -29,10 +29,10 @@ class MeetupEvent
     {
         $authStr = '';
         if ($auth) {
-            $authStr = $this->getAuthString();
+            $authStr = $this->getAuthString(['status'=>'past,upcoming']);
         }
-
-        return sprintf($this->baseUrl .'/%s/' . $authStr, $action);
+        return $this->baseUrl."/".$action."/".$authStr;
+        //return sprintf($this->baseUrl .'/%s/' . $authStr, $action);
     }
 
     public function setEventID($eventID)
@@ -48,9 +48,12 @@ class MeetupEvent
         return $this->groupUrlName;
     }
 
-    public function getAuthString()
+    public function getAuthString($params = [])
     {
-        return '?group_urlname='. $this->groupUrlName .'&key=' . $this->apiKey;
+        $params = array_merge(['group_urlname'=>$this->groupUrlName,"key"=>$this->apiKey,"order"=>"time","desc"=>"true"],$params);
+        $queryString = http_build_query($params);
+
+        return '?'.$queryString;
     }
 
     public function getEventUrl()

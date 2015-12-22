@@ -32,10 +32,10 @@ class Event
     private $supporter;
 
 
-    public function __construct(Talk $talk, $startDate, $startTime, Venue $venue, Supporter $supporter)
+    public function __construct(Talk $talk, \DateTime $date, Venue $venue, Supporter $supporter)
     {
         $this->talk         = $talk;
-        $this->date         = \DateTime::createFromFormat("d/m/Y H:i", $startDate . ' ' . $startTime);
+        $this->date         = $date;
         $this->venue        = $venue;
         $this->supporter    = $supporter;
     }

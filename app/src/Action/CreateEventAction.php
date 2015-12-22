@@ -83,25 +83,10 @@ final class CreateEventAction
         $venues     = $this->eventService->getVenues();
         $supporters = $this->eventManager->getSupporters();
 
-        $eventInfo = ['title' => '', 'description' => ''];
-
-        if ($request->getParam('meetup_id')) {
-            $event = $this->eventService->getEventById((int)$request->getParam('meetup_id'));
-
-            if(!empty($event)) {
-
-                if (!empty($this->eventManager->getDetailsByMeetupID($request->getParam('meetup_id')))) {
-                    $this->flash->addMessage('event', 'Event already exists. Check its status.');
-                    return $response->withStatus(302)->withHeader('Location', 'event-details?meetup_id=' . $request->getParam('meetup_id'));
-                }
-
-                $eventInfo['title'] = $event['subject'];
-                $eventInfo['description'] = $event['description'];
-                $eventInfo['venue_id'] = $event['venue_id'];
-                $date = \DateTime::createFromFormat('F jS Y', $event['date']);
-                $eventInfo['date'] = $date->format("d/m/Y");
-            }
-
+        $eventInfo = $this->eventService->getInfoByMeetupID($request->getParam('meetup_id'));
+        if ($eventInfo['event_exists']) {
+            $this->flash->addMessage('event', 'Event already exists. Check its status.');
+            return $response->withStatus(302)->withHeader('Location', 'event-details?meetup_id=' . $request->getParam('meetup_id'));
         }
 
         $errors     = $this->flash->getMessage('event') ?? [];
@@ -131,15 +116,19 @@ final class CreateEventAction
                 );
 
                 try {
-                    $createEventInfo = $this->eventService->createMainEvents($event, $this->auth->getUserId(), $request->getParam('meetup_id'));
+                    $createEventInfo = $this->eventService->createMainEvents(
+                        $event,
+                        $this->auth->getUserId(),
+                        $request->getParam('meetup_id')
+                    );
                 } catch (\Exception $e) {
                     throw $e;
                 }
 
-                if ((int)$createEventInfo['joindin'] === 202) {
+                if ((int)$createEventInfo['joindin_status'] === 202) {
                     // event pending. Save to DB and show message to user
-                    $this->flash->addMessage('event', 'JoindIn Event is pending. Wait for approval before creating a Talk.');
-                } else if ((int)$createEventInfo['joindin'] !== 201) {
+                    $this->flash->addMessage('event', 'JoindIn Event is pending. Once approved, talk will be created automatically.');
+                } else if ((int)$createEventInfo['joindin_status'] !== 201) {
                     $this->logger->debug("Could not create Joindin event. Please try again.");
                     $this->flash->addMessage('event', 'Could not create Joindin event. Please try again.');
                 }

@@ -60,6 +60,15 @@ class EventsService
         return $this->meetupService->getLatestEvent();
     }
 
+    /**
+     * @return array
+     */
+    public function getPastEvents()
+    {
+        return $this->meetupService->getPastEvents();
+    }
+
+
     public function getEventById($eventID)
     {
         return $this->meetupService->getEventById($eventID);

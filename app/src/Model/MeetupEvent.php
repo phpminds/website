@@ -25,13 +25,13 @@ class MeetupEvent
         $this->publishStatus    = $config->publishStatus;
     }
 
-    public function getUrl($action = 'events', $auth = true)
+    public function getUrl($action = 'events', $auth = true,$additionalApiParams = ['status'=>'past,upcoming'])
     {
         $authStr = '';
         if ($auth) {
-            $authStr = $this->getAuthString(['status'=>'past,upcoming']);
+            $authStr = $this->getAuthString($additionalApiParams);
         }
-        return $this->baseUrl."/".$action."/".$authStr;
+        return $this->baseUrl."/".urlencode($action)."/".$authStr;
         //return sprintf($this->baseUrl .'/%s/' . $authStr, $action);
     }
 

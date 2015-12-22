@@ -65,6 +65,20 @@ class MeetupService
         return $this->meetupEvent->formatResponse($events['results'][0] ?? []);
     }
 
+    public function getPastEvents()
+    {
+        $pastEvents = [];
+
+        $events = $this->getEvents();
+
+        array_shift($events["results"]);
+
+        foreach($events["results"] as $event){
+           array_push($pastEvents,$this->meetupEvent->formatResponse($event));
+
+        };
+        return $pastEvents ?? [];
+    }
     /**
      * @param Event $event
      * @return \Psr\Http\Message\ResponseInterface

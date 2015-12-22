@@ -51,7 +51,9 @@ final class HomeAction
         $this->view->getEnvironment()->addFilter($filter);
 
 
-        $previousEvents= $this->eventService->getAll();
+        $previousEvents= $this->eventService->getPastEvents();
+
+
 
         $resWithETag = $this->cache->withETag($response, $event['id']);
 

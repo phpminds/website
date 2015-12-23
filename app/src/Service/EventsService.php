@@ -155,6 +155,13 @@ class EventsService
         return $this->meetupService->getVenueById($venueID);
     }
 
+    /**
+     * @param Event $event
+     * @param $userID
+     * @param null $meetupID
+     * @return array
+     * @throws \Exception
+     */
     public function createMainEvents(Event $event, $userID, $meetupID = null)
     {
         $this->createEvent($event);
@@ -261,10 +268,10 @@ class EventsService
     /**
      * @param $userID
      * @return string
+     * @throws \Exception
      */
     public function manageApprovedEvents($userID)
     {
-
         $events = $this->eventManager->getAllPendingEvents();
 
         if (count($events) > 0) {
@@ -288,17 +295,21 @@ class EventsService
                         'duration'      => 'PT2H' // default to 2 hours
                     ]);
 
-                    $startDate = \DateTime::createFromFormat("F jS Y", $meetupEvent['date']);
-                    $startTime = \DateTime::createFromFormat("g:ia", $meetupEvent['time']);
-
-
                     $this->event = new Event(
-                        $talk, $startDate->format('d/m/Y'), $startTime->format('H:i'), $venue, $supporter
+                        $talk,
+                        \DateTime::createFromFormat(
+                            "F jS Y g:ia",
+                            $meetupEvent['date'] . ' ' . $meetupEvent['time']
+                        ),
+                        $venue,
+                        $supporter
                     );
 
-
                     $this->joindinEventService->getJoindinEvent()->setEventLocation($event->uri);
-                    $this->createJoindinTalk($userID);
+                    if ($this->createJoindinTalk($userID)->getStatusCode() !== 201) {
+                        throw new \Exception('Could not create Joindin Talk');
+                    }
+
                     $this->updateEvents($eventName);
 
                 }

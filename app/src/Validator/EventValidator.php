@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Validator;
+namespace PHPMinds\Validator;
 
 
-use App\Exception\Model\Event\Entity\InvalidTalkDescription;
-use App\Exception\Model\Event\Entity\InvalidTalkTitle;
+use PHPMinds\Exception\Model\Event\Entity\InvalidTalkDescription;
+use PHPMinds\Exception\Model\Event\Entity\InvalidTalkTitle;
 
 class EventValidator
 {

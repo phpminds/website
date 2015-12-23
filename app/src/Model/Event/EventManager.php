@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Model\Event;
+namespace PHPMinds\Model\Event;
 
-use App\Model\Event\Entity\Speaker;
-use App\Model\Event\Entity\Event AS EventEntity;
-use App\Repository\EventsRepository;
-use App\Repository\SpeakersRepository;
-use App\Repository\SupportersRepository;
+use PHPMinds\Model\Event\Entity\Speaker;
+use PHPMinds\Model\Event\Entity\Event AS EventEntity;
+use PHPMinds\Repository\EventsRepository;
+use PHPMinds\Repository\SpeakersRepository;
+use PHPMinds\Repository\SupportersRepository;
 
 class EventManager
 {

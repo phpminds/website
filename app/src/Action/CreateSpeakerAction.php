@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Action;
+namespace PHPMinds\Action;
 
-use App\Model\Email;
-use App\Model\Twitter;
-use App\Repository\SpeakersRepository;
+use PHPMinds\Model\Email;
+use PHPMinds\Model\Twitter;
+use PHPMinds\Repository\SpeakersRepository;
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use App\Model\Event\Entity\Speaker;
+use PHPMinds\Model\Event\Entity\Speaker;
 
 final class CreateSpeakerAction
 {

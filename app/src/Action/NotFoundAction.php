@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: shaunhare
- * Date: 28/11/15
- * Time: 16:02
- */
 
-namespace App\Action;
+namespace PHPMinds\Action;
 
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;

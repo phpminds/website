@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service;
+namespace PHPMinds\Service;
 
 
-use App\Model\Event\Event;
-use App\Model\JoindinEvent;
+use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\JoindinEvent;
 
 class JoindinService
 {
@@ -15,7 +15,7 @@ class JoindinService
     protected $httpClient;
 
     /**
-     * @var \App\Model\JoindinEvent
+     * @var \PHPMinds\Model\JoindinEvent
      */
     protected $joindinEvent;
 

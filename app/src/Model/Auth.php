@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Model;
+namespace PHPMinds\Model;
 
-use App\Repository\UsersRepository;
+use PHPMinds\Repository\UsersRepository;
 
 class Auth
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace PHPMinds\Repository;
 
-use App\Repository\RepositoryAbstract;
+use PHPMinds\Repository\RepositoryAbstract;
 
-use App\Model\Event\Entity\Supporter;
+use PHPMinds\Model\Event\Entity\Supporter;
 
 class SupportersRepository extends RepositoryAbstract
 {

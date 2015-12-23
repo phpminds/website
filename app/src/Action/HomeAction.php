@@ -1,8 +1,8 @@
 <?php
-namespace App\Action;
+namespace PHPMinds\Action;
 
-use App\Service\ContentService;
-use App\Service\EventsService;
+use PHPMinds\Service\ContentService;
+use PHPMinds\Service\EventsService;
 use Slim\HttpCache\CacheProvider;
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;

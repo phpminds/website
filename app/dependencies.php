@@ -24,7 +24,7 @@ $container['events.config'] = function ($c) {
 $container['meetup.config'] = function ($c) {
     $meetup = $c->get('settings')['meetups'];
 
-    return new App\Config\MeetupConfig([
+    return new PHPMinds\Config\MeetupConfig([
         'apiKey'        => $meetup['apiKey'],
         'baseUrl'       => $meetup['baseUrl'],
         'groupUrlName'  => $meetup['PHPMinds']['group_urlname'],
@@ -36,7 +36,7 @@ $container['meetup.config'] = function ($c) {
 $container['joindin.config'] = function ($c) {
     $joindin = $c->get('settings')['joindin'];
 
-    return new App\Config\JoindinConfig([
+    return new PHPMinds\Config\JoindinConfig([
         'apiKey'            => $joindin['key'],
         'baseUrl'           => $joindin['baseUrl'],
         'frontendBaseUrl'   => $joindin['frontendBaseUrl'],
@@ -46,12 +46,12 @@ $container['joindin.config'] = function ($c) {
 };
 
 $container['meetup.event'] = function ($c) {
-    return new \App\Model\MeetupEvent($c->get('meetup.config'));
+    return new \PHPMinds\Model\MeetupEvent($c->get('meetup.config'));
 };
 
 $container['joindin.event'] = function ($c) {
 
-    return new \App\Model\JoindinEvent(
+    return new \PHPMinds\Model\JoindinEvent(
         $c->get('joindin.config'), $c->get('file.repository')
     );
 };
@@ -62,21 +62,21 @@ $container['parsedown'] = function($c)
 };
 
 $container['service.joindin'] = function ($c) {
-    return new \App\Service\JoindinService($c->get('http.client'), $c->get('joindin.event'));
+    return new \PHPMinds\Service\JoindinService($c->get('http.client'), $c->get('joindin.event'));
 };
 
 $container['service.meetup'] = function ($c) {
-    return new \App\Service\MeetupService($c->get('http.client'), $c->get('meetup.event'));
+    return new \PHPMinds\Service\MeetupService($c->get('http.client'), $c->get('meetup.event'));
 };
 
 
 $container['service.content'] = function ($c) {
     $content = $c->get('settings')['content-folder'];
-    return new \App\Service\ContentService($c->get('parsedown'),$content['location']);
+    return new \PHPMinds\Service\ContentService($c->get('parsedown'),$content['location']);
 };
 
 $container['service.event'] = function ($c) {
-    return new \App\Service\EventsService(
+    return new \PHPMinds\Service\EventsService(
         $c->get('service.meetup'),
         $c->get('service.joindin'),
         $c->get('event.manager')
@@ -95,7 +95,7 @@ $container['cache'] = function () {
 $container ['db'] = function ($c) {
     $db = $c->get('settings')['db'];
 
-    return new \App\Model\Db (
+    return new \PHPMinds\Model\Db (
         'mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'], $db['username'], $db['password']
     );
 };
@@ -103,31 +103,31 @@ $container ['db'] = function ($c) {
 // Repositories
 
 $container['file.repository'] = function ($c) {
-    return new \App\Repository\FileRepository(
+    return new \PHPMinds\Repository\FileRepository(
         $c->get('settings')['file_store']['path']
     );
 };
 
 $container['users.repository'] = function ($c) {
-    return new \App\Repository\UsersRepository($c->get('db'));
+    return new \PHPMinds\Repository\UsersRepository($c->get('db'));
 };
 
 $container['speakers.repository'] = function ($c) {
-    return new \App\Repository\SpeakersRepository($c->get('db'));
+    return new \PHPMinds\Repository\SpeakersRepository($c->get('db'));
 };
 
 $container['events.repository'] = function ($c) {
-    return new \App\Repository\EventsRepository($c->get('db'));
+    return new \PHPMinds\Repository\EventsRepository($c->get('db'));
 };
 
 $container['supporters.repository'] = function ($c) {
-    return new \App\Repository\SupportersRepository($c->get('db'));
+    return new \PHPMinds\Repository\SupportersRepository($c->get('db'));
 };
 
 // Managers
 
 $container['event.manager'] = function ($c) {
-    return new \App\Model\Event\EventManager(
+    return new \PHPMinds\Model\Event\EventManager(
         $c->get('events.repository'),
         $c->get('speakers.repository'),
         $c->get('supporters.repository')
@@ -135,7 +135,7 @@ $container['event.manager'] = function ($c) {
 };
 
 $container['auth.middleware'] = function ($c) {
-    return new App\Middleware\AuthCheck($_SESSION, 'auth', $c->get('settings')['auth-routes']);
+    return new PHPMinds\Middleware\AuthCheck($_SESSION, 'auth', $c->get('settings')['auth-routes']);
 
 };
 
@@ -193,42 +193,42 @@ $container['logger'] = function ($c) {
 // -----------------------------------------------------------------------------
 
 $container['App\Action\HomeAction'] = function ($c) {
-    return new App\Action\HomeAction(
+    return new PHPMinds\Action\HomeAction(
         $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('service.content'), $c->get('cache')
     );
 };
 
 $container['App\Action\AdminDashboardAction'] = function ($c) {
 
-    return new App\Action\AdminDashboardAction(
+    return new PHPMinds\Action\AdminDashboardAction(
         $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('event.manager')
     );
 };
 
 $container['App\Action\LoginAction'] = function ($c) {
 
-    return new App\Action\LoginAction(
+    return new PHPMinds\Action\LoginAction(
         $c->get('view'), $c->get('logger'), $c->get('auth.model'), $c->get('csrf')
     );
 };
 
 $container['App\Action\CreateSpeakerAction'] = function ($c) {
 
-    return new App\Action\CreateSpeakerAction(
+    return new PHPMinds\Action\CreateSpeakerAction(
         $c->get('view'), $c->get('logger'), $c->get('speakers.repository')
     );
 };
 
 $container['App\Action\LogoutAction'] = function ($c) {
 
-    return new App\Action\LogoutAction(
+    return new PHPMinds\Action\LogoutAction(
         $c->get('view'), $c->get('logger'), $c->get('auth.model')
     );
 };
 
 $container['App\Action\NotFoundAction'] = function ($c) {
 
-    return new App\Action\NotFoundAction(
+    return new PHPMinds\Action\NotFoundAction(
         $c->get('view'), $c->get('logger')
     );
 };
@@ -236,7 +236,7 @@ $container['App\Action\NotFoundAction'] = function ($c) {
 
 $container['App\Action\CreateEventAction'] = function ($c) {
 
-    return new App\Action\CreateEventAction(
+    return new PHPMinds\Action\CreateEventAction(
         $c->get('view'), $c->get('logger'), $c->get('service.event'),
         $c->get('csrf'), $c->get('event.manager'), $c->get('events.config'),
         $c->get('auth.model'), $c->get('flash')
@@ -245,21 +245,21 @@ $container['App\Action\CreateEventAction'] = function ($c) {
 
 $container['App\Action\EventDetailsAction'] = function ($c) {
 
-    return new App\Action\EventDetailsAction(
+    return new PHPMinds\Action\EventDetailsAction(
         $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('flash')
     );
 };
 
 $container['App\Action\CallbackAction'] = function ($c) {
 
-    return new App\Action\CallbackAction(
+    return new PHPMinds\Action\CallbackAction(
         $c->get('logger'), $c->get('auth.model'), $c->get('file.repository')
     );
 };
 
 $container['App\Action\EventStatusAction'] = function ($c) {
 
-    return new App\Action\EventStatusAction(
+    return new PHPMinds\Action\EventStatusAction(
         $c->get('logger'), $c->get('service.event')
     );
 };

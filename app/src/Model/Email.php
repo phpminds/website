@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Model;
+namespace PHPMinds\Model;
 
-use App\Exception\Model\InvalidEmailException;
+use PHPMinds\Exception\Model\InvalidEmailException;
 
 class Email
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service;
+namespace PHPMinds\Service;
 
-use App\Model\Event\Entity\Speaker;
-use App\Model\Event\Entity\Talk;
-use App\Model\Event\Event;
-use App\Model\Event\EventManager;
-use App\Model\MeetupEvent;
+use PHPMinds\Model\Event\Entity\Speaker;
+use PHPMinds\Model\Event\Entity\Talk;
+use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\Event\EventManager;
+use PHPMinds\Model\MeetupEvent;
 
 
 class EventsService
@@ -148,7 +148,7 @@ class EventsService
 
     /**
      * @param $venueID
-     * @return \App\Model\Event\Entity\Venue
+     * @return \PHPMinds\Model\Event\Entity\Venue
      */
     public function getVenueById($venueID)
     {
@@ -195,13 +195,13 @@ class EventsService
      * Save event references to the DB
      *
      * @param  string $eventName If null, use it through the event object
-     * @return \App\Model\Event\Entity\Event
+     * @return \PHPMinds\Model\Event\Entity\Event
      */
     public function updateEvents($eventName = null)
     {
         $eventName = $eventName ?? $this->event->getName();
 
-        $eventEntity = new \App\Model\Event\Entity\Event(
+        $eventEntity = new \PHPMinds\Model\Event\Entity\Event(
             $this->meetupService->getMeetupEvent()->getMeetupEventID(),
             $this->event->getVenue()->getId(),
             $eventName,

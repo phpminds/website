@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Model\Event\Entity;
+namespace PHPMinds\Exception\Model\Event\Entity;
 
 
 class InvalidTalkTitle extends \Exception {}

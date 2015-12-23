@@ -1,5 +1,5 @@
 <?php
-namespace App\Service;
+namespace PHPMinds\Service;
 
 class ContentService
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Action;
+namespace PHPMinds\Action;
 
-use App\Repository\EventsRepository;
-use App\Service\EventsService;
-use App\Service\JoindinService;
+use PHPMinds\Repository\EventsRepository;
+use PHPMinds\Service\EventsService;
+use PHPMinds\Service\JoindinService;
 use Psr\Log\LoggerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;

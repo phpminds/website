@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Model\Event\Entity;
+namespace PHPMinds\Tests\Model\Event\Entity;
 
-use App\Model\Event\Entity\Talk;
-use App\Model\Event\Entity\Speaker;
-use App\Model\Email;
-use App\Model\Twitter;
-use App\Exception\Model\Event\Entity\InvalidTalkTitle;
+use PHPMinds\Model\Event\Entity\Talk;
+use PHPMinds\Model\Event\Entity\Speaker;
+use PHPMinds\Model\Email;
+use PHPMinds\Model\Twitter;
+use PHPMinds\Exception\Model\Event\Entity\InvalidTalkTitle;
 
 class TalkTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,6 +34,6 @@ class TalkTest extends \PHPUnit_Framework_TestCase
             $this->speaker
         );
 
-        $this->assertInstanceOf('App\Model\Event\Entity\Talk', $talk);
+        $this->assertInstanceOf('PHPMinds\Model\Event\Entity\Talk', $talk);
     }
 }

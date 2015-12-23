@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Model\Event\Entity;
+namespace PHPMinds\Tests\Model\Event\Entity;
 
-use App\Model\Email;
-use App\Model\Event\Entity\Speaker;
-use App\Model\Twitter;
+use PHPMinds\Model\Email;
+use PHPMinds\Model\Event\Entity\Speaker;
+use PHPMinds\Model\Twitter;
 
 class SpeakerTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class SpeakerTest extends \PHPUnit_Framework_TestCase
 
     public function testCanConstructValidSpeaker()
     {
-        $this->assertInstanceOf('App\Model\Event\Entity\Speaker', $this->speaker);
+        $this->assertInstanceOf('PHPMinds\Model\Event\Entity\Speaker', $this->speaker);
     }
 
     public function testCanGetFirstName()

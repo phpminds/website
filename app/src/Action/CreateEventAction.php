@@ -1,15 +1,11 @@
 <?php
 
-namespace App\Action;
+namespace PHPMinds\Action;
 
 use PHPMinds\Config\EventsConfig;
 use PHPMinds\Factory\EventFactory;
 use PHPMinds\Model\Auth;
-use PHPMinds\Model\Event\Entity\Event;
-use PHPMinds\Model\Event\Entity\Venue;
 use PHPMinds\Model\Event\EventManager;
-use PHPMinds\Model\Event\Entity\Talk;
-use PHPMinds\Repository\SpeakersRepository;
 use PHPMinds\Validator\EventValidator;
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;
@@ -105,9 +101,9 @@ final class CreateEventAction
                     throw new \Exception('Form not valid.');
                 }
 
-                $speaker = $this->eventManager->getSpeakerById((int)$request->getParam('speaker'));
-                $venue = $this->eventService->getVenueById($request->getParam('venue'));
-                $supporter = $this->eventManager->getSupporterByID($request->getParam('supporter'));
+                $speaker    = $this->eventManager->getSpeakerById((int)$request->getParam('speaker'));
+                $venue      = $this->eventService->getVenueById($request->getParam('venue'));
+                $supporter  = $this->eventManager->getSupporterByID($request->getParam('supporter'));
 
 
                 $event = EventFactory::getByRequest(

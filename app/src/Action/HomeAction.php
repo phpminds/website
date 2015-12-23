@@ -51,10 +51,13 @@ final class HomeAction
         $this->view->getEnvironment()->addFilter($filter);
 
 
+        $previousEvents= $this->eventService->getPastEvents();
+
+
 
         $resWithETag = $this->cache->withETag($response, $event['id']);
 
-        $this->view->render($response, 'home.twig', ['event' => $event]);
+        $this->view->render($response, 'home.twig', ['event' => $event,'previousEvents'=>$previousEvents]);
         return $resWithETag;
     }
 }

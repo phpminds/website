@@ -60,6 +60,18 @@ class EventsService
         return $this->meetupService->getLatestEvent();
     }
 
+    /**
+     * Get all events except for latest.
+     * @return array
+     */
+    public function getPastEvents()
+    {
+        return $this->meetupService->getPastEvents();
+    }
+    /**
+     * @param $eventID
+     * @return array
+     */
     public function getEventById($eventID)
     {
         return $this->meetupService->getEventById($eventID);
@@ -71,6 +83,35 @@ class EventsService
     public function getAll()
     {
         return $this->meetupService->getAll();
+    }
+
+    /**
+     * @param int $meetupID
+     * @return array
+     */
+    public function getInfoByMeetupID($meetupID = null)
+    {
+        $eventInfo = ['title' => '', 'description' => '', 'event_exists'];
+
+        if (!is_null($meetupID)) {
+            $event = $this->getEventById((int)$meetupID);
+
+            if(!empty($event)) {
+
+                if (!empty($this->eventManager->getDetailsByMeetupID($meetupID))) {
+                    $eventInfo['event_exists'] = true;
+                } else {
+                    $eventInfo['title'] = $event['subject'];
+                    $eventInfo['description'] = $event['description'];
+                    $eventInfo['venue_id'] = $event['venue_id'];
+                    $date = \DateTime::createFromFormat('F jS Y', $event['date']);
+                    $eventInfo['date'] = $date->format("d/m/Y");
+                }
+            }
+        }
+
+        return $eventInfo;
+
     }
 
     /**
@@ -94,7 +135,7 @@ class EventsService
                     /** @var Speaker $speaker */
                     $speaker = $speakers[$event->speaker_id];
                     $meetupEvents[$event->meetup_id]['speaker'] = $speaker->getFirstName() . ' '
-                                    . $speaker->getLastName() . ' (' . $speaker->getTwitter() . ')';
+                        . $speaker->getLastName() . ' (' . $speaker->getTwitter() . ')';
                 } else {
                     $meetupEvents[$event->meetup_id]['speaker'] = '-';
                 }
@@ -110,7 +151,7 @@ class EventsService
      */
     public function getVenues()
     {
-       return $this->meetupService->getVenues();
+        return $this->meetupService->getVenues();
     }
 
     /**
@@ -126,7 +167,7 @@ class EventsService
     {
         $this->createEvent($event);
 
-        if (!is_null($meetupID)) {
+        if (is_null($meetupID)) {
             if ((int)$this->createMeetup()->getStatusCode() !== 201) {
                 throw new \Exception('Could not create meetup event.');
             }
@@ -136,16 +177,15 @@ class EventsService
         }
 
         try {
-            $createJoindInEvent = $this->createJoindinEvent($userID);
+            $joindinEvent = $this->createJoindinEvent($userID);
         } catch (\Exception $e) {
             throw $e;
         }
 
-        $eventEntity = $this->eventService->updateEvents();
+        $eventEntity = $this->updateEvents();
 
         return [
-            'meetup' => $this->createMeetup()->getStatusCode(),
-            'joindin' => $createJoindInEvent->getStatusCode(),
+            'joindin_status' => $joindinEvent->getStatusCode(),
             'meetup_id' => $eventEntity->getMeetupID()
         ];
     }
@@ -226,6 +266,10 @@ class EventsService
         return $this->eventManager->getByMeetupID($meetupID)[0] ?: [];
     }
 
+    /**
+     * @param $userID
+     * @return string
+     */
     public function manageApprovedEvents($userID)
     {
 

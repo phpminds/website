@@ -31,7 +31,11 @@
 
                 {{ "past-events" | content | raw }}
 
-
+                <ul>
+                    {% for previousEvent in previousEvents %}
+                        <li>{{ previousEvent.subject|e }} on {{ previousEvent.date }}</li>
+                    {% endfor %}
+                </ul>
 
             </div>
 

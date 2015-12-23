@@ -25,14 +25,14 @@ class MeetupEvent
         $this->publishStatus    = $config->publishStatus;
     }
 
-    public function getUrl($action = 'events', $auth = true)
+    public function getUrl($action = 'events', $auth = true,$additionalApiParams = ['status'=>'past,upcoming'])
     {
         $authStr = '';
         if ($auth) {
-            $authStr = $this->getAuthString();
+            $authStr = $this->getAuthString($additionalApiParams);
         }
-
-        return sprintf($this->baseUrl .'/%s/' . $authStr, $action);
+        return $this->baseUrl."/".urlencode($action)."/".$authStr;
+        //return sprintf($this->baseUrl .'/%s/' . $authStr, $action);
     }
 
     public function setEventID($eventID)
@@ -48,9 +48,12 @@ class MeetupEvent
         return $this->groupUrlName;
     }
 
-    public function getAuthString()
+    public function getAuthString($params = [])
     {
-        return '?group_urlname='. $this->groupUrlName .'&key=' . $this->apiKey;
+        $params = array_merge(['group_urlname'=>$this->groupUrlName,"key"=>$this->apiKey,"order"=>"time","desc"=>"true"],$params);
+        $queryString = http_build_query($params);
+
+        return '?'.$queryString;
     }
 
     public function getEventUrl()

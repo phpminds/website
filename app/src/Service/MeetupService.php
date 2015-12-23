@@ -33,6 +33,7 @@ class MeetupService
     protected function getEvents()
     {
         $eventUrl = $this->meetupEvent->getEventUrl();
+
         $response = $this->httpClient->get($eventUrl);
 
         return json_decode($response->getBody()->getContents(), true);
@@ -64,6 +65,24 @@ class MeetupService
         return $this->meetupEvent->formatResponse($events['results'][0] ?? []);
     }
 
+    /**
+     * get all events apart form last one in array
+     * @return array
+     */
+    public function getPastEvents()
+    {
+        $pastEvents = [];
+
+        $events = $this->getEvents();
+
+        array_shift($events["results"]);
+
+        foreach($events["results"] as $event){
+           $pastEvents[] = $this->meetupEvent->formatResponse($event);
+
+        }
+        return $pastEvents ?? [];
+    }
     /**
      * @param Event $event
      * @return \Psr\Http\Message\ResponseInterface

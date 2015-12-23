@@ -16,7 +16,7 @@ $container['notFoundHandler'] = function ($c) {
 
 $container['events.config'] = function ($c) {
 
-    return new App\Config\EventsConfig($c->get('settings')['events']);
+    return new PHPMinds\Config\EventsConfig($c->get('settings')['events']);
 
 };
 
@@ -149,7 +149,7 @@ $container['csrf'] = function ($c) {
 };
 
 $container['auth.model'] = function ($c) {
-    return new \App\Model\Auth(
+    return new \PHPMinds\Model\Auth(
         $c->get('users.repository')
     );
 };
@@ -192,41 +192,41 @@ $container['logger'] = function ($c) {
 // Action factories
 // -----------------------------------------------------------------------------
 
-$container['App\Action\HomeAction'] = function ($c) {
+$container['PHPMinds\Action\HomeAction'] = function ($c) {
     return new PHPMinds\Action\HomeAction(
         $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('service.content'), $c->get('cache')
     );
 };
 
-$container['App\Action\AdminDashboardAction'] = function ($c) {
+$container['PHPMinds\Action\AdminDashboardAction'] = function ($c) {
 
     return new PHPMinds\Action\AdminDashboardAction(
         $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('event.manager')
     );
 };
 
-$container['App\Action\LoginAction'] = function ($c) {
+$container['PHPMinds\Action\LoginAction'] = function ($c) {
 
     return new PHPMinds\Action\LoginAction(
         $c->get('view'), $c->get('logger'), $c->get('auth.model'), $c->get('csrf')
     );
 };
 
-$container['App\Action\CreateSpeakerAction'] = function ($c) {
+$container['PHPMinds\Action\CreateSpeakerAction'] = function ($c) {
 
     return new PHPMinds\Action\CreateSpeakerAction(
         $c->get('view'), $c->get('logger'), $c->get('speakers.repository')
     );
 };
 
-$container['App\Action\LogoutAction'] = function ($c) {
+$container['PHPMinds\Action\LogoutAction'] = function ($c) {
 
     return new PHPMinds\Action\LogoutAction(
         $c->get('view'), $c->get('logger'), $c->get('auth.model')
     );
 };
 
-$container['App\Action\NotFoundAction'] = function ($c) {
+$container['PHPMinds\Action\NotFoundAction'] = function ($c) {
 
     return new PHPMinds\Action\NotFoundAction(
         $c->get('view'), $c->get('logger')
@@ -234,7 +234,7 @@ $container['App\Action\NotFoundAction'] = function ($c) {
 };
 
 
-$container['App\Action\CreateEventAction'] = function ($c) {
+$container['PHPMinds\Action\CreateEventAction'] = function ($c) {
 
     return new PHPMinds\Action\CreateEventAction(
         $c->get('view'), $c->get('logger'), $c->get('service.event'),
@@ -243,21 +243,21 @@ $container['App\Action\CreateEventAction'] = function ($c) {
     );
 };
 
-$container['App\Action\EventDetailsAction'] = function ($c) {
+$container['PHPMinds\Action\EventDetailsAction'] = function ($c) {
 
     return new PHPMinds\Action\EventDetailsAction(
         $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('flash')
     );
 };
 
-$container['App\Action\CallbackAction'] = function ($c) {
+$container['PHPMinds\Action\CallbackAction'] = function ($c) {
 
     return new PHPMinds\Action\CallbackAction(
         $c->get('logger'), $c->get('auth.model'), $c->get('file.repository')
     );
 };
 
-$container['App\Action\EventStatusAction'] = function ($c) {
+$container['PHPMinds\Action\EventStatusAction'] = function ($c) {
 
     return new PHPMinds\Action\EventStatusAction(
         $c->get('logger'), $c->get('service.event')

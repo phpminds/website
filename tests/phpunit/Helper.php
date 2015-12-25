@@ -10,6 +10,12 @@ use App\Model\Event\Entity\Talk;
 use App\Model\Event\Entity\Venue;
 use App\Model\Event\Event;
 use App\Model\Twitter;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 
 class Helper extends \PHPUnit_Framework_TestCase
 {
@@ -83,5 +89,18 @@ class Helper extends \PHPUnit_Framework_TestCase
                 );
             }
         );
+    }
+
+    public static function getMockedClient($jsonFile)
+    {
+        $mock = new MockHandler([
+            new Response(200, ['X-Foo' => 'Bar'], file_get_contents(__DIR__ . "/fixtures/".$jsonFile)),
+            new RequestException("Error Communicating with Server", new Request('GET', 'http://example.com'))
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $client = new Client(['handler' => $handler]);
+
+        return $client;
     }
 }

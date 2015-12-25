@@ -42,6 +42,11 @@ class EventsServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testPastEvents()
+    {
+
+    }
+
     public function _testGetListOfMeetupVenues()
     {
         $venues = $this->service->getVenues();

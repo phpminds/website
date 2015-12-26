@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Tests\Service;
+namespace PHPMinds\Tests\Service;
 
-use App\Service\EventsService;
-use App\Model\Email;
-use App\Model\Event\Entity\Speaker;
-use App\Model\Event\Entity\Supporter;
-use App\Model\Event\Entity\Talk;
-use App\Model\Event\Entity\Venue;
-use App\Model\JoindinEvent;
-use App\Model\Event\Event;
-use App\Model\Twitter;
+use PHPMinds\Service\EventsService;
+use PHPMinds\Model\Email;
+use PHPMinds\Model\Event\Entity\Speaker;
+use PHPMinds\Model\Event\Entity\Supporter;
+use PHPMinds\Model\Event\Entity\Talk;
+use PHPMinds\Model\Event\Entity\Venue;
+use PHPMinds\Model\JoindinEvent;
+use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\Twitter;
 
 class EventsServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,10 +32,10 @@ class EventsServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->service = new EventsService(
             new \GuzzleHttp\Client(),
-            new \App\Model\MeetupEvent($meetup['apiKey'], $meetup['baseUrl'], $meetup['publish_status'], $meetup['PHPMinds']['group_urlname']),
-            new \App\Model\JoindinEvent($joindin['key'], $joindin['baseUrl'], $joindin['frontendBaseUrl'], $joindin['callback'], $joindin['token']),
-            new \App\Repository\EventsRepository(
-                new \App\Model\Db (
+            new \PHPMinds\Model\MeetupEvent($meetup['apiKey'], $meetup['baseUrl'], $meetup['publish_status'], $meetup['PHPMinds']['group_urlname']),
+            new \PHPMinds\Model\JoindinEvent($joindin['key'], $joindin['baseUrl'], $joindin['frontendBaseUrl'], $joindin['callback'], $joindin['token']),
+            new \PHPMinds\Repository\EventsRepository(
+                new \PHPMinds\Model\Db (
                 'mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'], $db['username'], $db['password']
                 )
             )

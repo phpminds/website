@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Action;
+namespace PHPMinds\Action;
 
-use App\Service\EventsService;
+use PHPMinds\Service\EventsService;
 use Psr\Log\LoggerInterface;
 use Slim\Flash\Messages;
 use Slim\Http\Request;

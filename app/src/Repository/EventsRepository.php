@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repository;
+namespace PHPMinds\Repository;
 
-use App\Model\Event\Entity\Venue;
-use App\Repository\RepositoryAbstract;
+use PHPMinds\Model\Event\Entity\Venue;
+use PHPMinds\Repository\RepositoryAbstract;
 
-use App\Model\Event\Entity\Event;
+use PHPMinds\Model\Event\Entity\Event;
 
 class EventsRepository extends RepositoryAbstract
 {

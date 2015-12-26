@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Model;
+namespace PHPMinds\Model;
 
-use App\Exception\Model\InvalidTwitterHandleException;
+use PHPMinds\Exception\Model\InvalidTwitterHandleException;
 
 class Twitter
 {

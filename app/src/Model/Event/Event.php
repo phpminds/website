@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Model\Event;
+namespace PHPMinds\Model\Event;
 
-use App\Model\Event\Entity\Supporter;
-use App\Model\Event\Entity\Venue;
-use App\Model\Event\Entity\Talk;
+use PHPMinds\Model\Event\Entity\Supporter;
+use PHPMinds\Model\Event\Entity\Venue;
+use PHPMinds\Model\Event\Entity\Talk;
 
 class Event
 {

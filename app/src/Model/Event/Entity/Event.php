@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Event\Entity;
+namespace PHPMinds\Model\Event\Entity;
 
 class Event
 {

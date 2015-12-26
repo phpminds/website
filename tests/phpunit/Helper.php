@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Tests;
+namespace PHPMinds\Tests;
 
 
-use App\Model\Email;
-use App\Model\Event\Entity\Speaker;
-use App\Model\Event\Entity\Supporter;
-use App\Model\Event\Entity\Talk;
-use App\Model\Event\Entity\Venue;
-use App\Model\Event\Event;
-use App\Model\Twitter;
+use PHPMinds\Model\Email;
+use PHPMinds\Model\Event\Entity\Speaker;
+use PHPMinds\Model\Event\Entity\Supporter;
+use PHPMinds\Model\Event\Entity\Talk;
+use PHPMinds\Model\Event\Entity\Venue;
+use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\Twitter;
 
 class Helper extends \PHPUnit_Framework_TestCase
 {

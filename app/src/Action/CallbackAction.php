@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Action;
+namespace PHPMinds\Action;
 
 
-use App\Model\Auth;
-use App\Repository\FileRepository;
+use PHPMinds\Model\Auth;
+use PHPMinds\Repository\FileRepository;
 use Psr\Log\LoggerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;

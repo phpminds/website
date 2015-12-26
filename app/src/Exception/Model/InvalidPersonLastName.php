@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Model;
+namespace PHPMinds\Exception\Model;
 
 
 class InvalidPersonLastName extends \Exception {}

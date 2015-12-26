@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service;
+namespace PHPMinds\Service;
 
 
-use App\Model\Event\Entity\Venue;
-use App\Model\Event\Event;
-use App\Model\MeetupEvent;
+use PHPMinds\Model\Event\Entity\Venue;
+use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\MeetupEvent;
 
 class MeetupService
 {

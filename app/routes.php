@@ -1,41 +1,41 @@
 <?php
 // Routes
 
-$app->get('/', 'App\Action\HomeAction:dispatch') 
+$app->get('/', 'PHPMinds\Action\HomeAction:dispatch')
     ->setName('homepage');
 
-$app->get('/login', 'App\Action\LoginAction:dispatch')
+$app->get('/login', 'PHPMinds\Action\LoginAction:dispatch')
     ->setName('login');
 
-$app->post('/login', 'App\Action\LoginAction:dispatch')
+$app->post('/login', 'PHPMinds\Action\LoginAction:dispatch')
     ->setName('login-post');
 
-$app->get('/logout', 'App\Action\LogoutAction:dispatch')
+$app->get('/logout', 'PHPMinds\Action\LogoutAction:dispatch')
     ->setName('logout');
 
-$app->get('/404', 'App\Action\NotFoundAction:dispatch')
+$app->get('/404', 'PHPMinds\Action\NotFoundAction:dispatch')
     ->setName('notfound');
 
 
 // -- auth --
-$app->get('/admin', 'App\Action\AdminDashboardAction:dispatch')
+$app->get('/admin', 'PHPMinds\Action\AdminDashboardAction:dispatch')
     ->setName('dashboard');
 
-$app->get('/create-event', 'App\Action\CreateEventAction:dispatch')
+$app->get('/create-event', 'PHPMinds\Action\CreateEventAction:dispatch')
     ->setName('create-event');
 
-$app->post('/create-event', 'App\Action\CreateEventAction:dispatch')
+$app->post('/create-event', 'PHPMinds\Action\CreateEventAction:dispatch')
     ->setName('create-event-post');
 
-$app->post('/create-speaker', 'App\Action\CreateSpeakerAction:dispatch')
+$app->post('/create-speaker', 'PHPMinds\Action\CreateSpeakerAction:dispatch')
     ->setName('create-speaker');
 
-$app->get('/event-details', 'App\Action\EventDetailsAction:dispatch')
+$app->get('/event-details', 'PHPMinds\Action\EventDetailsAction:dispatch')
     ->setName('event-details');
 
-$app->get('/callback/{callback}', 'App\Action\CallbackAction:dispatch')
+$app->get('/callback/{callback}', 'PHPMinds\Action\CallbackAction:dispatch')
     ->setName('calbacks');
 
-$app->get('/status', 'App\Action\EventStatusAction:dispatch')
+$app->get('/status', 'PHPMinds\Action\EventStatusAction:dispatch')
     ->setName('status');
 

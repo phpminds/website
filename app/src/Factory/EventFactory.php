@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Factory;
+namespace PHPMinds\Factory;
 
-use App\Model\Event\Entity\Talk;
-use App\Model\Event\Event;
+use PHPMinds\Model\Event\Entity\Talk;
+use PHPMinds\Model\Event\Event;
 use Slim\Http\Request;
 
 class EventFactory

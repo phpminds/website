@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Model\Event\Entity;
+namespace PHPMinds\Model\Event\Entity;
 
-use App\Model\Event\Entity\Speaker;
-use App\Exception\Model\Event\Entity\InvalidTalkTitle;
+use PHPMinds\Model\Event\Entity\Speaker;
+use PHPMinds\Exception\Model\Event\Entity\InvalidTalkTitle;
 
 class Talk
 {

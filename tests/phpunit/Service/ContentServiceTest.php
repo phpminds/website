@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Service;
+namespace PHPMinds\Tests\Service;
 
-use App\Service\ContentService;
+use PHPMinds\Service\ContentService;
 
 class ContentServiceTest extends \PHPUnit_Framework_TestCase
 {

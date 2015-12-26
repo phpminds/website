@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Config;
+namespace PHPMinds\Config;
 
 
 class JoindinConfig extends ConfigAbstract

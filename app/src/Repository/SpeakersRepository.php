@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace PHPMinds\Repository;
 
-use App\Repository\RepositoryAbstract;
+use PHPMinds\Repository\RepositoryAbstract;
 
-use App\Model\Event\Entity\Speaker;
+use PHPMinds\Model\Event\Entity\Speaker;
 
 class SpeakersRepository extends RepositoryAbstract
 {

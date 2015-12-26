@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Model;
+namespace PHPMinds\Model;
 
-use App\Config\MeetupConfig;
-use App\Model\Event\Entity\Talk;
-use App\Model\Event\Entity\Venue;
-use App\Model\Event\Event;
+use PHPMinds\Config\MeetupConfig;
+use PHPMinds\Model\Event\Entity\Talk;
+use PHPMinds\Model\Event\Entity\Venue;
+use PHPMinds\Model\Event\Event;
 
 class MeetupEvent
 {

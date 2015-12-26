@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Action;
+namespace PHPMinds\Action;
 
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;
-use App\Model\Auth;
+use PHPMinds\Model\Auth;
 use Slim\Http\Request;
 use Slim\Http\Response;
 

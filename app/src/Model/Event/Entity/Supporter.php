@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Model\Event\Entity;
+namespace PHPMinds\Model\Event\Entity;
 
-use App\Model\Email;
-use App\Model\Twitter;
+use PHPMinds\Model\Email;
+use PHPMinds\Model\Twitter;
 
 class Supporter
 {

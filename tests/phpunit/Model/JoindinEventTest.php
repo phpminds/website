@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Model;
+namespace PHPMinds\Tests\Model;
 
 
-use App\Model\JoindinEvent;
-use App\Model\Event\Event;
+use PHPMinds\Model\JoindinEvent;
+use PHPMinds\Model\Event\Event;
 
 
-class JoindinEventTest extends \App\Tests\Helper
+class JoindinEventTest extends \PHPMinds\Tests\Helper
 {
     /**
      * @var JoindinEvent
@@ -25,7 +25,7 @@ class JoindinEventTest extends \App\Tests\Helper
 
         $joindin = $settings['settings']['joindin'];
 
-        $joindinConfig = new \App\Config\JoindinConfig([
+        $joindinConfig = new \PHPMinds\Config\JoindinConfig([
             'apiKey'            => $joindin['key'],
             'baseUrl'           => $joindin['baseUrl'],
             'frontendBaseUrl'   => $joindin['frontendBaseUrl'],
@@ -33,7 +33,7 @@ class JoindinEventTest extends \App\Tests\Helper
             'username'          => $joindin['username']
         ]);
 
-        $fileRepository = new \App\Repository\FileRepository(
+        $fileRepository = new \PHPMinds\Repository\FileRepository(
             $settings['settings']['file_store']['path']
         );
 

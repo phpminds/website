@@ -161,9 +161,7 @@ $container['Slim\Views\Twig'] = function ($c) {
 };
 
 // Flash messages
-$container['Slim\Flash\Messages'] = function ($c) {
-    return new \Slim\Flash\Messages;
-};
+$injector->add('Slim\Flash\Messages');
 
 // -----------------------------------------------------------------------------
 // Service factories

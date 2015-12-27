@@ -35,7 +35,12 @@ class InjectorService
     {
         try {
 
-            return (new \ReflectionClass($className))->newInstanceArgs($this->getClassParams($className));
+            $params = $this->getClassParams($className);
+            if (empty($params)) {
+                return (new \ReflectionClass($className))->newInstance();
+            }
+
+            return (new \ReflectionClass($className))->newInstanceArgs($params);
 
         } catch (\Exception $e) {
             throw $e;
@@ -58,7 +63,9 @@ class InjectorService
             if ($this->container->has($parameter->getClass()->name)) {
                 $params[] = $this->container[$parameter->getClass()->name];
             } else {
-                if (is_null($parameter->getClass()->name)) {
+                if (is_null($parameter->getClass()->name) && $parameter->isOptional()) {
+                    continue;
+                }else if (is_null($parameter->getClass()->name)) {
                     throw new \Exception(
                         sprintf(
                             'Could not find a type hint/declaration for the "%s" parameter.',

@@ -2,7 +2,8 @@
 // DIC configuration
 
 $container = $app->getContainer();
-$injector = new PHPMinds\Service\InjectorService($container);
+$injector = new \pavlakis\seaudi\Injector($container);
+
 
 $container['notFoundHandler'] = function ($c) {
     return function ($request, $response) use ($c) {

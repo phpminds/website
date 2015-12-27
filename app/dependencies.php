@@ -2,6 +2,7 @@
 // DIC configuration
 
 $container = $app->getContainer();
+$injector = new PHPMinds\Service\InjectorService($container);
 
 $container['notFoundHandler'] = function ($c) {
     return function ($request, $response) use ($c) {
@@ -14,7 +15,7 @@ $container['notFoundHandler'] = function ($c) {
 
 /* ---------- Configs ------------ */
 
-$container['events.config'] = function ($c) {
+$container['PHPMinds\Config\EventsConfig'] = function ($c) {
 
     return new PHPMinds\Config\EventsConfig($c->get('settings')['events']);
 
@@ -52,7 +53,7 @@ $container['meetup.event'] = function ($c) {
 $container['joindin.event'] = function ($c) {
 
     return new \PHPMinds\Model\JoindinEvent(
-        $c->get('joindin.config'), $c->get('file.repository')
+        $c->get('joindin.config'), $c->get('PHPMinds\Repository\FileRepository')
     );
 };
 
@@ -70,16 +71,16 @@ $container['service.meetup'] = function ($c) {
 };
 
 
-$container['service.content'] = function ($c) {
+$container['PHPMinds\Service\ContentService'] = function ($c) {
     $content = $c->get('settings')['content-folder'];
     return new \PHPMinds\Service\ContentService($c->get('parsedown'),$content['location']);
 };
 
-$container['service.event'] = function ($c) {
+$container['PHPMinds\Service\EventsService'] = function ($c) {
     return new \PHPMinds\Service\EventsService(
         $c->get('service.meetup'),
         $c->get('service.joindin'),
-        $c->get('event.manager')
+        $c->get('PHPMinds\Model\Event\EventManager')
     );
 };
 
@@ -88,7 +89,7 @@ $container['http.client'] = function ($c) {
     return new \GuzzleHttp\Client();
 };
 
-$container['cache'] = function () {
+$container['Slim\HttpCache\CacheProvider'] = function () {
     return new \Slim\HttpCache\CacheProvider();
 };
 
@@ -102,44 +103,44 @@ $container ['db'] = function ($c) {
 
 // Repositories
 
-$container['file.repository'] = function ($c) {
+$container['PHPMinds\Repository\FileRepository'] = function ($c) {
     return new \PHPMinds\Repository\FileRepository(
         $c->get('settings')['file_store']['path']
     );
 };
 
-$container['users.repository'] = function ($c) {
-    return new \PHPMinds\Repository\UsersRepository($c->get('db'));
+$container['PHPMinds\Repository\UsersRepository'] = function ($c) {
+    return new PHPMinds\Repository\UsersRepository($c->get('db'));
 };
 
-$container['speakers.repository'] = function ($c) {
+$container['PHPMinds\Repository\SpeakersRepository'] = function ($c) {
     return new \PHPMinds\Repository\SpeakersRepository($c->get('db'));
 };
 
-$container['events.repository'] = function ($c) {
+$container['PHPMinds\Repository\EventsRepository'] = function ($c) {
     return new \PHPMinds\Repository\EventsRepository($c->get('db'));
 };
 
-$container['supporters.repository'] = function ($c) {
+$container['PHPMinds\Repository\SupportersRepository'] = function ($c) {
     return new \PHPMinds\Repository\SupportersRepository($c->get('db'));
 };
 
 // Managers
 
-$container['event.manager'] = function ($c) {
-    return new \PHPMinds\Model\Event\EventManager(
-        $c->get('events.repository'),
-        $c->get('speakers.repository'),
-        $c->get('supporters.repository')
+$container['PHPMinds\Model\Event\EventManager'] = function ($c) {
+    return new PHPMinds\Model\Event\EventManager(
+        $c->get('PHPMinds\Repository\EventsRepository'),
+        $c->get('PHPMinds\Repository\SpeakersRepository'),
+        $c->get('PHPMinds\Repository\SupportersRepository')
     );
 };
 
-$container['auth.middleware'] = function ($c) {
+$container['PHPMinds\Middleware\AuthCheck'] = function ($c) {
     return new PHPMinds\Middleware\AuthCheck($_SESSION, 'auth', $c->get('settings')['auth-routes']);
 
 };
 
-$container['csrf'] = function ($c) {
+$container['Slim\Csrf\Guard'] = function ($c) {
     $guard = new \Slim\Csrf\Guard();
     $guard->setFailureCallable(function ($request, $response, $next) {
         $request = $request->withAttribute("csrf_status", false);
@@ -148,9 +149,9 @@ $container['csrf'] = function ($c) {
     return $guard;
 };
 
-$container['auth.model'] = function ($c) {
-    return new \PHPMinds\Model\Auth(
-        $c->get('users.repository')
+$container['PHPMinds\Model\Auth'] = function ($c) {
+    return new PHPMinds\Model\Auth(
+        $c->get('PHPMinds\Repository\UsersRepository')
     );
 };
 
@@ -159,7 +160,7 @@ $container['auth.model'] = function ($c) {
 // -----------------------------------------------------------------------------
 
 // Twig
-$container['view'] = function ($c) {
+$container['Slim\Views\Twig'] = function ($c) {
     $settings = $c->get('settings');
     $view = new \Slim\Views\Twig($settings['view']['template_path'], $settings['view']['twig']);
 
@@ -171,7 +172,7 @@ $container['view'] = function ($c) {
 };
 
 // Flash messages
-$container['flash'] = function ($c) {
+$container['Slim\Flash\Messages'] = function ($c) {
     return new \Slim\Flash\Messages;
 };
 
@@ -180,7 +181,7 @@ $container['flash'] = function ($c) {
 // -----------------------------------------------------------------------------
 
 // monolog
-$container['logger'] = function ($c) {
+$container['Psr\Log\LoggerInterface'] = function ($c) {
     $settings = $c->get('settings');
     $logger = new \Monolog\Logger($settings['logger']['name']);
     $logger->pushProcessor(new \Monolog\Processor\UidProcessor());
@@ -192,74 +193,16 @@ $container['logger'] = function ($c) {
 // Action factories
 // -----------------------------------------------------------------------------
 
-$container['PHPMinds\Action\HomeAction'] = function ($c) {
-    return new PHPMinds\Action\HomeAction(
-        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('service.content'), $c->get('cache')
-    );
-};
-
-$container['PHPMinds\Action\AdminDashboardAction'] = function ($c) {
-
-    return new PHPMinds\Action\AdminDashboardAction(
-        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('event.manager')
-    );
-};
-
-$container['PHPMinds\Action\LoginAction'] = function ($c) {
-
-    return new PHPMinds\Action\LoginAction(
-        $c->get('view'), $c->get('logger'), $c->get('auth.model'), $c->get('csrf')
-    );
-};
-
-$container['PHPMinds\Action\CreateSpeakerAction'] = function ($c) {
-
-    return new PHPMinds\Action\CreateSpeakerAction(
-        $c->get('view'), $c->get('logger'), $c->get('speakers.repository')
-    );
-};
-
-$container['PHPMinds\Action\LogoutAction'] = function ($c) {
-
-    return new PHPMinds\Action\LogoutAction(
-        $c->get('view'), $c->get('logger'), $c->get('auth.model')
-    );
-};
-
-$container['PHPMinds\Action\NotFoundAction'] = function ($c) {
-
-    return new PHPMinds\Action\NotFoundAction(
-        $c->get('view'), $c->get('logger')
-    );
-};
 
 
-$container['PHPMinds\Action\CreateEventAction'] = function ($c) {
 
-    return new PHPMinds\Action\CreateEventAction(
-        $c->get('view'), $c->get('logger'), $c->get('service.event'),
-        $c->get('csrf'), $c->get('event.manager'), $c->get('events.config'),
-        $c->get('auth.model'), $c->get('flash')
-    );
-};
-
-$container['PHPMinds\Action\EventDetailsAction'] = function ($c) {
-
-    return new PHPMinds\Action\EventDetailsAction(
-        $c->get('view'), $c->get('logger'), $c->get('service.event'), $c->get('flash')
-    );
-};
-
-$container['PHPMinds\Action\CallbackAction'] = function ($c) {
-
-    return new PHPMinds\Action\CallbackAction(
-        $c->get('logger'), $c->get('auth.model'), $c->get('file.repository')
-    );
-};
-
-$container['PHPMinds\Action\EventStatusAction'] = function ($c) {
-
-    return new PHPMinds\Action\EventStatusAction(
-        $c->get('logger'), $c->get('service.event')
-    );
-};
+$injector->add('PHPMinds\Action\NotFoundAction');
+$injector->add('PHPMinds\Action\HomeAction');
+$injector->add('PHPMinds\Action\LoginAction');
+$injector->add('PHPMinds\Action\LogoutAction');
+$injector->add('PHPMinds\Action\AdminDashboardAction');
+$injector->add('PHPMinds\Action\EventDetailsAction');
+$injector->add('PHPMinds\Action\CreateSpeakerAction');
+$injector->add('PHPMinds\Action\CreateEventAction');
+$injector->add('PHPMinds\Action\CallbackAction');
+$injector->add('PHPMinds\Action\EventStatusAction');

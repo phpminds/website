@@ -93,7 +93,7 @@ $container['Slim\HttpCache\CacheProvider'] = function () {
     return new \Slim\HttpCache\CacheProvider();
 };
 
-$container ['db'] = function ($c) {
+$container ['PHPMinds\Model\Db'] = function ($c) {
     $db = $c->get('settings')['db'];
 
     return new \PHPMinds\Model\Db (
@@ -109,21 +109,10 @@ $container['PHPMinds\Repository\FileRepository'] = function ($c) {
     );
 };
 
-$container['PHPMinds\Repository\UsersRepository'] = function ($c) {
-    return new PHPMinds\Repository\UsersRepository($c->get('db'));
-};
-
-$container['PHPMinds\Repository\SpeakersRepository'] = function ($c) {
-    return new \PHPMinds\Repository\SpeakersRepository($c->get('db'));
-};
-
-$container['PHPMinds\Repository\EventsRepository'] = function ($c) {
-    return new \PHPMinds\Repository\EventsRepository($c->get('db'));
-};
-
-$container['PHPMinds\Repository\SupportersRepository'] = function ($c) {
-    return new \PHPMinds\Repository\SupportersRepository($c->get('db'));
-};
+$injector->add('PHPMinds\Repository\UsersRepository');
+$injector->add('PHPMinds\Repository\SpeakersRepository');
+$injector->add('PHPMinds\Repository\EventsRepository');
+$injector->add('PHPMinds\Repository\SupportersRepository');
 
 // Managers
 

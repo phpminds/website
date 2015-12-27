@@ -7,6 +7,7 @@ use Psr\Log\LoggerInterface;
 use PHPMinds\Model\Auth;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Csrf\Guard;
 
 final class LoginAction
 {
@@ -15,7 +16,7 @@ final class LoginAction
     private $auth;
     private $csrf;
 
-    public function __construct(Twig $view, LoggerInterface $logger, Auth $auth, $csrf)
+    public function __construct(Twig $view, LoggerInterface $logger, Auth $auth,  Guard $csrf)
     {
         $this->view = $view;
         $this->logger = $logger;

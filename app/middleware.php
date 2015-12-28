@@ -10,5 +10,4 @@ $app->add($container->get('Slim\Csrf\Guard'));
 
 $app->add($container->get('PHPMinds\Middleware\AuthCheck'));
 
-$app->add(new PHPMinds\Middleware\CliRequest());
-
+$app->add(new \pavlakis\cli\CliRequest());

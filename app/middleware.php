@@ -11,5 +11,4 @@ $app->add($container->get('csrf'));
 
 $app->add($container->get('auth.middleware'));
 
-$app->add(new PHPMinds\Middleware\CliRequest());
-
+$app->add(new \pavlakis\cli\CliRequest());

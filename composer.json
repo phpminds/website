@@ -35,9 +35,8 @@
         "slim/csrf": "^0.4.0",
         "erusev/parsedown": "^1.6",
         "robmorgan/phinx": "^0.4.6",
-
         "pavlakis/slim-cli" : "~1.0",
-        "dms/meetup-api-client": "^2.0"
+        "dms/meetup-api-client": "^2.0",
         "pavlakis/seaudi": "~0.1"
 
     },

@@ -2,6 +2,8 @@
 
 namespace PHPMinds\Repository;
 
+use PHPMinds\Model\Db;
+
 class RepositoryAbstract
 {
     /**
@@ -13,7 +15,7 @@ class RepositoryAbstract
 
     protected $columns = [];
 
-    public function __construct(\PDO $db)
+    public function __construct(Db $db)
     {
         $this->db = $db;
     }

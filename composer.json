@@ -22,6 +22,7 @@
             "PHPMinds\\": "app/src"
         }
     },
+    "minimum-stability" : "stable",
     "require": {
         "php": "~7.0",
         "slim/slim": "^3.0",
@@ -34,6 +35,7 @@
         "slim/csrf": "^0.4.0",
         "erusev/parsedown": "^1.6",
         "robmorgan/phinx": "^0.4.6",
+        "pavlakis/seaudi": "~0.1",
         "pavlakis/slim-cli" : "~1.0"
     },
     "require-dev": {

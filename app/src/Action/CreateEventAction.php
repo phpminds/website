@@ -105,9 +105,16 @@ final class CreateEventAction
                 $venue      = $this->eventService->getVenueById($request->getParam('venue'));
                 $supporter  = $this->eventManager->getSupporterByID($request->getParam('supporter'));
 
+                $date = \DateTime::createFromFormat(
+                    "Y-m-d H:i",
+                    $request->getParam('start_date') . ' '
+                    . ($request->getParam('start_time') < 10 ? '0' . $request->getParam('start_time') :  $request->getParam('start_time'))
 
-                $event = EventFactory::getByRequest(
-                    $request, $speaker, $venue, $supporter,
+                );
+
+                $event = EventFactory::getEvent(
+                    $request->getParam('talk_title'), $request->getParam('talk_description'),
+                    $date, $speaker, $venue, $supporter,
                     $this->eventsConfig->title, $this->eventsConfig->description
                 );
 

@@ -56,6 +56,7 @@ $container['joindin.event'] = function ($c) {
     );
 };
 
+
 $container['parsedown'] = function($c)
 {
     return new Parsedown();
@@ -66,7 +67,19 @@ $container['service.joindin'] = function ($c) {
 };
 
 $container['service.meetup'] = function ($c) {
-    return new \PHPMinds\Service\MeetupService($c->get('http.client'), $c->get('meetup.event'));
+
+    return new \PHPMinds\Service\MeetupService(
+        \DMS\Service\Meetup\MeetupKeyAuthClient::factory(
+            [
+                'key' => $c->get('meetup.config')->apiKey,
+                'base_url' => $c->get('meetup.config')->baseUrl,
+                'group_urlname' => $c->get('meetup.config')->groupUrlName,
+                'publish_status' => $c->get('meetup.config')->publishStatus
+            ]
+        ),
+        $c->get('meetup.event'),
+        $c->get('meetup.config')
+    );
 };
 
 

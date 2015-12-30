@@ -140,6 +140,7 @@ class EventsRepository extends RepositoryAbstract
      */
     public function getEventByYearAndMonth(int $year, int $month)
     {
+
         $sql = 'SELECT meetup_id,'
                . 'joindin_talk_id,'
                . 'joindin_url,'
@@ -148,14 +149,16 @@ class EventsRepository extends RepositoryAbstract
                . 'last_name,'
                . 'twitter,'
                . 'email'
-               . 'FROM '. $this->table
-               . 'INNER JOIN speakers ON speaker_id=speakers.id'
-               . 'WHERE year(meetup_date) =:year'
-               . 'AND month(meetup_date)=:month';
+               . ' FROM '. $this->table
+               . ' INNER JOIN speakers ON speaker_id=speakers.id'
+               . ' WHERE year(meetup_date) =:year'
+               . ' AND month(meetup_date)=:month';
 
         $stmt = $this->db->prepare($sql);
+        //exit(var_dump($stmt));
         $stmt->bindParam(":year",$year, \PDO::PARAM_INT);
         $stmt->bindParam(":month",$month, \PDO::PARAM_INT);
+        $stmt->execute();
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
         return $stmt->fetchAll();
@@ -186,6 +189,7 @@ class EventsRepository extends RepositoryAbstract
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(":firstName",$firstName, \PDO::PARAM_STR);
         $stmt->bindParam(":lastName",$lastName, \PDO::PARAM_STR);
+        $stmt->execute();
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
         return $stmt->fetchAll();

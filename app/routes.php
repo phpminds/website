@@ -16,6 +16,8 @@ $app->get('/logout', 'PHPMinds\Action\LogoutAction:dispatch')
 $app->get('/404', 'PHPMinds\Action\NotFoundAction:dispatch')
     ->setName('notfound');
 
+$app->get('/event/{year:[0-9]+}/{month:[0-9]+}','PHPMinds\Action\PastEventsAction:eventByYearMonth')
+    ->setName('pastEvents');
 
 // -- auth --
 $app->get('/admin', 'PHPMinds\Action\AdminDashboardAction:dispatch')

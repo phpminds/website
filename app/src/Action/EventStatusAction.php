@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Action;
+namespace PHPMinds\Action;
 
-use App\Repository\EventsRepository;
-use App\Service\EventsService;
-use App\Service\JoindinService;
+use PHPMinds\Repository\EventsRepository;
+use PHPMinds\Service\EventsService;
+use PHPMinds\Service\JoindinService;
 use Psr\Log\LoggerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -43,10 +43,15 @@ final class EventStatusAction
         $userID = 1;
 
         // Create talks for approved events
-        $result = $this->eventsService->manageApprovedEvents($userID);
-        $this->logger->info(__CLASS__ . ' :: ' . $result);
-        echo $result;
-        echo PHP_EOL;
+        try {
+            $result = $this->eventsService->manageApprovedEvents($userID);
+            $this->logger->info(__CLASS__ . ' :: ' . $result);
+            echo $result;
+            echo PHP_EOL;
+        } catch (\Exception $e) {
+            echo __CLASS__ . ' :: ERROR :: ' . $e->getMessage() . PHP_EOL;
+            $this->logger->alert(__CLASS__ . ' :: ' . $e->getMessage());
+        }
         exit;
     }
 

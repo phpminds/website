@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Action;
+namespace PHPMinds\Action;
 
-use App\Model\Event\EventManager;
-use App\Service\EventsService;
+use PHPMinds\Model\Event\EventManager;
+use PHPMinds\Service\EventsService;
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;
 

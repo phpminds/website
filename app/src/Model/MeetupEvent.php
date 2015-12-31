@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Model;
+namespace PHPMinds\Model;
 
-use App\Config\MeetupConfig;
-use App\Model\Event\Entity\Talk;
-use App\Model\Event\Entity\Venue;
-use App\Model\Event\Event;
+use PHPMinds\Config\MeetupConfig;
+use PHPMinds\Model\Event\Entity\Talk;
+use PHPMinds\Model\Event\Entity\Venue;
+use PHPMinds\Model\Event\Event;
 
 class MeetupEvent
 {
@@ -25,7 +25,7 @@ class MeetupEvent
         $this->publishStatus    = $config->publishStatus;
     }
 
-    public function getUrl($action = 'events', $auth = true,$additionalApiParams = ['status'=>'past,upcoming'])
+    public function getUrl($action = 'events', $auth = true, $additionalApiParams = ['status'=>'past,upcoming'])
     {
         $authStr = '';
         if ($auth) {
@@ -50,7 +50,19 @@ class MeetupEvent
 
     public function getAuthString($params = [])
     {
-        $params = array_merge(['group_urlname'=>$this->groupUrlName,"key"=>$this->apiKey,"order"=>"time","desc"=>"true"],$params);
+        $defaults = [];
+        if (!empty($params)) {
+            $defaults = [ 'order' => 'time', 'desc' => 'true'];
+        }
+
+        $params = array_merge(
+            [
+                'group_urlname' => $this->groupUrlName,
+                "key" => $this->apiKey
+            ],
+            $defaults,
+            $params
+        );
         $queryString = http_build_query($params);
 
         return '?'.$queryString;
@@ -63,7 +75,7 @@ class MeetupEvent
 
     public function getVenuesUrl()
     {
-        return $this->getUrl('venues');
+        return $this->getUrl('venues', true, []);
     }
 
     public function formatResponse(array $event = [])
@@ -81,7 +93,7 @@ class MeetupEvent
         $eventDate = date('l jS F Y', $event['time'] / 1000);
         $eventTime = date('g:ia', $event['time'] / 1000);
         $eventCache = date('my', $event['time'] / 1000);
-
+        $mindsUrl = date('Y').'/'.date('m') ?? '/';
         $venue = isset($event['venue']) ? $event['venue'] : '';
 
         $eventLocation = '';
@@ -99,7 +111,8 @@ class MeetupEvent
             'location'  => $eventLocation,
             'venue_id'  => $venue['id'] ?? '',
             'event_url' => $eventUrl,
-            'description' => $eventDescription
+            'description' => $eventDescription,
+            'minds_url'=>$mindsUrl
         ];
     }
 

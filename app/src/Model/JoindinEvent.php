@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Model;
+namespace PHPMinds\Model;
 
-use App\Config\JoindinConfig;
-use App\Model\Event\Event;
-use App\Repository\FileRepository;
+use PHPMinds\Config\JoindinConfig;
+use PHPMinds\Model\Event\Event;
+use PHPMinds\Repository\FileRepository;
 
 class JoindinEvent
 {

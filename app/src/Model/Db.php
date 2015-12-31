@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace PHPMinds\Model;
 
 use Aura\Sql\ExtendedPdo;
 

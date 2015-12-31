@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace PHPMinds\Repository;
 
-use App\Repository\RepositoryAbstract;
+use PHPMinds\Repository\RepositoryAbstract;
 
 class UsersRepository extends RepositoryAbstract
 {

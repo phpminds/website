@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Config;
+namespace PHPMinds\Config;
 
 
 abstract class ConfigAbstract

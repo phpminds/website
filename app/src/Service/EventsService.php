@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service;
+namespace PHPMinds\Service;
 
-use App\Model\Event\Entity\Speaker;
-use App\Model\Event\Entity\Talk;
-use App\Model\Event\Event;
-use App\Model\Event\EventManager;
-use App\Model\MeetupEvent;
+use PHPMinds\Model\Event\Entity\Speaker;
+use PHPMinds\Model\Event\Entity\Talk;
+use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\Event\EventManager;
+use PHPMinds\Model\MeetupEvent;
 
 
 class EventsService
@@ -68,6 +68,8 @@ class EventsService
     {
         return $this->meetupService->getPastEvents();
     }
+
+
     /**
      * @param $eventID
      * @return array
@@ -156,13 +158,20 @@ class EventsService
 
     /**
      * @param $venueID
-     * @return \App\Model\Event\Entity\Venue
+     * @return \PHPMinds\Model\Event\Entity\Venue
      */
     public function getVenueById($venueID)
     {
         return $this->meetupService->getVenueById($venueID);
     }
 
+    /**
+     * @param Event $event
+     * @param $userID
+     * @param null $meetupID
+     * @return array
+     * @throws \Exception
+     */
     public function createMainEvents(Event $event, $userID, $meetupID = null)
     {
         $this->createEvent($event);
@@ -203,13 +212,13 @@ class EventsService
      * Save event references to the DB
      *
      * @param  string $eventName If null, use it through the event object
-     * @return \App\Model\Event\Entity\Event
+     * @return \PHPMinds\Model\Event\Entity\Event
      */
     public function updateEvents($eventName = null)
     {
         $eventName = $eventName ?? $this->event->getName();
 
-        $eventEntity = new \App\Model\Event\Entity\Event(
+        $eventEntity = new \PHPMinds\Model\Event\Entity\Event(
             $this->meetupService->getMeetupEvent()->getMeetupEventID(),
             $this->event->getVenue()->getId(),
             $eventName,
@@ -269,10 +278,10 @@ class EventsService
     /**
      * @param $userID
      * @return string
+     * @throws \Exception
      */
     public function manageApprovedEvents($userID)
     {
-
         $events = $this->eventManager->getAllPendingEvents();
 
         if (count($events) > 0) {
@@ -296,17 +305,21 @@ class EventsService
                         'duration'      => 'PT2H' // default to 2 hours
                     ]);
 
-                    $startDate = \DateTime::createFromFormat("F jS Y", $meetupEvent['date']);
-                    $startTime = \DateTime::createFromFormat("g:ia", $meetupEvent['time']);
-
-
                     $this->event = new Event(
-                        $talk, $startDate->format('d/m/Y'), $startTime->format('H:i'), $venue, $supporter
+                        $talk,
+                        \DateTime::createFromFormat(
+                            "F jS Y g:ia",
+                            $meetupEvent['date'] . ' ' . $meetupEvent['time']
+                        ),
+                        $venue,
+                        $supporter
                     );
 
-
                     $this->joindinEventService->getJoindinEvent()->setEventLocation($event->uri);
-                    $this->createJoindinTalk($userID);
+                    if ($this->createJoindinTalk($userID)->getStatusCode() !== 201) {
+                        throw new \Exception('Could not create Joindin Talk');
+                    }
+
                     $this->updateEvents($eventName);
 
                 }

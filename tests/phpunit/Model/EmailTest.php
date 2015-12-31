@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Model;
+namespace PHPMinds\Tests\Model;
 
-use App\Model\Email;
-use App\Exception\Model\InvalidEmailException;
+use PHPMinds\Model\Email;
+use PHPMinds\Exception\Model\InvalidEmailException;
 
 class EmailTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,11 +11,11 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     {
         $email = new Email('phpminds.org@gmail.com');
 
-        $this->assertInstanceOf('App\Model\Email', $email);
+        $this->assertInstanceOf('PHPMinds\Model\Email', $email);
     }
 
     /**
-     * @expectedException App\Exception\Model\InvalidEmailException
+     * @expectedException PHPMinds\Exception\Model\InvalidEmailException
      */
     public function testInvalidEmailThrowsException()
     {

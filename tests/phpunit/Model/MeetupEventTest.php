@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Model;
+namespace PHPMinds\Tests\Model;
 
-use App\Model\Event\Event;
+use PHPMinds\Model\Event\Event;
 
 
-class MeetupEventTest extends \App\Tests\Helper
+class MeetupEventTest extends \PHPMinds\Tests\Helper
 {
 
     /**
@@ -24,7 +24,7 @@ class MeetupEventTest extends \App\Tests\Helper
 
         $meetup = $settings['settings']['meetups'];
 
-        $meetupConfig = new \App\Config\MeetupConfig(
+        $meetupConfig = new \PHPMinds\Config\MeetupConfig(
             [
                 'apiKey'        => $meetup['apiKey'],
                 'baseUrl'       => $meetup['baseUrl'],
@@ -33,7 +33,7 @@ class MeetupEventTest extends \App\Tests\Helper
             ]
         );
 
-        $this->meetupEvent = new \App\Model\MeetupEvent($meetupConfig);
+        $this->meetupEvent = new \PHPMinds\Model\MeetupEvent($meetupConfig);
 
         $this->event = $this->getEvent();
     }

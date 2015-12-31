@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Model;
+namespace PHPMinds\Tests\Model;
 
-use App\Model\Twitter;
-use App\Exception\Model\InvalidTwitterHandleException;
+use PHPMinds\Model\Twitter;
+use PHPMinds\Exception\Model\InvalidTwitterHandleException;
 
 class TwitterTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,11 +12,11 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     {
         $twitter = new Twitter('@PHPMiNDS');
 
-        $this->assertInstanceOf('App\Model\Twitter', $twitter);
+        $this->assertInstanceOf('PHPMinds\Model\Twitter', $twitter);
     }
 
     /**
-     * @expectedException App\Exception\Model\InvalidTwitterHandleException
+     * @expectedException PHPMinds\Exception\Model\InvalidTwitterHandleException
      */
     public function testInvalidTwitterHandleThrowsException()
     {
@@ -24,7 +24,7 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException App\Exception\Model\InvalidTwitterHandleException
+     * @expectedException PHPMinds\Exception\Model\InvalidTwitterHandleException
      */
     public function testTooLongTwitterHandleThrowsException()
     {

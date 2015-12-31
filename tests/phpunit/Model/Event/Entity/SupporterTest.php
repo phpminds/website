@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Model\Event\Entity;
+namespace PHPMinds\Tests\Model\Event\Entity;
 
-use App\Model\Event\Entity\Supporter;
-use App\Model\Email;
-use App\Model\Twitter;
+use PHPMinds\Model\Event\Entity\Supporter;
+use PHPMinds\Model\Email;
+use PHPMinds\Model\Twitter;
 
 class SupporterTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class SupporterTest extends \PHPUnit_Framework_TestCase
 
     public function testCanCreateValidSupporter()
     {
-        $this->assertInstanceOf('App\Model\Event\Entity\Supporter', $this->supporter);
+        $this->assertInstanceOf('PHPMinds\Model\Event\Entity\Supporter', $this->supporter);
     }
 
     public function testGetSupporterName()
@@ -36,7 +36,7 @@ class SupporterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException App\Exception\Model\InvalidTwitterHandleException
+     * @expectedException PHPMinds\Exception\Model\InvalidTwitterHandleException
      */
     public function testCreateInstanceWithNullTwitterThrowsException()
     {

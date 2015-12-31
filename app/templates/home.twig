@@ -33,7 +33,7 @@
 
                 <ul>
                     {% for previousEvent in previousEvents %}
-                        <li>{{ previousEvent.subject|e }} on {{ previousEvent.date }}</li>
+                        <li><a href="../../event/{{ previousEvent.minds_url }}">{{ previousEvent.subject|e }} on {{ previousEvent.date }}</a></li>
                     {% endfor %}
                 </ul>
 

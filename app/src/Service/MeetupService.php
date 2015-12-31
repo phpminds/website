@@ -1,28 +1,37 @@
 <?php
 
-namespace App\Service;
+namespace PHPMinds\Service;
 
 
-use App\Model\Event\Entity\Venue;
-use App\Model\Event\Event;
-use App\Model\MeetupEvent;
+use DMS\Service\Meetup\MeetupKeyAuthClient;
+use PHPMinds\Config\MeetupConfig;
+use PHPMinds\Model\Event\Entity\Venue;
+use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\MeetupEvent;
 
 class MeetupService
 {
+
     /**
-     * @var \GuzzleHttp\Client()
+     * @var MeetupKeyAuthClient
      */
-    protected $httpClient;
+    protected $client;
 
     /**
      * @var MeetupEvent
      */
     protected $meetupEvent;
 
-    public function __construct($httpClient, MeetupEvent $meetupEvent)
+    /**
+     * @var MeetupConfig
+     */
+    protected $config;
+
+    public function __construct(MeetupKeyAuthClient $meetupClient,  MeetupEvent $meetupEvent, MeetupConfig $config)
     {
-        $this->httpClient = $httpClient;
-        $this->meetupEvent = $meetupEvent;
+        $this->client       = $meetupClient;
+        $this->meetupEvent  = $meetupEvent;
+        $this->config       = $config;
     }
 
     public function getMeetupEvent()
@@ -30,13 +39,10 @@ class MeetupService
         return $this->meetupEvent;
     }
 
-    protected function getEvents()
+    protected function getEvents($args = ['status' => 'past,upcoming'])
     {
-        $eventUrl = $this->meetupEvent->getEventUrl();
-
-        $response = $this->httpClient->get($eventUrl);
-
-        return json_decode($response->getBody()->getContents(), true);
+        $eventArgs = array_merge(['group_urlname' => $this->config->groupUrlName], $args);
+        return $this->client->getEvents($eventArgs)->getData();
     }
 
     /**
@@ -47,7 +53,8 @@ class MeetupService
         $result = $this->getEvents();
 
         $events = [];
-        foreach ($result['results'] as $event) {
+        foreach ($result as $event) {
+
             $eventInfo = $this->meetupEvent->formatResponse($event);
             $events[$eventInfo['id']] = $eventInfo;
         }
@@ -60,9 +67,9 @@ class MeetupService
      */
     public function getLatestEvent()
     {
-        $events = $this->getEvents();
+        $events = $this->getEvents(['status' => 'upcoming']);
 
-        return $this->meetupEvent->formatResponse($events['results'][0] ?? []);
+        return $this->meetupEvent->formatResponse($events[0] ?? []);
     }
 
     /**
@@ -73,11 +80,9 @@ class MeetupService
     {
         $pastEvents = [];
 
-        $events = $this->getEvents();
+        $events = $this->getEvents(['status' => 'past']);
 
-        array_shift($events["results"]);
-
-        foreach($events["results"] as $event){
+        foreach($events as $event){
            $pastEvents[] = $this->meetupEvent->formatResponse($event);
 
         }
@@ -89,39 +94,20 @@ class MeetupService
      */
     public function createMeetup(Event $event)
     {
-        $response = $this->httpClient->post(
-            $this->meetupEvent->getUrl('event'), [
-                'form_params' => $this->meetupEvent->getCreateEventPayload($event)
-            ]
+        $eventArgs = array_merge([
+            'group_urlname' => $this->config->groupUrlName],
+            $this->meetupEvent->getCreateEventPayload($event)
         );
+        $response = $this->client->createEvent($eventArgs);
 
-        $this->meetupEvent->setEventLocation($response->getHeader('location')[0]);
+        $this->meetupEvent->setEventLocation($response->getLocation());
 
         return $response;
     }
 
     public function getEventById($eventID)
     {
-        $eventUrl = sprintf(
-            'https://api.meetup.com/%s/events/%s',
-            $this->meetupEvent->getGroupUrlName(),
-            $eventID
-        );
-
-        try {
-            $response = $this->httpClient->get(
-                $eventUrl,
-                [
-                    'headers' => [
-                        'Accept' => 'application/json'
-                    ]
-                ]
-            );
-        } catch (\Exception $e) {
-            return [];
-        }
-
-        $result = json_decode($response->getBody()->getContents(), true);
+        $result = $this->client->getEvent(['id' => $eventID, 'group_urlname' => $this->config->groupUrlName])->getData();
 
         return $this->meetupEvent->formatResponse($result ?? []);
     }
@@ -131,13 +117,7 @@ class MeetupService
      */
     public function getVenues()
     {
-        $venuesUrl = $this->meetupEvent->getVenuesUrl();
-
-        $result = json_decode(
-            $this->httpClient->get($venuesUrl)->getBody()->getContents(),
-            true
-        )['results'];
-
+        $result = $this->client->getVenues(['group_urlname' => $this->config->groupUrlName])->getData();
 
         $venues = [];
         foreach ($result as $venue) {

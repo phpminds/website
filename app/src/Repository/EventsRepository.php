@@ -76,8 +76,8 @@ class EventsRepository extends RepositoryAbstract
     {
         $aliasedCols = $this->columns;
 
-        array_walk($aliasedCols, function(&$value, $key, $alias){
-            $value = $alias. '.'.$value;
+        array_walk($aliasedCols, function (&$value, $key, $alias) {
+            $value = $alias . '.' . $value;
         }, 'ev');
 
 
@@ -104,8 +104,8 @@ class EventsRepository extends RepositoryAbstract
     public function eventExists($eventName)
     {
         $sql = 'SELECT COUNT(*)'
-                . ' FROM '. $this->table
-                . ' WHERE joindin_event_name = :event_name';
+            . ' FROM ' . $this->table
+            . ' WHERE joindin_event_name = :event_name';
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(":event_name", $eventName, \PDO::PARAM_STR);
@@ -118,6 +118,7 @@ class EventsRepository extends RepositoryAbstract
         return (int)$result[0] > 0;
     }
 
+
     /**
      * @return array
      */
@@ -125,9 +126,73 @@ class EventsRepository extends RepositoryAbstract
     {
         // a pending event has a joindin_talk_id of ZERO
         $sql = 'SELECT meetup_id, joindin_event_name, speaker_id, supporter_id'
-            . ' FROM '. $this->table
+            . ' FROM ' . $this->table
             . ' WHERE joindin_talk_id = 0 ';
 
         return $this->db->query($sql, \PDO::FETCH_OBJ)->fetchAll();
     }
+
+    /**
+     * Get Event by Date for past events
+     * @param int $year
+     * @param int $month
+     * @return array
+     */
+    public function getEventByYearAndMonth(int $year, int $month)
+    {
+
+        $sql = 'SELECT meetup_id,'
+               . 'joindin_talk_id,'
+               . 'joindin_url,'
+               . 'meetup_date,'
+               . 'first_name,'
+               . 'last_name,'
+               . 'twitter,'
+               . 'email'
+               . ' FROM '. $this->table
+               . ' LEFT JOIN speakers ON speaker_id=speakers.id'
+               . ' WHERE year(meetup_date) =:year'
+               . ' AND month(meetup_date)=:month';
+
+        $stmt = $this->db->prepare($sql);
+        //exit(var_dump($stmt));
+        $stmt->bindParam(":year",$year, \PDO::PARAM_INT);
+        $stmt->bindParam(":month",$month, \PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+
+        return $stmt->fetchAll();
+    }
+
+
+    /**
+     * Get event by speaker for past events
+     * @param string $firstName
+     * @param string $lastName
+     * @return array
+     */
+    public function getEventBySpeaker(string $firstName, string $lastName )
+    {
+        $sql = 'SELECT meetup_id,'
+            . 'joindin_talk_id,'
+            . 'joindin_url,'
+            . 'meetup_date,'
+            . 'first_name,'
+            . 'last_name,'
+            . 'twitter,'
+            . 'email'
+            . 'FROM '. $this->table
+            . 'LEFT JOIN speakers ON speaker_id=speakers.id'
+            . 'WHERE first_name =:firstName'
+            . 'AND last_name =:lastName';
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(":firstName",$firstName, \PDO::PARAM_STR);
+        $stmt->bindParam(":lastName",$lastName, \PDO::PARAM_STR);
+        $stmt->execute();
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+
+        return $stmt->fetchAll();
+    }
+
 }

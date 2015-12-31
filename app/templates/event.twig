@@ -1,0 +1,37 @@
+{% extends "base.twig" %}
+{% block content %}
+    <section class="past-events" id="past-event">
+        <div class="row">
+            <div class="large-offset-1 large-10 small-12 columns h-event">
+                <p>  {{ event.date_time }} saw </p>
+                <h3 class="p-name"> {{ event.subject }}</h3>
+
+                <div class="p-summary">
+                    <p>{{ event.description | raw }} <!--|length > 450 ? event.description|raw| slice(0, 450) ~ '...[read more]' : event.description|raw }}
+                    --></p>
+
+                    <p class="right"><a class="button success" href="{{ eventMeta['joindin_url'] }}">Give Feedback</a></p>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class=" large-offset-1 large-10 small-12 columns">
+                <h3><i class="fa fa-calendar-times-o"></i> Full list of Past Events</h3>
+
+
+                <ul>
+                    {% for previousEvent in previousEvents %}
+
+                        <li><a href="../../event/{{ previousEvent.minds_url }}">{{ previousEvent.subject|e }} on {{ previousEvent.date }}</a></li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+{% endblock %}

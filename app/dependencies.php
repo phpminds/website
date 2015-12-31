@@ -207,3 +207,4 @@ $injector->add('PHPMinds\Action\CreateSpeakerAction');
 $injector->add('PHPMinds\Action\CreateEventAction');
 $injector->add('PHPMinds\Action\CallbackAction');
 $injector->add('PHPMinds\Action\EventStatusAction');
+$injector->add('PHPMinds\Action\PastEventsAction');

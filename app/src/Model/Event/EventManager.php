@@ -120,4 +120,10 @@ class EventManager
         return $pendingEvents;
     }
 
+    public function getByYearMonth($year,$month)
+    {
+        $event = $this->eventsRepo->getEventByYearAndMonth($year,$month);
+
+        return $event;
+    }
 }

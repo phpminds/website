@@ -68,6 +68,8 @@ class EventsService
     {
         return $this->meetupService->getPastEvents();
     }
+
+
     /**
      * @param $eventID
      * @return array

@@ -150,7 +150,7 @@ class EventsRepository extends RepositoryAbstract
                . 'twitter,'
                . 'email'
                . ' FROM '. $this->table
-               . ' INNER JOIN speakers ON speaker_id=speakers.id'
+               . ' LEFT JOIN speakers ON speaker_id=speakers.id'
                . ' WHERE year(meetup_date) =:year'
                . ' AND month(meetup_date)=:month';
 
@@ -182,7 +182,7 @@ class EventsRepository extends RepositoryAbstract
             . 'twitter,'
             . 'email'
             . 'FROM '. $this->table
-            . 'INNER JOIN speakers ON speaker_id=speakers.id'
+            . 'LEFT JOIN speakers ON speaker_id=speakers.id'
             . 'WHERE first_name =:firstName'
             . 'AND last_name =:lastName';
 

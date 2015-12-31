@@ -15,6 +15,7 @@ use Psr\Log\LoggerInterface;
 use Slim\Flash\Messages;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\HttpCache\CacheProvider;
 use Slim\Views\Twig;
 
 class PastEventsAction
@@ -31,23 +32,25 @@ class PastEventsAction
      * @var EventsService
      */
     private $eventService;
-    /**
-     * @var Messages
-     */
-    private $flash;
+
     /**
      * @var EventManager
      */
     private $eventManager;
+    /**
+     * @var CacheProvider
+     */
+    private $cache;
 
-    public function __construct(Twig $view, LoggerInterface $logger,EventManager $eventManager, EventsService $eventService, Messages $flash)
+    public function __construct(Twig $view, LoggerInterface $logger,EventManager $eventManager, EventsService $eventService, CacheProvider $cache)
     {
 
         $this->view = $view;
         $this->logger = $logger;
         $this->eventService = $eventService;
-        $this->flash = $flash;
+
         $this->eventManager = $eventManager;
+        $this->cache = $cache;
     }
 
     public function eventByYearMonth(Request $request, Response $response, $args)
@@ -58,6 +61,8 @@ class PastEventsAction
 
         $eventMeta = $this->eventManager->getByYearMonth($year,$month);
         $event = $this->eventService->getEventById($eventMeta[0]['meetup_id']);
-        exit(var_dump($eventMeta,$event));
+        $resWithETag = $this->cache->withETag($response, $eventMeta[0]['meetup_id']);
+        $this->view->render($response, 'event.twig', ['event' => $event]);
+        return $resWithETag;
     }
 }

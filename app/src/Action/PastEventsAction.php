@@ -62,7 +62,11 @@ class PastEventsAction
         $eventMeta = $this->eventManager->getByYearMonth($year,$month);
         $event = $this->eventService->getEventById($eventMeta[0]['meetup_id']);
         $resWithETag = $this->cache->withETag($response, $eventMeta[0]['meetup_id']);
-        $this->view->render($response, 'event.twig', ['event' => $event]);
+        $previousEvents= $this->eventService->getPastEvents();
+
+
+        $this->view->render($response, 'event.twig', ['event' => $event,'eventMeta'=>$eventMeta[0],'previousEvents'=>$previousEvents]);
+
         return $resWithETag;
     }
 }

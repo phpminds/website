@@ -93,7 +93,7 @@ class MeetupEvent
         $eventDate = date('l jS F Y', $event['time'] / 1000);
         $eventTime = date('g:ia', $event['time'] / 1000);
         $eventCache = date('my', $event['time'] / 1000);
-        $mindsUrl = date('Y').'/'.date('m') ?? '/';
+        $mindsUrl = date('Y',$event['time']/1000).'/'.date('m',$event['time']/1000) ?? '/';
         $venue = isset($event['venue']) ? $event['venue'] : '';
 
         $eventLocation = '';

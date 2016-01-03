@@ -20,7 +20,7 @@ vagrant_local:
 
 php:
     install: '1'
-    packages: ['php70-php-cli', 'php70-php-common', 'php70-php-opcache', 'php70-php-fpm', 'php70-php-mysql', 'php70-php-pdo', 'php70-php-mcrypt', 'php70-php-intl', 'php70-php-devel']
+    packages: ['php70-php-cli', 'php70-php-common', 'php70-php-opcache', 'php70-php-fpm', 'php70-php-mysqlnd', 'php70-php-pdo', 'php70-php-mcrypt', 'php70-php-intl', 'php70-php-devel','php70-php-xml']
 
 app:
     env: development

@@ -225,7 +225,8 @@ class EventsService
             $this->joindinEventService->getJoindinEvent()->getTalkID(),
             $this->joindinEventService->getJoindinEvent()->getTalkUrl(),
             $this->event->getTalk()->getSpeaker()->getId(),
-            $this->event->getSupporter()->getId()
+            $this->event->getSupporter()->getId(),
+            $this->event->getDate()
         );
 
         $this->eventManager->saveEvent($eventEntity);

@@ -6,7 +6,7 @@ use PHPMinds\Model\Event\Entity\Supporter;
 use PHPMinds\Model\Event\Entity\Venue;
 use PHPMinds\Model\Event\Entity\Talk;
 
-class Event
+class EventModel
 {
     private $name;
 

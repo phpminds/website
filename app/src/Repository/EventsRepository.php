@@ -104,6 +104,9 @@ class EventsRepository extends RepositoryAbstract
         return $stmt->fetchAll();
     }
 
+    /**
+     * @return array
+     */
     public function getAllEventDetails()
     {
         $aliasedCols = $this->columns;
@@ -130,11 +133,7 @@ class EventsRepository extends RepositoryAbstract
         $events = $stmt->fetchAll();
 
         $result = array_reduce($events, function($carry, $item){
-            if (is_object($item)) {
-                $carry[$item->meetup_id] = $item;
-            } else {
-                $carry[$item['meetup_id']] = $item;
-            }
+            $carry[$item['meetup_id']] = $item;
             return $carry;
         });
 

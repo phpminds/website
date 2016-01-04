@@ -10,8 +10,6 @@ Vagrant.require_version ">= 1.5"
 
 Vagrant.configure("2") do |config|
 
-
-
         config.vm.provider :virtualbox do |v|
             v.name = "phpminds"
             v.customize [
@@ -24,13 +22,11 @@ Vagrant.configure("2") do |config|
         end
 
         config.vm.box = 'bento/centos-7.1'
-        
-        config.vm.network :private_network, ip: "192.168.32.52", auto_correct: true
-        config.vm.network :forwarded_port, host: 15672, guest: 15672
+
+        config.vm.network :private_network, ip: "192.168.32.52"
+        #config.vm.network :forwarded_port, host: 15672, guest: 15672
         config.ssh.forward_agent = true
         config.vm.synced_folder "./", "/srv", type: "nfs"
-
-
 
     config.vm.synced_folder ".", "/vagrant", disabled: true
     config.ssh.pty = true

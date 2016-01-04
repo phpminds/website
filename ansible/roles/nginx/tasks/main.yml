@@ -7,6 +7,14 @@
 #  sudo: yes
 #  shell: systemctl start nginx
 
+- name: Create directories and subdirectories for php-fpm.d
+  sudo: yes
+  shell: mkdir -p /usr/local/php7/etc/php-fpm.d/
+
+- name: Create directory for sbin
+  sudo: yes
+  shell: mkdir -p /usr/local/php7/sbin/
+
 - name: Create user group for web server
   group: name={{ web_server.server_user_group }} state=present
 
@@ -39,17 +47,11 @@
 
 - name: configure php-fpm base
   sudo: yes
-  command: cp /usr/local/php7/etc/php-fpm.conf.default /etc/php-fpm.conf
+  command: cp /etc/opt/remi/php70/php-fpm.conf /etc/php-fpm.conf
 
 - name: configure php-fpm www
   sudo: yes
-  command: cp /usr/local/php7/etc/php-fpm.d/www.conf.default /usr/local/php7/etc/php-fpm.d/www.conf
-
-#- name: Enable PHP-FPM for default site
-#  sudo: yes
-#  template: src=php-fpm.conf.tpl dest=/etc/php-fpm.d/default_app.conf
-
-
+  command: cp /etc/opt/remi/php70/php-fpm.d/www.conf /usr/local/php7/etc/php-fpm.d/www.conf
 
 - name: Restart Nginx manually
   sudo: yes
@@ -57,5 +59,5 @@
 
 - name: Start PHP-FPM manually
   sudo: yes
-  command: /usr/local/php7/sbin/php-fpm -y /etc/php-fpm.conf
+  command: /opt/remi/php70/root/usr/sbin/php-fpm -y /etc/php-fpm.conf
 

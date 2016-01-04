@@ -53,11 +53,14 @@ class EventsService
     }
 
     /**
-     * @return array
+     * @return \PHPMinds\Model\Event\EventModel
      */
     public function getLatestEvent()
     {
-        return $this->meetupService->getLatestEvent();
+        $event      = $this->meetupService->getLatestEvent();
+        $eventInfo  = $this->eventManager->getDetailsByMeetupID($event['id']);
+
+        return EventFactory::getMergedFromArrays($event, $eventInfo[0]);
     }
 
     /**

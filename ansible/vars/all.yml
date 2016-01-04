@@ -17,9 +17,11 @@ vagrant_local:
         useVagrantCloud: '1',
         syncType: nfs 
     }
-#php:
-#    install: '1'
-#    packages: ['php56w', 'php56w-common', 'php56w-cli', 'php56w-opcache', 'php56w-fpm', 'php56w-mysql', 'php56w-pdo', 'php56w-mcrypt', 'php56w-intl', 'php56w-devel']
+
+php:
+    install: '1'
+    packages: ['php70-php-cli', 'php70-php-common', 'php70-php-opcache', 'php70-php-fpm', 'php70-php-mysqlnd', 'php70-php-pdo', 'php70-php-mcrypt', 'php70-php-intl', 'php70-php-devel','php70-php-xml', 'php70-php-zip']
+    timezone: Europe/London
 
 app:
     env: development

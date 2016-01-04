@@ -106,7 +106,7 @@ final class CreateEventAction
                 $supporter  = $this->eventManager->getSupporterByID($request->getParam('supporter'));
 
                 $date = \DateTime::createFromFormat(
-                    "Y-m-d H:i",
+                    "d/m/Y H:i",
                     $request->getParam('start_date') . ' '
                     . ($request->getParam('start_time') < 10 ? '0' . $request->getParam('start_time') :  $request->getParam('start_time'))
 

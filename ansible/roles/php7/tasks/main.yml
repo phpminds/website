@@ -1,15 +1,29 @@
 ---
-- name: Adding PHP 7 repo
+- name: Add epel release
   sudo: yes
-  template: src=php7-nightly.repo dest=/etc/yum.repos.d/php7-nightly.repo
+  yum: name=http://rpms.famillecollet.com/enterprise/remi-release-7.rpm state=present
 
-- name: Install PHP 7 nightly
+- name: Add PHP 7 embed
   sudo: yes
-  yum: pkg=php7-nightly state=latest
+  yum: enablerepo=remi name=php70-php-embedded state=present
+
+- name: Install PHP 7
+  sudo: yes
+  yum: name=php70 state=present
+
+- name: Install PHP 7 packages
+  sudo: yes
+  yum: pkg={{ item }} state=latest
+  with_items: php.packages
+  when: php.packages is defined
 
 - name: Create symlink for PHP 7
   sudo: yes
-  file: src=/usr/local/php7/bin/php dest=/usr/bin/php state=link
+  file: src=/usr/bin/php70 dest=/usr/bin/php state=link
+
+- name: Create php.ini defaults
+  sudo: yes
+  lineinfile: dest=/etc/opt/remi/php70/php.ini regexp='^;date.timezone =' line='date.timezone ={{ php.timezone }}'
 
 - name: Create PHP-FPM service
   sudo: yes

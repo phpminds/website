@@ -104,6 +104,43 @@ class EventsRepository extends RepositoryAbstract
         return $stmt->fetchAll();
     }
 
+    public function getAllEventDetails()
+    {
+        $aliasedCols = $this->columns;
+
+        array_walk($aliasedCols, function (&$value, $key, $alias) {
+            $value = $alias . '.' . $value;
+        }, 'ev');
+
+
+        $sql = 'SELECT ' . implode(', ', $aliasedCols)
+            . ', sp.first_name, sp.last_name, sp.email, sp.twitter, sp.avatar'
+            . ', supp.name AS supporter_name, supp.url AS supporter_url, supp.twitter AS supporter_twitter'
+            . ', supp.email AS supporter_email, supp.logo AS supporter_logo'
+            . " FROM {$this->table} AS ev"
+            . " LEFT JOIN `speakers` AS sp ON sp.id = ev.speaker_id"
+            . " LEFT JOIN `supporters` AS supp ON supp.id = ev.supporter_id";
+
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+
+        $events = $stmt->fetchAll();
+
+        $result = array_reduce($events, function($carry, $item){
+            if (is_object($item)) {
+                $carry[$item->meetup_id] = $item;
+            } else {
+                $carry[$item['meetup_id']] = $item;
+            }
+            return $carry;
+        });
+
+        return $result;
+    }
+
     public function eventExists($eventName)
     {
         $sql = 'SELECT COUNT(*)'

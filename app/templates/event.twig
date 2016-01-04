@@ -3,11 +3,12 @@
     <section class="past-events" id="past-event">
         <div class="row">
             <div class="large-offset-1 large-10 small-12 columns h-event">
-                <p>  {{ event.date_time }} saw </p>
-                <h3 class="p-name"> {{ event.subject }}</h3>
+                <p>  {{ event.getDateTimeAsString }} saw </p>
+                <h3 class="p-name"> {{ event.getTalk().getTitle() }} </h3>
+                <p>by {{ event.getTalk().getSpeaker().getFirstName() }} {{ event.getTalk().getSpeaker().getLastName() }} ( <a href="https://twitter.com/{{ event.getTalk().getSpeaker().getTwitter()|slice(1) }}">{{ event.getTalk().getSpeaker().getTwitter() }}</a> )</p>
 
                 <div class="p-summary">
-                    <p>{{ event.description | raw }} <!--|length > 450 ? event.description|raw| slice(0, 450) ~ '...[read more]' : event.description|raw }}
+                    <p>{{ event.getTalk().getDescription() | raw }} <!--|length > 450 ? event.description|raw| slice(0, 450) ~ '...[read more]' : event.description|raw }}
                     --></p>
 
                     <p class="right"><a class="button success" href="{{ eventMeta['joindin_url'] }}">Give Feedback</a></p>
@@ -23,7 +24,7 @@
                 <ul>
                     {% for previousEvent in previousEvents %}
 
-                        <li><a href="../../event/{{ previousEvent.minds_url }}">{{ previousEvent.subject|e }} on {{ previousEvent.date }}</a></li>
+                        <li><a href="../../event/{{ previousEvent.getMindsUrl }}">{{ previousEvent.getTalk().getTitle|e }} on {{ previousEvent.getDateTimeAsString }}</a></li>
                     {% endfor %}
                 </ul>
 

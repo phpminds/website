@@ -19,7 +19,8 @@ class EventsRepository extends RepositoryAbstract
         'joindin_talk_id',
         'joindin_url',
         'speaker_id',
-        'supporter_id'
+        'supporter_id',
+        'meetup_date'
     ];
 
     /**
@@ -32,8 +33,8 @@ class EventsRepository extends RepositoryAbstract
             return $this->update($event);
         }
 
-        $sql = "INSERT INTO {$this->table} (meetup_id, meetup_venue_id, joindin_event_name, joindin_talk_id, joindin_url, speaker_id, supporter_id) VALUES ("
-            . ":meetup_id, :meetup_venue_id, :joindin_event_name, :joindin_talk_id, :joindin_url, :speaker_id, :supporter_id"
+        $sql = "INSERT INTO {$this->table} (meetup_id, meetup_venue_id, joindin_event_name, joindin_talk_id, joindin_url, speaker_id, supporter_id, meetup_date) VALUES ("
+            . ":meetup_id, :meetup_venue_id, :joindin_event_name, :joindin_talk_id, :joindin_url, :speaker_id, :supporter_id, :meetup_date"
             . ")";
 
         $stmt = $this->db->prepare($sql);
@@ -44,6 +45,7 @@ class EventsRepository extends RepositoryAbstract
         $stmt->bindParam(":joindin_url", $event->getJoindinURL(), \PDO::PARAM_STR);
         $stmt->bindParam(":speaker_id", $event->getSpeakerID(), \PDO::PARAM_INT);
         $stmt->bindParam(":supporter_id", $event->getSupporterID(), \PDO::PARAM_INT);
+        $stmt->bindParam(":meetup_date", $event->getMeetupDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
 
 
         $stmt->execute();
@@ -56,7 +58,7 @@ class EventsRepository extends RepositoryAbstract
         $sql = 'UPDATE ' . $this->table
             . ' SET meetup_venue_id = :meetup_venue_id, joindin_event_name = :joindin_event_name,'
             . ' joindin_talk_id = :joindin_talk_id, joindin_url = :joindin_url, speaker_id = :speaker_id,'
-            . ' supporter_id = :supporter_id'
+            . ' supporter_id = :supporter_id, meetup_date = :meetup_date'
             . ' WHERE meetup_id = :meetup_id';
 
         $stmt = $this->db->prepare($sql);
@@ -67,6 +69,7 @@ class EventsRepository extends RepositoryAbstract
         $stmt->bindParam(":joindin_url", $event->getJoindinURL(), \PDO::PARAM_STR);
         $stmt->bindParam(":speaker_id", $event->getSpeakerID(), \PDO::PARAM_INT);
         $stmt->bindParam(":supporter_id", $event->getSupporterID(), \PDO::PARAM_INT);
+        $stmt->bindParam(":meetup_date", $event->getMeetupDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
 
 
         return $stmt->execute();

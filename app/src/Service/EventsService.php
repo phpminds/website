@@ -88,11 +88,26 @@ class EventsService
     }
 
     /**
-     * @return array
+     * @return \PHPMinds\Model\Event\EventModel
      */
     public function getAll()
     {
-        return $this->meetupService->getAll();
+        $events = $this->meetupService->getAll();
+        $eventDetails = $this->eventManager->getAllEventDetails();
+
+        $result = [];
+        foreach ($events as $event) {
+
+            if (isset($eventDetails[$event['id']])) {
+
+                $result[] = EventFactory::getMergedFromArrays(
+                    $event,
+                    $eventDetails[$event['id']]
+                );
+            }
+        }
+
+        return $result;
     }
 
     /**

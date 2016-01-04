@@ -21,6 +21,10 @@
   sudo: yes
   file: src=/usr/bin/php70 dest=/usr/bin/php state=link
 
+- name: Create php.ini defaults
+  sudo: yes
+  lineinfile: dest=/etc/opt/remi/php70/php.ini regexp='^;date.timezone =' line='date.timezone ={{ php.timezone }}'
+
 - name: Create PHP-FPM service
   sudo: yes
   template: src=php-fpm.service dest=/etc/init.d/php-fpm

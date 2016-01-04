@@ -77,6 +77,14 @@ class EventManager
     }
 
     /**
+     * @return mixed
+     */
+    public function getAllEventDetails()
+    {
+        return $this->eventsRepo->getAllEventDetails();
+    }
+
+    /**
      * @param EventEntity $event
      */
     public function saveEvent(EventEntity $event)

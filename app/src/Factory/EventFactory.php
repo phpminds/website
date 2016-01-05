@@ -8,6 +8,10 @@ use PHPMinds\Model\Event\Entity\Supporter;
 use PHPMinds\Model\Event\Entity\Talk;
 use PHPMinds\Model\Event\Entity\Venue;
 use PHPMinds\Model\Event\EventModel;
+use PHPMinds\Model\Event\NullSpeaker;
+use PHPMinds\Model\Event\NullSupporter;
+use PHPMinds\Model\Event\NullTalk;
+use PHPMinds\Model\Event\NullVenue;
 use PHPMinds\Model\Twitter;
 use Slim\Http\Request;
 
@@ -34,28 +38,39 @@ class EventFactory
         return $event;
     }
 
-    public static function getMergedFromArrays(array $meetupEvent = [], array $dbEvent = [])
+    public static function getMergedFromArrays(array $meetupEvent = [], array $dbEvent = null)
     {
-        $speaker = new Speaker(
-            $dbEvent['first_name'], $dbEvent['last_name'],
-            new Email($dbEvent['email']),
-            new Twitter($dbEvent['twitter']),
-            $dbEvent['avatar']
-        );
+//        echo '<pre>';
+//        var_dump($meetupEvent);exit;
 
+        if (!is_null($dbEvent)) {
+
+            $speaker = new Speaker(
+                $dbEvent['first_name'], $dbEvent['last_name'],
+                new Email($dbEvent['email']),
+                new Twitter($dbEvent['twitter']),
+                $dbEvent['avatar']
+            );
+
+
+
+            $supporter = new Supporter(
+                $dbEvent['supporter_name'], $dbEvent['supporter_url'],
+                new Twitter($dbEvent['supporter_twitter']),
+                new Email($dbEvent['supporter_email']),
+                $dbEvent['supporter_logo']
+            );
+
+
+        } else {
+            $speaker    = new NullSpeaker();
+            $supporter  = new NullSupporter();
+        }
 
         $talk = new Talk($meetupEvent['subject'], $meetupEvent['description'], $speaker);
-
         $venue = new Venue($meetupEvent['venue_name'], $meetupEvent['venue_address']);
 
         $date = \DateTime::createFromFormat('F jS Y', $meetupEvent['date']);
-
-        $supporter = new Supporter(
-            $dbEvent['supporter_name'], $dbEvent['supporter_url'],
-            new Twitter($dbEvent['supporter_twitter']),
-            new Email($dbEvent['supporter_email']),
-            $dbEvent['supporter_logo']
-        );
 
         $event = new EventModel(
             $talk,

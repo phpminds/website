@@ -46,7 +46,7 @@ class EventModel
      */
     private $meetupURL;
 
-    public function __construct(Talk $talk, \DateTime $date, Venue $venue, Supporter $supporter)
+    public function __construct(TalkInterface $talk, \DateTime $date, VenueInterface $venue, SupporterInterface $supporter)
     {
         $this->talk         = $talk;
         $this->date         = $date;

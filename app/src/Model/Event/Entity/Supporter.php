@@ -3,9 +3,11 @@
 namespace PHPMinds\Model\Event\Entity;
 
 use PHPMinds\Model\Email;
+use PHPMinds\Model\Event\SupporterInterface;
 use PHPMinds\Model\Twitter;
 
-class Supporter
+
+class Supporter implements SupporterInterface
 {
     public $id;
 
@@ -85,7 +87,7 @@ class Supporter
      * @param array $params
      * @return Supporter
      */
-    public static function create(array $params = []) : Supporter
+    public static function create(array $params = []) : SupporterInterface
     {
         $class = new self(
             $params['name'] ?? null,

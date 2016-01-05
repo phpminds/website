@@ -4,8 +4,10 @@ namespace PHPMinds\Model\Event\Entity;
 
 use PHPMinds\Model\Event\Entity\Speaker;
 use PHPMinds\Exception\Model\Event\Entity\InvalidTalkTitle;
+use PHPMinds\Model\Event\SpeakerInterface;
+use PHPMinds\Model\Event\TalkInterface;
 
-class Talk
+class Talk implements TalkInterface
 {
     private $id;
 
@@ -34,7 +36,7 @@ class Talk
      */
     private $slides;
 
-    public function __construct($title, $description, Speaker $speaker, $duration = 'PT2H', $slides = '')
+    public function __construct($title, $description, SpeakerInterface $speaker, $duration = 'PT2H', $slides = '')
     {
         $this->title        = $title;
         $this->description  = $description;
@@ -79,7 +81,7 @@ class Talk
     /**
      * @return Speaker
      */
-    public function getSpeaker() : Speaker
+    public function getSpeaker() : SpeakerInterface
     {
         return $this->speaker;
     }
@@ -104,7 +106,7 @@ class Talk
      * @param array $params
      * @return Talk
      */
-    public static function create(array $params = []) : Talk
+    public static function create(array $params = []) : TalkInterface
     {
         $class = new self(
             $params['title'] ?? null,

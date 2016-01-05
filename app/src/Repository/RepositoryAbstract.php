@@ -45,6 +45,16 @@ class RepositoryAbstract
         $sql = "SELECT {$this->getColumns()} ".
                 "FROM {$this->table} ";
 
-        return $this->db->query($sql)->fetchAll($returnType);
+        $events = $this->db->query($sql)->fetchAll($returnType);
+        $result = array_reduce($events, function($carry, $item){
+            if (is_object($item)) {
+                $carry[$item->meetup_id] = $item;
+            } else {
+                $carry[$item['meetup_id']] = $item;
+            }
+            return $carry;
+        });
+
+        return $result;
     }
 }

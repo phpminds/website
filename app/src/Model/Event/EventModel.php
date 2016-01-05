@@ -6,7 +6,7 @@ use PHPMinds\Model\Event\Entity\Supporter;
 use PHPMinds\Model\Event\Entity\Venue;
 use PHPMinds\Model\Event\Entity\Talk;
 
-class Event
+class EventModel
 {
     private $name;
 
@@ -31,6 +31,20 @@ class Event
      */
     private $supporter;
 
+    /**
+     * @var string
+     */
+    private $mindsUrl;
+
+    /**
+     * @var
+     */
+    private $meetupID;
+
+    /**
+     * @var
+     */
+    private $meetupURL;
 
     public function __construct(Talk $talk, \DateTime $date, Venue $venue, Supporter $supporter)
     {
@@ -94,6 +108,14 @@ class Event
     }
 
     /**
+     * @return string
+     */
+    public function getDateTimeAsString()
+    {
+        return $this->date->format('F jS Y');
+    }
+
+    /**
      * @return Venue
      */
     public function getVenue() : Venue
@@ -107,5 +129,53 @@ class Event
     public function getSupporter() : Supporter
     {
         return $this->supporter;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMindsUrl()
+    {
+        return $this->mindsUrl;
+    }
+
+    /**
+     * @param string $mindsUrl
+     */
+    public function setMindsUrl($mindsUrl)
+    {
+        $this->mindsUrl = $mindsUrl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMeetupID()
+    {
+        return $this->meetupID;
+    }
+
+    /**
+     * @param mixed $meetupID
+     */
+    public function setMeetupID($meetupID)
+    {
+        $this->meetupID = $meetupID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMeetupURL()
+    {
+        return $this->meetupURL;
+    }
+
+    /**
+     * @param mixed $meetupURL
+     */
+    public function setMeetupURL($meetupURL)
+    {
+        $this->meetupURL = $meetupURL;
     }
 }

@@ -2,9 +2,10 @@
 
 namespace PHPMinds\Service;
 
+use PHPMinds\Factory\EventFactory;
 use PHPMinds\Model\Event\Entity\Speaker;
 use PHPMinds\Model\Event\Entity\Talk;
-use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\Event\EventModel;
 use PHPMinds\Model\Event\EventManager;
 use PHPMinds\Model\MeetupEvent;
 
@@ -27,7 +28,7 @@ class EventsService
     protected $joindinEventService;
 
     /**
-     * @var Event
+     * @var EventModel
      */
     protected $event;
 
@@ -53,38 +54,60 @@ class EventsService
     }
 
     /**
-     * @return array
+     * @return \PHPMinds\Model\Event\EventModel
      */
     public function getLatestEvent()
     {
-        return $this->meetupService->getLatestEvent();
+        $event      = $this->meetupService->getLatestEvent();
+        $eventInfo  = $this->eventManager->getDetailsByMeetupID($event['id']);
+
+        return EventFactory::getMergedFromArrays($event, $eventInfo[0]);
     }
 
     /**
      * Get all events except for latest.
-     * @return array
+     * @return array of \PHPMinds\Model\Event\EventModel
      */
     public function getPastEvents()
     {
-        return $this->meetupService->getPastEvents();
+        return $this->meetupService->getPastEvents(
+            $this->eventManager->getAllEventDetails()
+        );
     }
 
 
     /**
      * @param $eventID
-     * @return array
+     * @return \PHPMinds\Model\Event\EventModel
      */
     public function getEventById($eventID)
     {
-        return $this->meetupService->getEventById($eventID);
+        $event = $this->meetupService->getEventById($eventID);
+        $eventInfo  = $this->eventManager->getDetailsByMeetupID($event['id']);
+        return EventFactory::getMergedFromArrays($event, $eventInfo[0]);
     }
 
     /**
-     * @return array
+     * @return \PHPMinds\Model\Event\EventModel
      */
     public function getAll()
     {
-        return $this->meetupService->getAll();
+        $events = $this->meetupService->getAll();
+        $eventDetails = $this->eventManager->getAllEventDetails();
+
+        $result = [];
+        foreach ($events as $event) {
+
+            if (isset($eventDetails[$event['id']])) {
+
+                $result[] = EventFactory::getMergedFromArrays(
+                    $event,
+                    $eventDetails[$event['id']]
+                );
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -166,13 +189,13 @@ class EventsService
     }
 
     /**
-     * @param Event $event
+     * @param EventModel $event
      * @param $userID
      * @param null $meetupID
      * @return array
      * @throws \Exception
      */
-    public function createMainEvents(Event $event, $userID, $meetupID = null)
+    public function createMainEvents(EventModel $event, $userID, $meetupID = null)
     {
         $this->createEvent($event);
 
@@ -200,10 +223,10 @@ class EventsService
     }
 
     /**
-     * @param Event $event
+     * @param EventModel $event
      * @return bool
      */
-    public function createEvent(Event $event)
+    public function createEvent(EventModel $event)
     {
         $this->event = $event;
     }
@@ -225,7 +248,8 @@ class EventsService
             $this->joindinEventService->getJoindinEvent()->getTalkID(),
             $this->joindinEventService->getJoindinEvent()->getTalkUrl(),
             $this->event->getTalk()->getSpeaker()->getId(),
-            $this->event->getSupporter()->getId()
+            $this->event->getSupporter()->getId(),
+            $this->event->getDate()
         );
 
         $this->eventManager->saveEvent($eventEntity);
@@ -305,7 +329,7 @@ class EventsService
                         'duration'      => 'PT2H' // default to 2 hours
                     ]);
 
-                    $this->event = new Event(
+                    $this->event = new EventModel(
                         $talk,
                         \DateTime::createFromFormat(
                             "F jS Y g:ia",

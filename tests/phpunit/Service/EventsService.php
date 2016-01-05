@@ -9,7 +9,7 @@ use PHPMinds\Model\Event\Entity\Supporter;
 use PHPMinds\Model\Event\Entity\Talk;
 use PHPMinds\Model\Event\Entity\Venue;
 use PHPMinds\Model\JoindinEvent;
-use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\Event\EventModel;
 use PHPMinds\Model\Twitter;
 
 class EventsServiceTest extends \PHPUnit_Framework_TestCase
@@ -105,7 +105,7 @@ class EventsServiceTest extends \PHPUnit_Framework_TestCase
         $supporter = new Supporter('a big fan', 'youareawso.me', $twitter, $email, 'http://nolo.go');
         $supporter->setId(350);
 
-        return new Event(
+        return new EventModel(
             $talk,
             $startDate,
             $startTime,

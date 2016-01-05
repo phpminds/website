@@ -3,7 +3,7 @@
 namespace PHPMinds\Model;
 
 use PHPMinds\Config\JoindinConfig;
-use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\Event\EventModel;
 use PHPMinds\Repository\FileRepository;
 
 class JoindinEvent
@@ -96,10 +96,10 @@ class JoindinEvent
     }
 
     /**
-     * @param Event $event
+     * @param EventModel $event
      * @return array
      */
-    public function getCreateEventPayload(Event $event)
+    public function getCreateEventPayload(EventModel $event)
     {
         return [
             'name' => $event->getName(),
@@ -113,11 +113,11 @@ class JoindinEvent
     }
 
     /**
-     * @param Event $event
+     * @param EventModel $event
      * @param string $language
      * @return array
      */
-    public function getCreateEventTitlePayload(Event $event, $language = 'English - UK')
+    public function getCreateEventTitlePayload(EventModel $event, $language = 'English - UK')
     {
         $speakers = [$event->getTalk()->getSpeaker()->getFirstName() . ' ' . $event->getTalk()->getSpeaker()->getLastName()];
 

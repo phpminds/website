@@ -61,6 +61,7 @@ class PastEventsAction
 
         $eventMeta = $this->eventManager->getByYearMonth($year,$month);
         $event = $this->eventService->getEventById($eventMeta[0]['meetup_id']);
+
         $resWithETag = $this->cache->withETag($response, $eventMeta[0]['meetup_id']);
         $previousEvents= $this->eventService->getPastEvents();
 

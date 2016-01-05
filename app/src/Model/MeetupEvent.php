@@ -5,7 +5,7 @@ namespace PHPMinds\Model;
 use PHPMinds\Config\MeetupConfig;
 use PHPMinds\Model\Event\Entity\Talk;
 use PHPMinds\Model\Event\Entity\Venue;
-use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\Event\EventModel;
 
 class MeetupEvent
 {
@@ -110,17 +110,19 @@ class MeetupEvent
             'time'      => $eventTime,
             'location'  => $eventLocation,
             'venue_id'  => $venue['id'] ?? '',
-            'event_url' => $eventUrl,
-            'description' => $eventDescription,
-            'minds_url'=>$mindsUrl
+            'venue_name' => $venue['name'] ?? '',
+            'venue_address' => $venue['address_1'] ?? '',
+            'event_url'     => $eventUrl,
+            'description'   => $eventDescription,
+            'minds_url'     =>  $mindsUrl
         ];
     }
 
     /**
-     * @param Event     $event
+     * @param EventModel     $event
      * @return array
      */
-    public function getCreateEventPayload(Event $event)
+    public function getCreateEventPayload(EventModel $event)
     {
         // x-www-form-urlencoded
         // have not tried using json

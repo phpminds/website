@@ -39,11 +39,8 @@ final class AdminDashboardAction
 
     public function dispatch($request, $response, $args)
     {
-        $events     = $this->eventService->getAll();
-        $speakers   = $this->eventManager->getSpeakers();
-        $venues     = $this->eventService->getVenues();
 
-        $this->eventService->mergeEvents($events, $speakers, $venues);
+        $events     = $this->eventService->getAll();
 
         $this->view->render($response, 'admin/dashboard.twig', [
             'events' => $events

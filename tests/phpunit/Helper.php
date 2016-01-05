@@ -8,7 +8,7 @@ use PHPMinds\Model\Event\Entity\Speaker;
 use PHPMinds\Model\Event\Entity\Supporter;
 use PHPMinds\Model\Event\Entity\Talk;
 use PHPMinds\Model\Event\Entity\Venue;
-use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\Event\EventModel;
 use PHPMinds\Model\Twitter;
 
 class Helper extends \PHPUnit_Framework_TestCase
@@ -72,7 +72,7 @@ class Helper extends \PHPUnit_Framework_TestCase
 
                 $supporter = new Supporter('a big fan', 'youareawso.me', $twitter, $email, 'http://nolo.go');
 
-                return new Event(
+                return new EventModel(
                     $talk,
                     \DateTime::createFromFormat(
                         "d/m/Y H:i",

@@ -55,7 +55,7 @@ final class HomeAction
 
 
 
-        $resWithETag = $this->cache->withETag($response, $event['id']);
+        $resWithETag = $this->cache->withETag($response, $event->getMeetupID());
 
         $this->view->render($response, 'home.twig', ['event' => $event,'previousEvents'=>$previousEvents]);
         return $resWithETag;

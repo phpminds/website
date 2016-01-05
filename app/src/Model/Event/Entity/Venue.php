@@ -2,7 +2,9 @@
 
 namespace PHPMinds\Model\Event\Entity;
 
-class Venue
+use PHPMinds\Model\Event\VenueInterface;
+
+class Venue implements VenueInterface
 {
     /**
      * @var int

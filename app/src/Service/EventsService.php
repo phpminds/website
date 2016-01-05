@@ -60,8 +60,9 @@ class EventsService
     {
         $event      = $this->meetupService->getLatestEvent();
         $eventInfo  = $this->eventManager->getDetailsByMeetupID($event['id']);
+        $eventInfo  = $eventInfo[0] ?? null;
 
-        return EventFactory::getMergedFromArrays($event, $eventInfo[0]);
+        return EventFactory::getMergedFromArrays($event, $eventInfo);
     }
 
     /**

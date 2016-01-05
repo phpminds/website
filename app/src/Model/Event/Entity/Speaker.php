@@ -3,9 +3,10 @@
 namespace PHPMinds\Model\Event\Entity;
 
 use PHPMinds\Model\Email;
+use PHPMinds\Model\Event\SpeakerInterface;
 use PHPMinds\Model\Twitter;
 
-class Speaker
+class Speaker implements SpeakerInterface
 {
     public $id;
 

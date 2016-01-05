@@ -11,7 +11,7 @@
     <div class="row">
         <div class="large-offset-1 large-10 small-12 columns h-event">
             <h3 class="p-name"><i class="fa fa-calendar"></i> {{ event.getTalk().getTitle() }}</h3>
-            <h4> on {{ event.getDateTimeAsString }} by {{ event.getTalk().getSpeaker().getFirstName() }} {{ event.getTalk().getSpeaker().getLastName() }} ( <a href="https://twitter.com/{{ event.getTalk().getSpeaker().getTwitter()|slice(1) }}">{{ event.getTalk().getSpeaker().getTwitter() }}</a> )</h4>
+            <h4> on {{ event.getDateTimeAsString }} {% if (event.getTalk().getSpeaker().getFirstName()) %} by {{ event.getTalk().getSpeaker().getFirstName() }} {{ event.getTalk().getSpeaker().getLastName() }} ( <a href="https://twitter.com/{{ event.getTalk().getSpeaker().getTwitter()|slice(1) }}">{{ event.getTalk().getSpeaker().getTwitter() }}</a> ) {% endif %}</h4>
 
             <div class="p-summary">
                 <p>{{ event.getTalk().getDescription() | raw }} <!--|length > 450 ? event.description|raw| slice(0, 450) ~ '...[read more]' : event.description|raw }}

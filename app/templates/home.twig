@@ -10,14 +10,14 @@
     </section>
     <div class="row">
         <div class="large-offset-1 large-10 small-12 columns h-event">
-            <h3 class="p-name"><i class="fa fa-calendar"></i> {{ event.subject }}</h3>
-            <h4> on {{ event.date_time }}</h4>
+            <h3 class="p-name"><i class="fa fa-calendar"></i> {{ event.getTalk().getTitle() }}</h3>
+            <h4> on {{ event.getDateTimeAsString }} by {{ event.getTalk().getSpeaker().getFirstName() }} {{ event.getTalk().getSpeaker().getLastName() }} ( <a href="https://twitter.com/{{ event.getTalk().getSpeaker().getTwitter()|slice(1) }}">{{ event.getTalk().getSpeaker().getTwitter() }}</a> )</h4>
 
             <div class="p-summary">
-                <p>{{ event.description | raw }} <!--|length > 450 ? event.description|raw| slice(0, 450) ~ '...[read more]' : event.description|raw }}
+                <p>{{ event.getTalk().getDescription() | raw }} <!--|length > 450 ? event.description|raw| slice(0, 450) ~ '...[read more]' : event.description|raw }}
                     --></p>
 
-                <p class="right"><a class="button alert" href="{{ event.event_url }}">RSVP</a></p>
+                <p class="right"><a class="button alert" href="{{ event.getMeetupURL }}">RSVP</a></p>
             </div>
 
         </div>
@@ -33,7 +33,7 @@
 
                 <ul>
                     {% for previousEvent in previousEvents %}
-                        <li><a href="../../event/{{ previousEvent.minds_url }}">{{ previousEvent.subject|e }} on {{ previousEvent.date }}</a></li>
+                        <li><a href="../../event/{{ previousEvent.getMindsUrl }}">{{ previousEvent.getTalk().getTitle()|e }} on {{ previousEvent.getDateTimeAsString }}</a></li>
                     {% endfor %}
                 </ul>
 
@@ -79,10 +79,10 @@
 
                         <div class="supporter">
                             <div class="supporter-icon-box">
-                                <img class="supporter-icon" src="imgs/your-logo-here.svg" alt="support us"/>
+                                <a href="http://dvomedia.net/"><img class="supporter-icon" src="imgs/dvomedia-logo.svg" alt="DVO Media Ltd"/></a>
                             </div>
-                            <h4 class="supporter-heading">Your Logo here </h4>
-                            <span class="supporter-description">{{ "supporters-content-you" | content | raw }}</span>
+                            <h4 class="supporter-heading">DVO Media</h4>
+                            <span class="supporter-description">{{ "supporters-content-dvo" | content | raw }}</span>
 
                         </div>
                     </div>

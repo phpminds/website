@@ -5,8 +5,9 @@ namespace PHPMinds\Service;
 
 use DMS\Service\Meetup\MeetupKeyAuthClient;
 use PHPMinds\Config\MeetupConfig;
+use PHPMinds\Factory\EventFactory;
 use PHPMinds\Model\Event\Entity\Venue;
-use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\Event\EventModel;
 use PHPMinds\Model\MeetupEvent;
 
 class MeetupService
@@ -76,23 +77,33 @@ class MeetupService
      * get all events apart form last one in array
      * @return array
      */
-    public function getPastEvents()
+    public function getPastEvents($savedEvents = null)
     {
         $pastEvents = [];
 
         $events = $this->getEvents(['status' => 'past']);
 
         foreach($events as $event){
-           $pastEvents[] = $this->meetupEvent->formatResponse($event);
+            if (!is_null($savedEvents)) {
+                if (isset($savedEvents[$event['id']])) {
 
+                    $pastEvents[] = EventFactory::getMergedFromArrays(
+                        $this->meetupEvent->formatResponse($event),
+                        $savedEvents[$event['id']]
+                    );
+                }
+            } else {
+                $pastEvents[] = $this->meetupEvent->formatResponse($event);
+            }
         }
-        return $pastEvents ?? [];
+
+        return $pastEvents;
     }
     /**
-     * @param Event $event
+     * @param EventModel $event
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function createMeetup(Event $event)
+    public function createMeetup(EventModel $event)
     {
         $eventArgs = array_merge([
             'group_urlname' => $this->config->groupUrlName],

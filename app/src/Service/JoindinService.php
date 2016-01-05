@@ -3,7 +3,7 @@
 namespace PHPMinds\Service;
 
 
-use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\Event\EventModel;
 use PHPMinds\Model\JoindinEvent;
 
 class JoindinService
@@ -20,7 +20,7 @@ class JoindinService
     protected $joindinEvent;
 
     /**
-     * @var Event
+     * @var EventModel
      */
     private $event;
 
@@ -32,9 +32,9 @@ class JoindinService
     }
 
     /**
-     * @param Event $event
+     * @param EventModel $event
      */
-    public function setEvent(Event $event)
+    public function setEvent(EventModel $event)
     {
         $this->event = $event;
     }
@@ -65,12 +65,12 @@ class JoindinService
     }
 
     /**
-     * @param Event $event
+     * @param EventModel $event
      * @param $userID
      * @param string $language
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function createTalk(Event $event, $userID, $language = 'English - UK')
+    public function createTalk(EventModel $event, $userID, $language = 'English - UK')
     {
         $response = $this->httpClient->post(
             $this->joindinEvent->getUrl('events/' . $this->joindinEvent->getJoindinEventID() .'/talks'),
@@ -134,4 +134,6 @@ class JoindinService
 
         return $found;
     }
+    
+
 }

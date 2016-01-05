@@ -4,7 +4,7 @@ namespace PHPMinds\Tests\Model;
 
 
 use PHPMinds\Model\JoindinEvent;
-use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\Event\EventModel;
 
 
 class JoindinEventTest extends \PHPMinds\Tests\Helper
@@ -15,7 +15,7 @@ class JoindinEventTest extends \PHPMinds\Tests\Helper
     protected $joindinEvent;
 
     /**
-     * @var Event
+     * @var EventModel
      */
     protected $event;
 

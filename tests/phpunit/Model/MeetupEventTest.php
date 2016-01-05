@@ -2,7 +2,7 @@
 
 namespace PHPMinds\Tests\Model;
 
-use PHPMinds\Model\Event\Event;
+use PHPMinds\Model\Event\EventModel;
 
 
 class MeetupEventTest extends \PHPMinds\Tests\Helper
@@ -14,7 +14,7 @@ class MeetupEventTest extends \PHPMinds\Tests\Helper
     protected $meetupEvent;
 
     /**
-     * @var Event
+     * @var EventModel
      */
     protected $event;
 

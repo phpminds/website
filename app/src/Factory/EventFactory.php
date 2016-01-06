@@ -64,6 +64,7 @@ class EventFactory
 
         $talk = new Talk($meetupEvent['subject'], $meetupEvent['description'], $speaker);
         $venue = new Venue($meetupEvent['venue_name'], $meetupEvent['venue_address']);
+        $venue->setId($meetupEvent['venue_id']);
 
         $date = \DateTime::createFromFormat('F jS Y g:ia', $meetupEvent['date'] . ' ' . $meetupEvent['time']);
 

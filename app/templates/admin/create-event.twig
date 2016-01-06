@@ -67,7 +67,7 @@
                         <select id="venues" name="venue">
                             <option value="0">-- Select --</option>
                             {% for venue in venues %}
-                                <option {% if eventInfo.getVenueId == venue.id %}selected{% endif %} value="{{ venue.id }}">{{ venue.name }} - {{ venue.address }}</option>
+                                <option {% if eventInfo.getVenue().getId() == venue.id %}selected{% endif %} value="{{ venue.id }}">{{ venue.name }} - {{ venue.address }}</option>
                             {% endfor %}
                         </select>
                     </div>

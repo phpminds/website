@@ -91,9 +91,17 @@ class MeetupService
                         $this->meetupEvent->formatResponse($event),
                         $savedEvents[$event['id']]
                     );
+                } else {
+                    $pastEvents[] = EventFactory::getMergedFromArrays(
+                        $this->meetupEvent->formatResponse($event),
+                        null
+                    );
                 }
             } else {
-                $pastEvents[] = $this->meetupEvent->formatResponse($event);
+                $pastEvents[] = EventFactory::getMergedFromArrays(
+                    $this->meetupEvent->formatResponse($event),
+                    null
+                );
             }
         }
 

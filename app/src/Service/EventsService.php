@@ -107,6 +107,11 @@ class EventsService
                     $event,
                     $eventDetails[$event['id']]
                 );
+            } else {
+                $result[] = EventFactory::getMergedFromArrays(
+                    $event,
+                    null
+                );
             }
         }
 

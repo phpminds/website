@@ -40,9 +40,6 @@ class EventFactory
 
     public static function getMergedFromArrays(array $meetupEvent = [], array $dbEvent = null)
     {
-//        echo '<pre>';
-//        var_dump($meetupEvent);exit;
-
         if (!is_null($dbEvent)) {
 
             $speaker = new Speaker(
@@ -51,8 +48,6 @@ class EventFactory
                 new Twitter($dbEvent['twitter']),
                 $dbEvent['avatar']
             );
-
-
 
             $supporter = new Supporter(
                 $dbEvent['supporter_name'], $dbEvent['supporter_url'],
@@ -70,7 +65,7 @@ class EventFactory
         $talk = new Talk($meetupEvent['subject'], $meetupEvent['description'], $speaker);
         $venue = new Venue($meetupEvent['venue_name'], $meetupEvent['venue_address']);
 
-        $date = \DateTime::createFromFormat('F jS Y', $meetupEvent['date']);
+        $date = \DateTime::createFromFormat('F jS Y g:ia', $meetupEvent['date'] . ' ' . $meetupEvent['time']);
 
         $event = new EventModel(
             $talk,
@@ -83,6 +78,10 @@ class EventFactory
         $event->setMindsUrl($meetupEvent['minds_url']);
         $event->setMeetupID($meetupEvent['id']);
         $event->setMeetupURL($meetupEvent['event_url']);
+
+        if (!is_null($dbEvent)) {
+            $event->eventExists();
+        }
 
         return $event;
     }

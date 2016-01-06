@@ -85,7 +85,9 @@ class EventsService
     {
         $event = $this->meetupService->getEventById($eventID);
         $eventInfo  = $this->eventManager->getDetailsByMeetupID($event['id']);
-        return EventFactory::getMergedFromArrays($event, $eventInfo[0]);
+        $eventInfo  = $eventInfo[0] ?? null;
+
+        return EventFactory::getMergedFromArrays($event, $eventInfo);
     }
 
     /**
@@ -117,26 +119,7 @@ class EventsService
      */
     public function getInfoByMeetupID($meetupID = null)
     {
-        $eventInfo = ['title' => '', 'description' => '', 'event_exists'];
-
-        if (!is_null($meetupID)) {
-            $event = $this->getEventById((int)$meetupID);
-
-            if(!empty($event)) {
-
-                if (!empty($this->eventManager->getDetailsByMeetupID($meetupID))) {
-                    $eventInfo['event_exists'] = true;
-                } else {
-                    $eventInfo['title'] = $event['subject'];
-                    $eventInfo['description'] = $event['description'];
-                    $eventInfo['venue_id'] = $event['venue_id'];
-                    $date = \DateTime::createFromFormat('F jS Y', $event['date']);
-                    $eventInfo['date'] = $date->format("d/m/Y");
-                }
-            }
-        }
-
-        return $eventInfo;
+        return $this->getEventById((int)$meetupID);
 
     }
 

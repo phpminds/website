@@ -80,7 +80,7 @@ final class CreateEventAction
         $supporters = $this->eventManager->getSupporters();
 
         $eventInfo = $this->eventService->getInfoByMeetupID($request->getParam('meetup_id'));
-        if ($eventInfo['event_exists']) {
+        if ($eventInfo->eventExists()) {
             $this->flash->addMessage('event', 'Event already exists. Check its status.');
             return $response->withStatus(302)->withHeader('Location', 'event-details?meetup_id=' . $request->getParam('meetup_id'));
         }
@@ -145,7 +145,6 @@ final class CreateEventAction
             }
 
         }
-
 
         $nameKey = $this->csrf->getTokenNameKey();
         $valueKey = $this->csrf->getTokenValueKey();

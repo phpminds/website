@@ -180,11 +180,11 @@ class EventModel
     }
 
     /**
-     * An event exists (locally) if it has a Talk with an ID associated with it.
+     * An event exists (locally) if it has a Speaker associated with it.
      * @return bool
      */
     public function eventExists()
     {
-        return (bool)$this->talk->getId();
+        return (bool)$this->getTalk()->getSpeaker()->getId();
     }
 }

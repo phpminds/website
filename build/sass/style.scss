@@ -248,6 +248,10 @@ html {
 
     }
 
+
+
+
+
     footer {
       text-align: center;
       color: $white-smoke;
@@ -301,5 +305,24 @@ html {
     .login-button{
       background: $lite-green;
     }
+  }
+  ul.contact-details {
+    text-align: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    font-size: 1.2em;
+    li {
+      display: inline-flex;
+      flex: 1;
+      padding: 5%;
+      color: #6aa84f;
+      vertical-align: middle;
+      i:after{
+        margin: 0.5em;
+      }
+    }
+
+
   }
 }

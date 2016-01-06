@@ -124,9 +124,11 @@ class MeetupService
         return $response;
     }
 
-    public function getEventById($eventID)
+    public function getEventById($eventID = null)
     {
-        $result = $this->client->getEvent(['id' => $eventID, 'group_urlname' => $this->config->groupUrlName])->getData();
+        if (!is_null($eventID)) {
+            $result = $this->client->getEvent(['id' => $eventID, 'group_urlname' => $this->config->groupUrlName])->getData();
+        }
 
         return $this->meetupEvent->formatResponse($result ?? []);
     }

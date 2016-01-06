@@ -40,6 +40,23 @@ class EventFactory
 
     public static function getMergedFromArrays(array $meetupEvent = [], array $dbEvent = null)
     {
+        if (empty($meetupEvent)) {
+
+            $supporter  = new NullSupporter();
+            $date       = new \DateTime();
+            $talk       = new NullTalk();
+            $venue      = new NullVenue();
+
+            $model = new EventModel(
+                $talk,
+                $date,
+                $venue,
+                $supporter
+            );
+
+            return $model;
+
+        }
         if (!is_null($dbEvent)) {
 
             $speaker = new Speaker(
@@ -50,7 +67,7 @@ class EventFactory
             );
 
             $speaker->setId($dbEvent['speaker_id']);
-            
+
             $supporter = new Supporter(
                 $dbEvent['supporter_name'], $dbEvent['supporter_url'],
                 new Twitter($dbEvent['supporter_twitter']),

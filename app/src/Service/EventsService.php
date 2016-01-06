@@ -81,9 +81,9 @@ class EventsService
      * @param $eventID
      * @return \PHPMinds\Model\Event\EventModel
      */
-    public function getEventById($eventID)
+    public function getEventById($eventID = null)
     {
-        $event = $this->meetupService->getEventById($eventID);
+        $event      = $this->meetupService->getEventById($eventID);
         $eventInfo  = $this->eventManager->getDetailsByMeetupID($event['id']);
         $eventInfo  = $eventInfo[0] ?? null;
 
@@ -124,7 +124,7 @@ class EventsService
      */
     public function getInfoByMeetupID($meetupID = null)
     {
-        return $this->getEventById((int)$meetupID);
+        return $this->getEventById($meetupID);
 
     }
 

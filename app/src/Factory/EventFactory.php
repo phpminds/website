@@ -49,12 +49,16 @@ class EventFactory
                 $dbEvent['avatar']
             );
 
+            $speaker->setId($dbEvent['speaker_id']);
+            
             $supporter = new Supporter(
                 $dbEvent['supporter_name'], $dbEvent['supporter_url'],
                 new Twitter($dbEvent['supporter_twitter']),
                 new Email($dbEvent['supporter_email']),
                 $dbEvent['supporter_logo']
             );
+
+            $supporter->setId($dbEvent['supporter_id']);
 
 
         } else {
@@ -79,10 +83,6 @@ class EventFactory
         $event->setMindsUrl($meetupEvent['minds_url']);
         $event->setMeetupID($meetupEvent['id']);
         $event->setMeetupURL($meetupEvent['event_url']);
-
-        if (!is_null($dbEvent)) {
-            $event->eventExists();
-        }
 
         return $event;
     }

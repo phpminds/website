@@ -115,7 +115,7 @@ class EventsService
 
     /**
      * @param int $meetupID
-     * @return array
+     * @return \PHPMinds\Model\Event\EventModel
      */
     public function getInfoByMeetupID($meetupID = null)
     {

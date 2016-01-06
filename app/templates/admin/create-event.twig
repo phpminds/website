@@ -34,7 +34,7 @@
                         <select id="supporters" name="supporter">
                             <option value="0">-- Select --</option>
                             {% for supporter in supporters %}
-                                <option value="{{ supporter.id }}">{{ supporter.name }} ({{ supporter.twitter }})</option>
+                                <option {% if eventInfo.getSupporter().getId() == supporter.id %}selected{% endif %} value="{{ supporter.id }}">{{ supporter.name }} ({{ supporter.twitter }})</option>
                             {% endfor %}
                         </select>
 
@@ -51,7 +51,7 @@
                             <option value="0">-- Select --</option>
                             <option value="-1">Create speaker</option>
                             {% for speaker in speakers %}
-                                <option value="{{ speaker.id }}">{{ speaker.firstName }} {{ speaker.lastName }} ({{ speaker.twitter }})</option>
+                                <option {% if eventInfo.getTalk().getSpeaker().getId() == speaker.id %}selected{% endif %} value="{{ speaker.id }}">{{ speaker.firstName }} {{ speaker.lastName }} ({{ speaker.twitter }})</option>
                             {% endfor %}
                         </select>
 

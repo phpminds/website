@@ -46,6 +46,8 @@ class EventModel
      */
     private $meetupURL;
 
+    private $eventExists = false;
+
     public function __construct(TalkInterface $talk, \DateTime $date, VenueInterface $venue, SupporterInterface $supporter)
     {
         $this->talk         = $talk;
@@ -89,7 +91,7 @@ class EventModel
     /**
      * @return Talk
      */
-    public function getTalk() : Talk
+    public function getTalk() : TalkInterface
     {
         return $this->talk;
     }
@@ -177,5 +179,15 @@ class EventModel
     public function setMeetupURL($meetupURL)
     {
         $this->meetupURL = $meetupURL;
+    }
+
+    public function setEventExists($exists = true)
+    {
+        $this->eventExists = $exists;
+    }
+
+    public function eventExists()
+    {
+        return $this->eventExists;
     }
 }

@@ -24,7 +24,6 @@
     },
     "minimum-stability" : "stable",
     "require": {
-        "php": "~7.0",
         "slim/slim": "^3.0",
         "slim/twig-view": "^1.1",
         "slim/flash": "^0.1.0",
@@ -43,7 +42,13 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "2.*",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "^5.1"
+        "phpunit/phpunit": "^5.1",
+        "behat/behat"                : "~3.0",
+        "behat/mink"                 : "~1.6",
+        "behat/mink-goutte-driver"   : "~1.1",
+        "behat/mink-extension"       : "~2.0",
+        "behat/mink-selenium2-driver": "~1.2",
+        "pavlakis/slim-behat-extension" : "~1.0"
     }
 
 }

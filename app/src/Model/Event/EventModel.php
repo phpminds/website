@@ -185,6 +185,6 @@ class EventModel
      */
     public function eventExists()
     {
-        return (bool)$this->getTalk()->getSpeaker();
+        return $this->getTalk()->getSpeaker()->exists();
     }
 }

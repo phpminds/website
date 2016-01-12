@@ -23,4 +23,9 @@ class NullSpeaker implements SpeakerInterface
     {
         return '';
     }
+
+    public function exists()
+    {
+        return false;
+    }
 }

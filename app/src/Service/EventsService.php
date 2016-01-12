@@ -81,9 +81,9 @@ class EventsService
      * @param $eventID
      * @return \PHPMinds\Model\Event\EventModel
      */
-    public function getEventById($eventID)
+    public function getEventById($eventID = null)
     {
-        $event = $this->meetupService->getEventById($eventID);
+        $event      = $this->meetupService->getEventById($eventID);
         $eventInfo  = $this->eventManager->getDetailsByMeetupID($event['id']);
         $eventInfo  = $eventInfo[0] ?? null;
 
@@ -107,6 +107,11 @@ class EventsService
                     $event,
                     $eventDetails[$event['id']]
                 );
+            } else {
+                $result[] = EventFactory::getMergedFromArrays(
+                    $event,
+                    null
+                );
             }
         }
 
@@ -115,11 +120,11 @@ class EventsService
 
     /**
      * @param int $meetupID
-     * @return array
+     * @return \PHPMinds\Model\Event\EventModel
      */
     public function getInfoByMeetupID($meetupID = null)
     {
-        return $this->getEventById((int)$meetupID);
+        return $this->getEventById($meetupID);
 
     }
 
@@ -299,30 +304,11 @@ class EventsService
                 foreach ($events as $eventName => $event) {
 
                     // API call
+                    /** @var EventModel $meetupEvent */
                     $meetupEvent = $this->getEventById($event->meetup_id);
                     $this->getMeetupEvent()->setEventID($event->meetup_id);
 
-                    $speaker = $this->eventManager->getSpeakerById($event->speaker_id);
-                    $supporter = $this->eventManager->getSupporterByID($event->supporter_id);
-                    $venue = $this->getVenueById($meetupEvent['venue_id']);
-
-                    $talk = Talk::create([
-                        'title'         => $meetupEvent['subject'],
-                        'description'   => $meetupEvent['description'],
-                        'speaker'       => $speaker,
-                        'duration'      => 'PT2H' // default to 2 hours
-                    ]);
-
-                    $this->event = new EventModel(
-                        $talk,
-                        \DateTime::createFromFormat(
-                            "F jS Y g:ia",
-                            $meetupEvent['date'] . ' ' . $meetupEvent['time']
-                        ),
-                        $venue,
-                        $supporter
-                    );
-
+                    $this->event = $meetupEvent;
                     $this->joindinEventService->getJoindinEvent()->setEventLocation($event->uri);
                     if ($this->createJoindinTalk($userID)->getStatusCode() !== 201) {
                         throw new \Exception('Could not create Joindin Talk');

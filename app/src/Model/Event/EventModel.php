@@ -46,8 +46,6 @@ class EventModel
      */
     private $meetupURL;
 
-    private $eventExists = false;
-
     public function __construct(TalkInterface $talk, \DateTime $date, VenueInterface $venue, SupporterInterface $supporter)
     {
         $this->talk         = $talk;
@@ -120,7 +118,7 @@ class EventModel
     /**
      * @return Venue
      */
-    public function getVenue() : Venue
+    public function getVenue() : VenueInterface
     {
         return $this->venue;
     }
@@ -128,7 +126,7 @@ class EventModel
     /**
      * @return Supporter
      */
-    public function getSupporter() : Supporter
+    public function getSupporter() : SupporterInterface
     {
         return $this->supporter;
     }
@@ -181,13 +179,12 @@ class EventModel
         $this->meetupURL = $meetupURL;
     }
 
-    public function setEventExists($exists = true)
-    {
-        $this->eventExists = $exists;
-    }
-
+    /**
+     * An event exists (locally) if it has a Speaker associated with it.
+     * @return bool
+     */
     public function eventExists()
     {
-        return $this->eventExists;
+        return $this->getTalk()->getSpeaker()->exists();
     }
 }

@@ -40,6 +40,23 @@ class EventFactory
 
     public static function getMergedFromArrays(array $meetupEvent = [], array $dbEvent = null)
     {
+        if (empty($meetupEvent)) {
+
+            $supporter  = new NullSupporter();
+            $date       = new \DateTime();
+            $talk       = new NullTalk();
+            $venue      = new NullVenue();
+
+            $model = new EventModel(
+                $talk,
+                $date,
+                $venue,
+                $supporter
+            );
+
+            return $model;
+
+        }
         if (!is_null($dbEvent)) {
 
             $speaker = new Speaker(
@@ -49,12 +66,16 @@ class EventFactory
                 $dbEvent['avatar']
             );
 
+            $speaker->setId($dbEvent['speaker_id']);
+
             $supporter = new Supporter(
                 $dbEvent['supporter_name'], $dbEvent['supporter_url'],
                 new Twitter($dbEvent['supporter_twitter']),
                 new Email($dbEvent['supporter_email']),
                 $dbEvent['supporter_logo']
             );
+
+            $supporter->setId($dbEvent['supporter_id']);
 
 
         } else {
@@ -64,6 +85,7 @@ class EventFactory
 
         $talk = new Talk($meetupEvent['subject'], $meetupEvent['description'], $speaker);
         $venue = new Venue($meetupEvent['venue_name'], $meetupEvent['venue_address']);
+        $venue->setId($meetupEvent['venue_id']);
 
         $date = \DateTime::createFromFormat('F jS Y g:ia', $meetupEvent['date'] . ' ' . $meetupEvent['time']);
 
@@ -78,10 +100,6 @@ class EventFactory
         $event->setMindsUrl($meetupEvent['minds_url']);
         $event->setMeetupID($meetupEvent['id']);
         $event->setMeetupURL($meetupEvent['event_url']);
-
-        if (!is_null($dbEvent)) {
-            $event->eventExists();
-        }
 
         return $event;
     }

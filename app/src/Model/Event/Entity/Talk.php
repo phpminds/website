@@ -113,10 +113,10 @@ class Talk implements TalkInterface
             $params['description'] ?? null,
             $params['speaker'], // Expects Speaker object
             $params['duration'],
-            $params['slides']
+            $params['slides'] ?? ''
         );
 
-        $class->setId($params['id']);
+        $class->setId($params['id'] ?? '');
 
         return $class;
     }

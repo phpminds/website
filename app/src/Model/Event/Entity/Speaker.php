@@ -103,4 +103,9 @@ class Speaker implements SpeakerInterface
         return $class;
     }
 
+    public function exists()
+    {
+        return true;
+    }
+
 }

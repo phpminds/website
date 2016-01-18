@@ -62,14 +62,14 @@ class EventsRepository extends RepositoryAbstract
             . ' WHERE meetup_id = :meetup_id';
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(":meetup_id", $event->getMeetupID(), \PDO::PARAM_INT);
-        $stmt->bindParam(":meetup_venue_id", $event->getMeetupVenueID(), \PDO::PARAM_INT);
-        $stmt->bindParam(":joindin_event_name", $event->getJoindinEventName(), \PDO::PARAM_STR);
-        $stmt->bindParam(":joindin_talk_id", $event->getJoindinTalkID(), \PDO::PARAM_INT);
-        $stmt->bindParam(":joindin_url", $event->getJoindinURL(), \PDO::PARAM_STR);
-        $stmt->bindParam(":speaker_id", $event->getSpeakerID(), \PDO::PARAM_INT);
-        $stmt->bindParam(":supporter_id", $event->getSupporterID(), \PDO::PARAM_INT);
-        $stmt->bindParam(":meetup_date", $event->getMeetupDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+        $stmt->bindValue(":meetup_id", $event->getMeetupID(), \PDO::PARAM_INT);
+        $stmt->bindValue(":meetup_venue_id", $event->getMeetupVenueID(), \PDO::PARAM_INT);
+        $stmt->bindValue(":joindin_event_name", $event->getJoindinEventName(), \PDO::PARAM_STR);
+        $stmt->bindValue(":joindin_talk_id", $event->getJoindinTalkID(), \PDO::PARAM_INT);
+        $stmt->bindValue(":joindin_url", $event->getJoindinURL(), \PDO::PARAM_STR);
+        $stmt->bindValue(":speaker_id", $event->getSpeakerID(), \PDO::PARAM_INT);
+        $stmt->bindValue(":supporter_id", $event->getSupporterID(), \PDO::PARAM_INT);
+        $stmt->bindValue(":meetup_date", $event->getMeetupDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
 
 
         return $stmt->execute();

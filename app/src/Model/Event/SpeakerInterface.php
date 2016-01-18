@@ -10,4 +10,6 @@ interface SpeakerInterface
     public function getEmail();
 
     public function getTwitter();
+
+    public function exists();
 }

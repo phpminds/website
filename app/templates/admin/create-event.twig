@@ -79,7 +79,7 @@
                         <label class="inline">Date</label>
                     </div>
                     <div class="large-5 medium-4 columns">
-                        <input placeholder="Date" name="start_date" class="textbox-n" type="text" onfocus="(this.type='date')" {% if eventInfo.getMeetupID %}value="{{ eventInfo.getDate().format('d/m/Y') }}"{% endif %} id="date">
+                        <input placeholder="Date" name="start_date" class="textbox-n" type="text" onfocus="(this.type='date')" {% if eventInfo.getMeetupID %}value="{{ eventInfo.getDate().format('Y-m-d') }}"{% endif %} id="date">
                     </div>
                     <div class="large-2 columns"></div>
                 </div>

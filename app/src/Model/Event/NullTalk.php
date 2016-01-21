@@ -16,6 +16,6 @@ class NullTalk implements TalkInterface
 
     public function getSpeaker()
     {
-        return '';
+        return new NullSpeaker();
     }
 }

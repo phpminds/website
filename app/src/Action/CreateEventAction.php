@@ -74,7 +74,6 @@ final class CreateEventAction
 
     public function dispatch(Request $request, Response $response, $args)
     {
-
         $speakers   = $this->eventManager->getSpeakers();
         $venues     = $this->eventService->getVenues();
         $supporters = $this->eventManager->getSupporters();
@@ -89,6 +88,7 @@ final class CreateEventAction
         $frmErrors  = [];
 
         if ($request->isPost()) {
+
             $validator = new EventValidator($_POST);
 
             try {
@@ -106,7 +106,7 @@ final class CreateEventAction
                 $supporter  = $this->eventManager->getSupporterByID($request->getParam('supporter'));
 
                 $date = \DateTime::createFromFormat(
-                    "d/m/Y H:i",
+                    "Y-m-d H:i",
                     $request->getParam('start_date') . ' '
                     . ($request->getParam('start_time') < 10 ? '0' . $request->getParam('start_time') :  $request->getParam('start_time'))
 

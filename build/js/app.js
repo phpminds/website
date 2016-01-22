@@ -48,7 +48,7 @@
            properties: {
                'marker-size': 'large',
                'marker-color': '#296410', 
-               'title':'JH - 34 Stoney Street Nottingham NG1 1NB'
+               'title':'JH - 34a Stoney Street Nottingham NG1 1NB'
            }
        });
 

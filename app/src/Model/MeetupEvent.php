@@ -101,6 +101,17 @@ class MeetupEvent
             $eventLocation = $venue['name'] . ', ' . $venue['address_1'] . ', ' . $venue['city'];
         }
 
+        $speakerInfo = [];
+
+        // Find the author e.g. <p>First Last ( @Twitter )</p>
+        preg_match('/<p>\s*[A-Za-z0-9].*\@[A-Za-z0-9_]{1,15}.*\)<\/p>/', $eventDescription, $speakerInfo);
+
+
+        if (!empty($speakerInfo)) {
+            $eventDescription = str_replace($speakerInfo[0], '', $eventDescription);
+        }
+
+
         return [
             'id' => $eventID,
             'group'     => $groupName,
@@ -174,5 +185,11 @@ class MeetupEvent
         }
 
         return $id;
+    }
+
+
+    public function removeNameTwitterMention()
+    {
+
     }
 }

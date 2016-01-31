@@ -25,6 +25,12 @@ class MeetupEvent
         $this->publishStatus    = $config->publishStatus;
     }
 
+    /**
+     * @param string $action
+     * @param bool|true $auth
+     * @param array $additionalApiParams
+     * @return string
+     */
     public function getUrl($action = 'events', $auth = true, $additionalApiParams = ['status'=>'past,upcoming'])
     {
         $authStr = '';
@@ -32,9 +38,11 @@ class MeetupEvent
             $authStr = $this->getAuthString($additionalApiParams);
         }
         return $this->baseUrl."/".urlencode($action)."/".$authStr;
-        //return sprintf($this->baseUrl .'/%s/' . $authStr, $action);
     }
 
+    /**
+     * @param $eventID
+     */
     public function setEventID($eventID)
     {
         $this->eventID = $eventID;
@@ -48,6 +56,10 @@ class MeetupEvent
         return $this->groupUrlName;
     }
 
+    /**
+     * @param array $params
+     * @return string
+     */
     public function getAuthString($params = [])
     {
         $defaults = [];
@@ -68,16 +80,26 @@ class MeetupEvent
         return '?'.$queryString;
     }
 
+    /**
+     * @return string
+     */
     public function getEventUrl()
     {
         return $this->getUrl('events');
     }
 
+    /**
+     * @return string
+     */
     public function getVenuesUrl()
     {
         return $this->getUrl('venues', true, []);
     }
 
+    /**
+     * @param array $event
+     * @return array
+     */
     public function formatResponse(array $event = [])
     {
         if (empty($event)) {
@@ -101,19 +123,10 @@ class MeetupEvent
             $eventLocation = $venue['name'] . ', ' . $venue['address_1'] . ', ' . $venue['city'];
         }
 
-        $speakerInfo = [];
-
-        // Find the author e.g. <p>First Last ( @Twitter )</p>
-        preg_match('/<p>\s*[A-Za-z0-9].*\@[A-Za-z0-9_]{1,15}.*\)<\/p>/', $eventDescription, $speakerInfo);
-
-
-        if (!empty($speakerInfo)) {
-            $eventDescription = str_replace($speakerInfo[0], '', $eventDescription);
-        }
-
+        $eventDescription = $this->removeNameTwitterMention($eventDescription);
 
         return [
-            'id' => $eventID,
+            'id'        => $eventID,
             'group'     => $groupName,
             'subject'   => $subject,
             'date_time' => $eventDate . ' at ' . $eventTime,
@@ -169,7 +182,10 @@ class MeetupEvent
         return $this->eventLocation;
     }
 
-    public function getMeetupEventID() : int
+    /**
+     * @return int
+     */
+    public function getMeetupEventID()
     {
         if (!is_null($this->eventID)) {
             return $this->eventID;
@@ -187,9 +203,21 @@ class MeetupEvent
         return $id;
     }
 
-
-    public function removeNameTwitterMention()
+    /**
+     * @param $eventDescription
+     * @return mixed
+     */
+    public function removeNameTwitterMention($eventDescription)
     {
+        $speakerInfo = [];
 
+        // Find the author e.g. <p>First Last ( @Twitter )</p>
+        preg_match('/<p>\s*[A-Za-z0-9].*\@[A-Za-z0-9_]{1,15}.*\)<\/p>/', $eventDescription, $speakerInfo);
+
+        if (!empty($speakerInfo)) {
+            return str_replace($speakerInfo[0], '', $eventDescription);
+        }
+
+        return $eventDescription;
     }
 }

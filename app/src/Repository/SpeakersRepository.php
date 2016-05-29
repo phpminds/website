@@ -2,6 +2,7 @@
 
 namespace PHPMinds\Repository;
 
+use PHPMinds\Model\Event\SpeakerInterface;
 use PHPMinds\Repository\RepositoryAbstract;
 
 use PHPMinds\Model\Event\Entity\Speaker;
@@ -58,7 +59,7 @@ class SpeakersRepository extends RepositoryAbstract
      * @param $speakerID
      * @return Speaker
      */
-    public function getBySpeakerID($speakerID) : Speaker
+    public function getBySpeakerID($speakerID) : SpeakerInterface
     {
         return Speaker::create($this->getById($speakerID));
     }

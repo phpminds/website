@@ -3,6 +3,10 @@
 
 class NullSpeaker implements SpeakerInterface
 {
+    public function getId()
+    {
+        return -1;
+    }
 
     public function getFirstName()
     {

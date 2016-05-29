@@ -33,8 +33,8 @@
                     <div class="large-5 medium-4 columns">
                         <select id="supporters" name="supporter">
                             <option value="0">-- Select --</option>
-                            {% for supporter in supporters %}
-                                <option {% if eventInfo.getSupporter().getId() == supporter.id %}selected{% endif %} value="{{ supporter.id }}">{{ supporter.name }} ({{ supporter.twitter }})</option>
+                            {% for supporter in form.getSupporters %}
+                                <option {% if form.getSupporter().getId() == supporter.id %}selected{% endif %} value="{{ supporter.id }}">{{ supporter.name }} ({{ supporter.twitter }})</option>
                             {% endfor %}
                         </select>
 
@@ -50,8 +50,8 @@
                         <select id="speakers" name="speaker">
                             <option value="0">-- Select --</option>
                             <option value="-1">Create speaker</option>
-                            {% for speaker in speakers %}
-                                <option {% if eventInfo.getTalk().getSpeaker().getId() == speaker.id %}selected{% endif %} value="{{ speaker.id }}">{{ speaker.firstName }} {{ speaker.lastName }} ({{ speaker.twitter }})</option>
+                            {% for speaker in form.getSpeakers %}
+                                <option {% if form.getSpeaker().getId() == speaker.id %}selected{% endif %} value="{{ speaker.id }}">{{ speaker.firstName }} {{ speaker.lastName }} ({{ speaker.twitter }})</option>
                             {% endfor %}
                         </select>
 
@@ -66,8 +66,8 @@
                     <div class="large-5 medium-4 columns">
                         <select id="venues" name="venue">
                             <option value="0">-- Select --</option>
-                            {% for venue in venues %}
-                                <option {% if eventInfo.getVenue().getId() == venue.id %}selected{% endif %} value="{{ venue.id }}">{{ venue.name }} - {{ venue.address }}</option>
+                            {% for venue in form.getVenues %}
+                                <option {% if form.getVenue().getId() == venue.id %}selected{% endif %} value="{{ venue.id }}">{{ venue.name }} - {{ venue.address }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -91,12 +91,16 @@
                     <div class="large-2 medium-2 columns">
                         <select id="time.hour" name="start_time" name="time.hour">
                             {% for i in 8..22 %}
-                                <option value="{{ i }}:00">{{ i }}:00</option>
+                                {% if form.getMeetupID and form.getDate() != false %}
+                                    {% if form.getDate().format('H') == i %}
+                                    <option value="{{ form.getDate().format('H:i') }}" selected>{{ form.getDate().format('H:i') }}</option>
+                                    {%  endif %}
+                                {% elseif i == defaultTime %}
+                                    <option value="{{ defaultTime }}:00" selected>{{ defaultTime }}:00</option>
+                                {% else %}
+                                    <option value="{{ i }}:00">{{ i }}:00</option>
+                                {%  endif %}
                             {% endfor %}
-                            {% if eventInfo.getMeetupID %}
-                                <option value="{{ eventInfo.getDate().format('H:i') }}" selected>{{ eventInfo.getDate().format('H:i') }}</option>
-                            {%  endif %}
-
                         </select>
                     </div>
                     <div class="large-5 columns"></div>
@@ -107,13 +111,13 @@
                         <label class="inline">Talk Title</label>
                     </div>
                     <div class="large-10 medium-5 columns">
-                        <input type="text" id="talk_title" name="talk_title" placeholder="Talk title" value="{{ eventInfo.getTalk().getTitle() }}">
+                        <input type="text" id="talk_title" name="talk_title" placeholder="Talk title" value="{{ form.getTalkTitle() }}">
                     </div>
                 </div>
 
                 <div class="row large-10 medium-5  collapse">
                     <label>Talk description / Abstract</label>
-                    <textarea name="talk_description" id="talk_description" rows="4">{{ eventInfo.getTalk().getDescription()  }}</textarea>
+                    <textarea name="talk_description" id="talk_description" rows="4">{{ form.getTalkDescription()  }}</textarea>
                 </div>
                 <button type="submit" class="radius button">Submit</button>
             </form>

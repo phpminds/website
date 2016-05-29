@@ -37,7 +37,7 @@ class RepositoryAbstract
 
     protected function getColumns()
     {
-        return implode(',', $this->columns);
+        return implode(', ', $this->columns);
     }
 
     public function getAll($returnType = \PDO::FETCH_OBJ)
@@ -46,11 +46,13 @@ class RepositoryAbstract
                 "FROM {$this->table} ";
 
         $events = $this->db->query($sql)->fetchAll($returnType);
+
         $result = array_reduce($events, function($carry, $item){
+
             if (is_object($item)) {
-                $carry[$item->meetup_id] = $item;
+                $carry[$item->id] = $item;
             } else {
-                $carry[$item['meetup_id']] = $item;
+                $carry[$item['id']] = $item;
             }
             return $carry;
         });

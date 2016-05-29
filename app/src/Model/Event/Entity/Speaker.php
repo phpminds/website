@@ -3,6 +3,7 @@
 namespace PHPMinds\Model\Event\Entity;
 
 use PHPMinds\Model\Email;
+use PHPMinds\Model\Event\NullSpeaker;
 use PHPMinds\Model\Event\SpeakerInterface;
 use PHPMinds\Model\Twitter;
 
@@ -88,8 +89,12 @@ class Speaker implements SpeakerInterface
      * @param array $params
      * @return Speaker
      */
-    public static function create(array $params = []) : Speaker
+    public static function create(array $params = []) : SpeakerInterface
     {
+        if (empty($params)) {
+            return new NullSpeaker();
+        }
+
         $class = new self(
             $params['first_name'],
             $params['last_name'],

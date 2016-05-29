@@ -2,6 +2,7 @@
 
 namespace PHPMinds\Repository;
 
+use PHPMinds\Model\Event\SupporterInterface;
 use PHPMinds\Repository\RepositoryAbstract;
 
 use PHPMinds\Model\Event\Entity\Supporter;
@@ -58,7 +59,7 @@ class SupportersRepository extends RepositoryAbstract
      * @param $supporterID
      * @return Supporter
      */
-    public function getSupporterByID($supporterID) : Supporter
+    public function getSupporterByID($supporterID) : SupporterInterface
     {
         return Supporter::create($this->getById($supporterID));
     }

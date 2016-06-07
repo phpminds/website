@@ -2,6 +2,11 @@
 
 class NullSupporter implements SupporterInterface
 {
+    public function getId()
+    {
+        return -1;
+    }
+    
     public function getName()
     {
         return '';
@@ -26,4 +31,10 @@ class NullSupporter implements SupporterInterface
     {
         return '';
     }
+
+    public function exists()
+    {
+        return false;
+    }
+
 }

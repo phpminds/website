@@ -3,6 +3,7 @@
 namespace PHPMinds\Model\Event\Entity;
 
 use PHPMinds\Model\Email;
+use PHPMinds\Model\Event\NullSupporter;
 use PHPMinds\Model\Event\SupporterInterface;
 use PHPMinds\Model\Twitter;
 
@@ -83,12 +84,21 @@ class Supporter implements SupporterInterface
         return $this->logo;
     }
 
+    public function exists()
+    {
+        return true;
+    }
+    
     /**
      * @param array $params
      * @return Supporter
      */
     public static function create(array $params = []) : SupporterInterface
     {
+        if (empty($params)) {
+            return new NullSupporter();
+        }
+
         $class = new self(
             $params['name'] ?? null,
             $params['url'] ?? null,

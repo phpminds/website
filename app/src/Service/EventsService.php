@@ -205,8 +205,16 @@ class EventsService
 
         $eventEntity = $this->updateEvents();
 
+        $joindinMessage = null;
+        if ((int)$joindinEvent->getStatusCode() === 202) {
+            $joindinMessage = 'JoindIn Event is pending. Once approved, talk will be created automatically.';
+        } else if ((int)$joindinEvent->getStatusCode() !== 201) {
+            throw new \Exception('Could not create Joindin event. Please try again.');
+        }
+
         return [
             'joindin_status' => $joindinEvent->getStatusCode(),
+            'joindin_message' => $joindinMessage,
             'meetup_id' => $eventEntity->getMeetupID()
         ];
     }

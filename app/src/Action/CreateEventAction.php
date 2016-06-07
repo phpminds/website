@@ -6,6 +6,7 @@ use PHPMinds\Config\EventsConfig;
 use PHPMinds\Factory\EventFactory;
 use PHPMinds\Model\Auth;
 use PHPMinds\Model\Event\EventManager;
+use PHPMinds\Model\Form\CreateEventForm;
 use PHPMinds\Validator\EventValidator;
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;
@@ -74,9 +75,6 @@ final class CreateEventAction
 
     public function dispatch(Request $request, Response $response, $args)
     {
-        $speakers   = $this->eventManager->getSpeakers();
-        $venues     = $this->eventService->getVenues();
-        $supporters = $this->eventManager->getSupporters();
 
         $eventInfo = $this->eventService->getInfoByMeetupID($request->getParam('meetup_id'));
         if ($eventInfo->eventExists()) {
@@ -84,91 +82,97 @@ final class CreateEventAction
             return $response->withStatus(302)->withHeader('Location', 'event-details?meetup_id=' . $request->getParam('meetup_id'));
         }
 
-        $errors     = $this->flash->getMessage('event') ?? [];
-        $frmErrors  = [];
+        if (!$eventInfo->eventExists() && $request->getParam('meetup_id')) {
+            $this->flash->addMessage('event', 'No event found for meetupID provided. Please create a new event.');
+            return $response->withStatus(302)->withHeader('Location', 'create-event');
+        }
+
+        $form = new CreateEventForm($this->eventManager, $this->eventService);
+
+        $data = [
+            'form' => $form,
+            'errors' => $this->flash->getMessage('event') ?? [],
+            'defaultTime' => $this->eventsConfig->defaultStartTime
+        ];
+        
 
         if ($request->isPost()) {
 
-            $validator = new EventValidator($_POST);
+            $form->populate($request->getParams());
+            if (!$form->isValid()) {
+
+                // return response
+                $data['errors'] = $form->getErrors();
+
+                $data = array_merge($data, $this->getCsrfValues($request));
+
+                $response->withStatus(304);
+
+                $this->view->render(
+                    $response,
+                    'admin/create-event.twig',
+                    $data
+                );
+
+                return $response;
+            }
 
             try {
 
-                $validator
-                    ->talkValidation()
-                    ->dateValidation();
-
-                if (!$validator->isValid()) {
-                    throw new \Exception('Form not valid.');
-                }
-
-                $speaker    = $this->eventManager->getSpeakerById((int)$request->getParam('speaker'));
-                $venue      = $this->eventService->getVenueById($request->getParam('venue'));
-                $supporter  = $this->eventManager->getSupporterByID($request->getParam('supporter'));
-
-                $date = \DateTime::createFromFormat(
-                    "Y-m-d H:i",
-                    $request->getParam('start_date') . ' '
-                    . ($request->getParam('start_time') < 10 ? '0' . $request->getParam('start_time') :  $request->getParam('start_time'))
-
-                );
-
                 $event = EventFactory::getEvent(
-                    $request->getParam('talk_title'), $request->getParam('talk_description'),
-                    $date, $speaker, $venue, $supporter,
+                    $form->getTalkTitle(), $form->getTalkDescription(),
+                    $form->getEventDate(), $form->getSpeaker(), $form->getVenue(), $form->getSupporter(),
                     $this->eventsConfig->title, $this->eventsConfig->description
                 );
 
-                try {
-                    $createEventInfo = $this->eventService->createMainEvents(
-                        $event,
-                        $this->auth->getUserId(),
-                        $request->getParam('meetup_id')
-                    );
-                } catch (\Exception $e) {
-                    throw $e;
+                $createEventInfo = $this->eventService->createMainEvents(
+                    $event,
+                    $this->auth->getUserId(),
+                    $request->getParam('meetup_id')
+                );
+
+                if (!is_null($createEventInfo['joindin_message'])) {
+                    $this->flash->addMessage('event', $createEventInfo['joindin_message']);
                 }
 
-                if ((int)$createEventInfo['joindin_status'] === 202) {
-                    // event pending. Save to DB and show message to user
-                    $this->flash->addMessage('event', 'JoindIn Event is pending. Once approved, talk will be created automatically.');
-                } else if ((int)$createEventInfo['joindin_status'] !== 201) {
-                    $this->logger->debug("Could not create Joindin event. Please try again.");
-                    $this->flash->addMessage('event', 'Could not create Joindin event. Please try again.');
-                }
 
                 return $response->withStatus(302)->withHeader('Location', 'event-details?meetup_id=' . $createEventInfo['meetup_id']);
             } catch (\Exception $e) {
                 $this->logger->debug($e->getMessage());
-                $frmErrors = $validator->getErrors();
-                $this->logger->debug(print_r($frmErrors, true));
-                $errors[] = $e->getMessage();
+
+                $this->logger->debug(print_r($data['errors'], true));
+                $data['errors'] = array_merge($data['errors'], [$e->getMessage()]);
             }
 
         }
 
+        $data = array_merge($data, $this->getCsrfValues($request));
+
+
+        $this->view->render(
+            $response,
+            'admin/create-event.twig',
+            $data
+        );
+
+        return $response;
+
+
+    }
+
+    protected function getCsrfValues(Request $request)
+    {
         $nameKey = $this->csrf->getTokenNameKey();
         $valueKey = $this->csrf->getTokenValueKey();
 
         $name = $request->getAttribute($nameKey);
         $value = $request->getAttribute($valueKey);
 
-        $this->view->render(
-            $response,
-            'admin/create-event.twig',
-            [
-                'speakers'      => $speakers,
-                'venues'        => $venues,
-                'eventInfo'     => $eventInfo,
-                'supporters'    => $supporters,
-                'nameKey'       => $nameKey,
-                'valueKey'      => $valueKey,
-                'name'          => $name,
-                'value'         => $value,
-                'errors'        => $errors,
-                'frmErrors' => $frmErrors
-            ]
-        );
-
-        return $response;
+        return [
+            'nameKey'       => $nameKey,
+            'valueKey'      => $valueKey,
+            'name'          => $name,
+            'value'         => $value
+        ];
     }
 }

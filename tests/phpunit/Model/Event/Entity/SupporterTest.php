@@ -35,12 +35,11 @@ class SupporterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('A Supporter', $this->supporter->getName());
     }
 
-    /**
-     * @expectedException PHPMinds\Exception\Model\InvalidTwitterHandleException
-     */
-    public function testCreateInstanceWithNullTwitterThrowsException()
+
+    public function testCreateInstanceWithNoParamsReturnsNullObject()
     {
         $supporter = Supporter::create();
+        $this->assertFalse($supporter->exists());
     }
 
 

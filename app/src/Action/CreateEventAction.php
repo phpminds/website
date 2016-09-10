@@ -84,19 +84,23 @@ final class CreateEventAction
             return $response->withStatus(302)->withHeader('Location', 'event-details/' . $meetupID);
         }
 
-        if (!$eventInfo->eventExists() && $request->getParam('meetup_id')) {
+        if (!$eventInfo->isRegistered() && !is_null($meetupID)) {
             $this->flash->addMessage('event', 'No event found for meetupID provided. Please create a new event.');
             return $response->withStatus(302)->withHeader('Location', 'create-event');
         }
 
         $form = new CreateEventForm($this->eventManager, $this->eventService);
+        
+        if ($eventInfo->isRegistered()) {
+
+            $form->setEventInfo($eventInfo);
+        }
 
         $data = [
             'form' => $form,
             'errors' => $this->flash->getMessage('event') ?? [],
             'defaultTime' => $this->eventsConfig->defaultStartTime
         ];
-        
 
         if ($request->isPost()) {
 

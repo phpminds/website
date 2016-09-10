@@ -43,7 +43,7 @@ final class EventDetailsAction
 
     public function dispatch(Request $request, Response $response, $args)
     {
-        $meetupID = $request->getParam('meetup_id', false);
+        $meetupID = $request->getAttribute('meetup_id', false);
 
         if (!$meetupID) {
             $eventDetails['errors'][] = 'A meetup ID needs to be provided.';

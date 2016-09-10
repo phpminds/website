@@ -20,7 +20,7 @@
                 {% for event in events %}
                     <tr>
                         <td>{{ event.getDateTimeAsString }}</td>
-                        <td><a href="/event-details?meetup_id={{ event.getMeetupID  }}">{{ event.getTalk().getTitle() }}</a></td>
+                        <td><a href="/event-details/{{ event.getMeetupID  }}">{{ event.getTalk().getTitle() }}</a></td>
                         <td>{{ event.getTalk().getSpeaker().getFirstName() }} {{ event.getTalk().getSpeaker().getLastName() }}</td>
                     </tr>
                 {% endfor %}

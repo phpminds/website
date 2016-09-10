@@ -76,10 +76,12 @@ final class CreateEventAction
     public function dispatch(Request $request, Response $response, $args)
     {
 
-        $eventInfo = $this->eventService->getInfoByMeetupID($request->getParam('meetup_id'));
+        $meetupID = $request->getAttribute('meetup_id', null);
+        $eventInfo = $this->eventService->getInfoByMeetupID($meetupID);
+
         if ($eventInfo->eventExists()) {
             $this->flash->addMessage('event', 'Event already exists. Check its status.');
-            return $response->withStatus(302)->withHeader('Location', 'event-details?meetup_id=' . $request->getParam('meetup_id'));
+            return $response->withStatus(302)->withHeader('Location', 'event-details/' . $meetupID);
         }
 
         if (!$eventInfo->eventExists() && $request->getParam('meetup_id')) {
@@ -128,7 +130,7 @@ final class CreateEventAction
                 $createEventInfo = $this->eventService->createMainEvents(
                     $event,
                     $this->auth->getUserId(),
-                    $request->getParam('meetup_id')
+                    $meetupID
                 );
 
                 if (!is_null($createEventInfo['joindin_message'])) {

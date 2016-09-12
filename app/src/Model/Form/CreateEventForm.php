@@ -32,9 +32,14 @@ class CreateEventForm implements FormInterface
         $this->eventService = $eventService;
     }
 
+    public function setEventInfo($eventInfo)
+    {
+        self::$eventInfo = $eventInfo;
+    }
+
     public function getEventInfo()
     {
-        if (!is_null(self::$eventInfo)) {
+        if (is_null(self::$eventInfo)) {
             self::$eventInfo = $this->eventService->getInfoByMeetupID($this->get('meetup_id'));
         }
 
@@ -110,7 +115,7 @@ class CreateEventForm implements FormInterface
         return $this->get('talk_description');
     }
 
-    // todo - eventInfo->getMeetupID
+    
     public function getMeetupID()
     {
         if (!is_null($this->getEventInfo())) {

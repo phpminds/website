@@ -179,6 +179,11 @@ class EventModel
         $this->meetupURL = $meetupURL;
     }
 
+    public function isRegistered()
+    {
+        return isset($this->name);
+    }
+
     /**
      * An event exists (locally) if it has a Speaker associated with it.
      * @return bool

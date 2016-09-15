@@ -29,7 +29,7 @@
                 <p>The event on meetup can be found at: <a href="{{ meetup_event.getMeetupURL }}" target="_blank">{{ meetup_event.getMeetupURL }}</a></p>
 
                 {% if not event_info.joindin_url %}
-                <p>A joind.in talk was not found. <a href="/create-event?meetup_id={{ meetup_event.getMeetupID }}">Create one</a></p>
+                <p>A joind.in talk was not found. <a href="/create-event/{{ meetup_event.getMeetupID }}">Create one</a></p>
                 {% elseif not event_info.joindin_talk_id %}
                 <p>Joind.in Talk [Pending]</p>
                 {% else %}

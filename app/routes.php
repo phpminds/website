@@ -23,16 +23,16 @@ $app->get('/event/{year:[0-9]+}/{month:[0-9]+}','PHPMinds\Action\PastEventsActio
 $app->get('/admin', 'PHPMinds\Action\AdminDashboardAction:dispatch')
     ->setName('dashboard');
 
-$app->get('/create-event', 'PHPMinds\Action\CreateEventAction:dispatch')
+$app->get('/create-event/[{meetup_id}]', 'PHPMinds\Action\CreateEventAction:dispatch')
     ->setName('create-event');
 
-$app->post('/create-event', 'PHPMinds\Action\CreateEventAction:dispatch')
+$app->post('/create-event/[{meetup_id}]', 'PHPMinds\Action\CreateEventAction:dispatch')
     ->setName('create-event-post');
 
 $app->post('/create-speaker', 'PHPMinds\Action\CreateSpeakerAction:dispatch')
     ->setName('create-speaker');
 
-$app->get('/event-details', 'PHPMinds\Action\EventDetailsAction:dispatch')
+$app->get('/event-details/[{meetup_id}]', 'PHPMinds\Action\EventDetailsAction:dispatch')
     ->setName('event-details');
 
 $app->get('/callback/{callback}', 'PHPMinds\Action\CallbackAction:dispatch')

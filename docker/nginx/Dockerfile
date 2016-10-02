@@ -11,10 +11,11 @@ RUN rpm --import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-7 \
 
 
 RUN yum -y install \
-    nginx \
+    nginx openssl\
     && yum -y update bash \
     && rm -rf /var/cache/yum/* \
     && yum clean all
+
 
 
 #
@@ -32,12 +33,10 @@ COPY default.conf /etc/nginx/conf.d/default.conf
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 
-EXPOSE 80
-EXPOSE 443
+EXPOSE 80 443
+
 
 CMD ["nginx"]
 
 
 
-#docker run -d -p 80:80 --name centos-nginx -v $(pwd)../../:/app --link centos-php:centos-php centos-nginx
-#docker run -i -t --volumes-from centos-nginx --name nginxmonitor debian /bin/bash

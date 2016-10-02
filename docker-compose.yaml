@@ -3,6 +3,7 @@ services:
 
     phpminds-nginx:
         build: docker/nginx
+        image: phpminds-nginx
         restart: always
         ports:
             - 80:80
@@ -15,11 +16,13 @@ services:
 
     phpminds-php:
         build: docker/php
+        image: phpminds-php:php71
         restart: always
         volumes:
             - .:/app
     db:
         build: docker/mysql
+        image: phpminds-db:mysql5.7
         restart: always
         ports:
             - 3306:3306

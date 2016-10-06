@@ -24,7 +24,7 @@ $app->group('', function(){
     $this->get('/admin', 'PHPMinds\Action\AdminDashboardAction:dispatch')
         ->setName('dashboard');
 
-    $this->get('/create-event/[{meetup_id}]', 'PHPMinds\Action\CreateEventAction:dispatch')
+    $this->get('/create-event[/{meetup_id}]', 'PHPMinds\Action\CreateEventAction:dispatch')
         ->setName('create-event');
 
     $this->post('/create-event/[{meetup_id}]', 'PHPMinds\Action\CreateEventAction:dispatch')

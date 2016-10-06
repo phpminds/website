@@ -44,7 +44,6 @@ $app->group('', function(){
     return $next($request, $response);
 });
 
-
 $app->get('/callback/{callback}', 'PHPMinds\Action\CallbackAction:dispatch')
     ->setName('callbacks');
 

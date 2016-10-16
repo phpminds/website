@@ -22,4 +22,13 @@ class FileRepository
     {
         return file_get_contents($this->path . $filename);
     }
+
+    public function has($filename)
+    {
+        if (file_exists($this->path . $filename) ) {
+            return true;
+        }
+
+        return false;
+    }
 }

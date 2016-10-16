@@ -7,6 +7,15 @@
 
     <h4>Events</h4>
     <div class="section-container tabs" data-section>
+        {% if has_token == false %}
+            <section class="section">
+                <div data-alert class="alert-box warning round">
+                    Joindin Token not found. <a href="{{ joindin_callback }}">Click to generate</a>
+                    <a href="#" class="close">&times;</a>
+                </div>
+            </section>
+        {% endif %}
+
         <section class="section">
             <table>
                 <thead>

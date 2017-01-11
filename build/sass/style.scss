@@ -173,9 +173,12 @@ html {
 
         .supporter-heading {
           position: relative;
-          top: 35px;
+          top: 135px;
           -webkit-transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
           transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          &.adjust-heading{
+            margin-top:-135px;
+          }
         }
 
         .supporter-description {

@@ -11,3 +11,4 @@ ansible/*
 phinx.yml
 node_modules/*
 bower_components/*
+docker/.data/*

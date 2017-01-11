@@ -7,6 +7,7 @@ $injector = new \pavlakis\seaudi\Injector($container);
 
 $container['notFoundHandler'] = function ($c) {
     return function ($request, $response) use ($c) {
+
         return $c['response']
             ->withStatus(404)
             ->withHeader('Content-Type', 'text/html')
@@ -136,11 +137,6 @@ $container['PHPMinds\Model\Event\EventManager'] = function ($c) {
         $c->get('PHPMinds\Repository\SpeakersRepository'),
         $c->get('PHPMinds\Repository\SupportersRepository')
     );
-};
-
-$container['PHPMinds\Middleware\AuthCheck'] = function ($c) {
-    return new PHPMinds\Middleware\AuthCheck($_SESSION, 'auth', $c->get('settings')['auth-routes']);
-
 };
 
 $container['Slim\Csrf\Guard'] = function ($c) {

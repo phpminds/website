@@ -8,6 +8,7 @@ if [ -z ${1} ]; then
 fi
 
 cd /srv/phpminds-website
+git fetch --tags
 git checkout tags/$1
 composer install --no-dev --optimize-autoloader
 vendor/bin/phinx migrate -e production

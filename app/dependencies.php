@@ -110,9 +110,10 @@ $container['Slim\HttpCache\CacheProvider'] = function () {
 
 $container ['PHPMinds\Model\Db'] = function ($c) {
     $db = $c->get('settings')['db'];
+    $db['port'] = $db['port'] ?? '3306'; // Added for BC
 
     return new \PHPMinds\Model\Db (
-        'mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'], $db['username'], $db['password']
+        'mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'] . ';port=' . $db['port'], $db['username'], $db['password']
     );
 };
 

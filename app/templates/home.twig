@@ -10,6 +10,7 @@
     </section>
     <div class="row">
         <div class="large-offset-1 large-10 small-12 columns h-event">
+            {% if (eventExists) %}
             <h3 class="p-name"><i class="fa fa-calendar"></i> {{ event.getTalk().getTitle() }}</h3>
             <h4> on {{ event.getDateTimeAsString }} {% if (event.getTalk().getSpeaker().getFirstName()) %} by {{ event.getTalk().getSpeaker().getFirstName() }} {{ event.getTalk().getSpeaker().getLastName() }} ( <a href="https://twitter.com/{{ event.getTalk().getSpeaker().getTwitter()|slice(1) }}">{{ event.getTalk().getSpeaker().getTwitter() }}</a> ) {% endif %}</h4>
 
@@ -19,7 +20,13 @@
 
                 <p class="right"><a class="button alert" href="{{ event.getMeetupURL }}">RSVP</a></p>
             </div>
-
+            {% else %}
+                <div class="p-summary">
+                    <h3>
+                        There are no published events. Please check again soon.
+                    </h3>
+                </div>
+            {% endif %}
         </div>
     </div>
     <div id="map"></div>

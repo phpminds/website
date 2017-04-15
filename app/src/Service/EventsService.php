@@ -59,7 +59,7 @@ class EventsService
     public function getLatestEvent()
     {
         $event      = $this->meetupService->getLatestEvent();
-        $eventInfo  = $this->eventManager->getDetailsByMeetupID($event['id']);
+        $eventInfo  = $this->eventManager->getDetailsByMeetupID($event['id'] ?? null);
         $eventInfo  = $eventInfo[0] ?? null;
 
         return EventFactory::getMergedFromArrays($event, $eventInfo);

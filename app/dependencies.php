@@ -15,6 +15,14 @@ $container['notFoundHandler'] = function ($c) {
     };
 };
 
+$container['errorHandler'] = function ($c) {
+    return function ($request, $response, $exception) use ($c) {
+        return $c['response']->withStatus(500)
+            ->withHeader('Content-Type', 'text/html')
+            ->withRedirect('/oops');
+    };
+};
+
 /* ---------- Configs ------------ */
 
 $container['PHPMinds\Config\EventsConfig'] = function ($c) {
@@ -110,9 +118,10 @@ $container['Slim\HttpCache\CacheProvider'] = function () {
 
 $container ['PHPMinds\Model\Db'] = function ($c) {
     $db = $c->get('settings')['db'];
+    $db['port'] = $db['port'] ?? '3306'; // Added for BC
 
     return new \PHPMinds\Model\Db (
-        'mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'], $db['username'], $db['password']
+        'mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'] . ';port=' . $db['port'], $db['username'], $db['password']
     );
 };
 
@@ -204,3 +213,4 @@ $injector->add('PHPMinds\Action\CreateEventAction');
 $injector->add('PHPMinds\Action\CallbackAction');
 $injector->add('PHPMinds\Action\EventStatusAction');
 $injector->add('PHPMinds\Action\PastEventsAction');
+$injector->add('PHPMinds\Action\ErrorAction');

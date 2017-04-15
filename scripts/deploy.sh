@@ -1,7 +1,16 @@
-#!/bin/sh
-# GIT deploy script
+#!/usr/bin/env bash
 
-git remote add production ssh://travis@phpminds.org/home/travis/phpminds.git
-git push production develop
+# Expects first $1 argument with name of tag
 
-return 0
+if [ -z ${1} ]; then
+    echo "No tag was passed. Exiting.";
+    exit;
+fi
+
+cd /srv/phpminds-website
+git fetch --tags
+git checkout tags/$1
+composer install --no-dev --optimize-autoloader
+vendor/bin/phinx migrate -e production
+sudo /etc/init.d/php7.1-fpm restart
+sudo service nginx restart

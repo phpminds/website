@@ -30,10 +30,12 @@
         </div>
     </div>
     <div id="map"></div>
+{% if (previousEvents) %}
     <section class="section-lite-green past-events" id="past-events">
 
         <div class="row">
             <div class=" large-offset-1 large-10 small-12 columns">
+
                 <h3><i class="fa fa-calendar-times-o"></i> Past Events</h3>
 
                 {{ "past-events" | content | raw }}
@@ -63,6 +65,7 @@
             </div>
         </div>
     </section>
+{% endif %}
     <section class="supporters" id="supporters">
 
         <div class="row">

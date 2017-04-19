@@ -52,7 +52,7 @@
   },
   "style-src": {
     "self": true,
-    "unsafe-inline": true,
+    "unsafe-inline": false,
     "allow": [
       "https://api.mapbox.com",
       "https://fonts.googleapis.com",

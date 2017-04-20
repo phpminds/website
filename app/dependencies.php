@@ -178,20 +178,19 @@ $container['Slim\Views\Twig'] = function ($c) {
     $view->addExtension(new Slim\Views\TwigExtension($c->get('router'), $c->get('request')->getUri()));
     $view->addExtension(new Twig_Extension_Debug());
 
-    $view->getEnvironment()->addGlobal('nonce', $c['nonce']);
+    $view->getEnvironment()->addGlobal('nonce', $c['global.nonce']);
 
     return $view;
 };
 
-$container['nonce'] = function($c) {
+$container['global.nonce'] = function($c) {
     return (new \Monolog\Processor\UidProcessor())->getUid();
 };
 
-$container['content-security-policies'] = function ($c) {
+$container['csp.config'] = function ($c) {
 
     $csp = CSPBuilder::fromFile(__DIR__ . '/configs/csp.json');
-    $csp->nonce('script-src', $c['nonce']);
-    $csp->nonce('style-src', $c['nonce']);
+    $csp->nonce('script-src', $c['global.nonce']);
 
     return $csp->compile();
 };

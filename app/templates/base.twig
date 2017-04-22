@@ -84,7 +84,7 @@
 <script src="{{ base_url() }}/js/foundation.topbar.js"></script>
 <script type="text/javascript" src="//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js"></script>
 <script src="{{ base_url() }}/js/app.js"></script>
-<script>
+<script nonce="{{ nonce }}">
     $(document).foundation();
     if(document.getElementById("map")) {
         mapbox_map.init(52.951662, -1.142597);

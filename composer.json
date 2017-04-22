@@ -37,7 +37,8 @@
         "robmorgan/phinx": "^0.5.0",
         "pavlakis/slim-cli" : "~1.0",
         "dms/meetup-api-client": "2.0.1",
-        "pavlakis/seaudi": "~0.1"
+        "pavlakis/seaudi": "~0.1",
+        "paragonie/csp-builder": "^2.0"
 
     },
     "require-dev": {

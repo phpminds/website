@@ -164,7 +164,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
+<script nonce="{{ nonce }}">
     $( document ).ready(function() {
         var newSpeaker = $('#new_speaker'),
             speakersDropdown = $('#speakers');

@@ -9,3 +9,6 @@
     - nginx
     - queue
     - app
+- hosts: staging
+  sudo: true
+  vars_files:

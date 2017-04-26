@@ -4,6 +4,14 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var minifyCss = require('gulp-minify-css');
+var gulpServiceWorker = require('gulp-serviceworker');
+
+gulp.task('generate-service-worker', ['default'], function() {
+    return gulp.src(['public/*'])
+        .pipe(gulpServiceWorker({
+            rootDir: 'public/'
+        }));
+});
 
 gulp.task('sass', function () {
   gulp.src('./build/sass/**/+(*.scss|*.sass)')

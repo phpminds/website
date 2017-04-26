@@ -4,9 +4,7 @@
     {% block head %}
     <script src="/js/jquery.min.js"></script>
     <script src="/js/foundation.min.js"></script>
-    <script src="/js/modernizr.js"></script>
-    <script src="/js/sir-trevor.js"></script>
-    <script>
+    <script nonce="{{ nonce }}">
         $(document).ready(function(){
             $(document).foundation();
         });

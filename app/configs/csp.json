@@ -1,0 +1,63 @@
+{
+  "report-only": false,
+  "report-uri": "https://phpminds.report-uri.io/r/default/csp/enforce",
+  "base-uri": [],
+  "default-src": [
+    "https://a.tiles.mapbox.com",
+    "https://api.mapbox.com"
+  ],
+  "child-src": {
+    "self": false
+  },
+  "connect-src": {
+    "allow": [
+      "https://a.tiles.mapbox.com",
+      "https://api.mapbox.com"
+    ]
+  },
+  "font-src": {
+    "self": true,
+    "allow": [
+      "https://fonts.gstatic.com",
+      "https://maxcdn.bootstrapcdn.com"
+    ]
+  },
+  "form-action": {
+    "self": true
+  },
+  "frame-ancestors": [],
+  "img-src": {
+    "self": true,
+    "data": true,
+    "allow": [
+      "https://api.mapbox.com",
+      "https://a.tiles.mapbox.com",
+      "https://b.tiles.mapbox.com",
+      "https://www.google-analytics.com",
+      "https://stats.g.doubleclick.net"
+    ]
+  },
+  "media-src": [],
+  "object-src": [],
+  "plugin-types": [],
+  "script-src": {
+    "allow": [
+      "https://www.google-analytics.com",
+      "https://api.tiles.mapbox.com",
+      "https://api.mapbox.com"
+    ],
+    "self": true,
+    "unsafe-inline": false,
+    "unsafe-eval": false
+  },
+  "style-src": {
+    "self": true,
+    "unsafe-inline": false,
+    "allow": [
+      "https://api.mapbox.com",
+      "https://fonts.googleapis.com",
+      "https://maxcdn.bootstrapcdn.com"
+    ]
+  },
+  "upgrade-insecure-requests": true
+}

@@ -5,6 +5,7 @@
     <!-- Set the viewport width to device width for mobile -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="HandheldFriendly" content="True">
+    <meta name="theme-color" content="#C0E4B1">
     <meta name="MobileOptimized" content="320">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHPMiNDS</title>
@@ -83,7 +84,7 @@
 <script src="{{ base_url() }}/js/foundation.topbar.js"></script>
 <script type="text/javascript" src="//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js"></script>
 <script src="{{ base_url() }}/js/app.js"></script>
-<script>
+<script nonce="{{ nonce }}">
     $(document).foundation();
     if(document.getElementById("map")) {
         mapbox_map.init(52.951662, -1.142597);

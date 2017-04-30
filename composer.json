@@ -38,7 +38,8 @@
         "pavlakis/slim-cli" : "~1.0",
         "dms/meetup-api-client": "2.0.1",
         "pavlakis/seaudi": "~0.1",
-        "paragonie/csp-builder": "^2.0"
+        "paragonie/csp-builder": "^2.0",
+        "pavlakis/csp-middleware": "^0.1.0"
 
     },
     "require-dev": {

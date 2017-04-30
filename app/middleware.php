@@ -1,15 +1,7 @@
 <?php
 // Application middleware
 
-
-$app->add(function($request, $response, $next) use ($container) {
-
-    $cspResponse = $response->withAddedHeader('Content-Security-Policy', $container->get('csp.config'));
-
-    return $next($request, $cspResponse);
-});
-
-
+$app->add(new Pavlakis\Middleware\Csp\CspMiddleware($container->get('csp.config'), false));
 
 $app->add(new \Slim\HttpCache\Cache('public', 86400));
 

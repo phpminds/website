@@ -192,7 +192,7 @@ $container['csp.config'] = function ($c) {
     $csp = CSPBuilder::fromFile(__DIR__ . '/configs/csp.json');
     $csp->nonce('script-src', $c['global.nonce']);
 
-    return $csp->compile();
+    return $csp;
 };
 
 // Flash messages

@@ -45,7 +45,7 @@ $app->group('', function(){
     }
 
     return $next($request, $response);
-});
+})->add(new Pavlakis\Middleware\Csp\CspMiddleware($container->get('csp.config'), true));
 
 $app->get('/callback/{callback}', 'PHPMinds\Action\CallbackAction:dispatch')
     ->setName('callbacks');

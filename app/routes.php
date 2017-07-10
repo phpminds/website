@@ -23,9 +23,7 @@ $app->group('', function(){
 
     $this->get('/event/{year:[0-9]+}/{month:[0-9]+}','PHPMinds\Action\PastEventsAction:eventByYearMonth')
         ->setName('pastEvents');
-})->add(
-    new Pavlakis\Middleware\Csp\CspMiddleware($container->get('csp.config'), false)
-);
+});
 
 
 // -- auth --
@@ -51,10 +49,7 @@ $app->group('', function(){
     }
 
     return $next($request, $response);
-})->add(
-    // CSP set to report-only mode within the admin area until all issues are resolved
-    new Pavlakis\Middleware\Csp\CspMiddleware($container->get('csp.config'))
-);
+});
 
 $app->get('/callback/{callback}', 'PHPMinds\Action\CallbackAction:dispatch')
     ->setName('callbacks');

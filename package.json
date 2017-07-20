@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "PHPMinds usergroup Nottingham",
   "main": "gulpfile.js",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-serviceworker": "0.0.3"
+  },
   "devDependencies": {
     "bower": "^1.6.5",
     "gulp": "^3.9.0",

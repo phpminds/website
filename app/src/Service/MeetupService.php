@@ -9,6 +9,9 @@ use PHPMinds\Factory\EventFactory;
 use PHPMinds\Model\Event\Entity\Venue;
 use PHPMinds\Model\Event\EventModel;
 use PHPMinds\Model\MeetupEvent;
+use ShaunHare\MeetupCache\MeetupCache;
+use Stash\Driver\FileSystem;
+use Stash\Pool;
 
 class MeetupService
 {
@@ -30,6 +33,10 @@ class MeetupService
 
     public function __construct(MeetupKeyAuthClient $meetupClient,  MeetupEvent $meetupEvent, MeetupConfig $config)
     {
+        $options = array('path' => __DIR__ . '/storage/');
+        $this->driver = new FileSystem($options);
+        $this->client = new MeetupCache($meetupClient, new Pool($this->driver));
+    
         $this->client       = $meetupClient;
         $this->meetupEvent  = $meetupEvent;
         $this->config       = $config;
@@ -69,7 +76,6 @@ class MeetupService
     public function getLatestEvent()
     {
         $events = $this->getEvents(['status' => 'upcoming']);
-
         return $this->meetupEvent->formatResponse($events[0] ?? []);
     }
 

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "66ea1db80ada0b08083732baecb64305",
-    "content-hash": "84abebdf772bb20d350ea22af97f5c56",
+    "hash": "eb8a060832e1df848303cd38debc7f53",
+    "content-hash": "acb90a99daf2818702fa725ae586cf6d",
     "packages": [
         {
             "name": "aura/sql",
@@ -858,16 +858,16 @@
         },
         {
             "name": "pimple/pimple",
-            "version": "v3.1.0",
+            "version": "v3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silexphp/Pimple.git",
-                "reference": "279b56046fb368deacf77e2f8f3bdcea45cc367a"
+                "reference": "4d45fb62d96418396ec58ba76e6f065bca16e10a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/279b56046fb368deacf77e2f8f3bdcea45cc367a",
-                "reference": "279b56046fb368deacf77e2f8f3bdcea45cc367a",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/4d45fb62d96418396ec58ba76e6f065bca16e10a",
+                "reference": "4d45fb62d96418396ec58ba76e6f065bca16e10a",
                 "shasum": ""
             },
             "require": {
@@ -880,7 +880,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1.x-dev"
+                    "dev-master": "3.2.x-dev"
                 }
             },
             "autoload": {
@@ -904,7 +904,7 @@
                 "container",
                 "dependency injection"
             ],
-            "time": "2017-07-03 14:06:46"
+            "time": "2017-07-23 07:32:15"
         },
         {
             "name": "psr/cache",
@@ -1161,16 +1161,16 @@
         },
         {
             "name": "shaunhare/meetup-cache",
-            "version": "dev-develop",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sdh100shaun/MeetupCache.git",
-                "reference": "66a5b8013f78eb7a351343eb8f600e0a94e10b8d"
+                "reference": "f5be790c2ceba35b8aa4589c40b81131411c9539"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sdh100shaun/MeetupCache/zipball/66a5b8013f78eb7a351343eb8f600e0a94e10b8d",
-                "reference": "66a5b8013f78eb7a351343eb8f600e0a94e10b8d",
+                "url": "https://api.github.com/repos/sdh100shaun/MeetupCache/zipball/f5be790c2ceba35b8aa4589c40b81131411c9539",
+                "reference": "f5be790c2ceba35b8aa4589c40b81131411c9539",
                 "shasum": ""
             },
             "require": {
@@ -1203,7 +1203,7 @@
                 "meetup",
                 "phpminds"
             ],
-            "time": "2017-07-16 09:01:51"
+            "time": "2017-07-23 10:43:16"
         },
         {
             "name": "slim/csrf",
@@ -1472,7 +1472,7 @@
         },
         {
             "name": "symfony/config",
-            "version": "v3.3.4",
+            "version": "v3.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
@@ -1534,7 +1534,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "v3.3.4",
+            "version": "v3.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -1603,7 +1603,7 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v3.3.4",
+            "version": "v3.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
@@ -1659,7 +1659,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.8.24",
+            "version": "v2.8.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -1719,16 +1719,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v3.3.4",
+            "version": "v3.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "311fa718389efbd8b627c272b9324a62437018cc"
+                "reference": "427987eb4eed764c3b6e38d52a0f87989e010676"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/311fa718389efbd8b627c272b9324a62437018cc",
-                "reference": "311fa718389efbd8b627c272b9324a62437018cc",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/427987eb4eed764c3b6e38d52a0f87989e010676",
+                "reference": "427987eb4eed764c3b6e38d52a0f87989e010676",
                 "shasum": ""
             },
             "require": {
@@ -1764,7 +1764,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-24 09:29:48"
+            "time": "2017-07-11 07:17:58"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1827,7 +1827,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.3.4",
+            "version": "v3.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
@@ -3456,9 +3456,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "shaunhare/meetup-cache": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

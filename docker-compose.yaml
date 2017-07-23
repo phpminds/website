@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
 
     phpminds-nginx:
@@ -24,6 +24,10 @@ services:
         restart: always
         volumes:
             - .:/app
+        environment:
+            PHP_XDEBUG_ENABLED: 1 # Set 1 to enable.
+            XDEBUG_CONFIG: remote_host=${HOST_IP}
+
     db:
         build: docker/mysql
         image: phpminds-db:mysql5.7

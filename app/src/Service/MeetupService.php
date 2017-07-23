@@ -2,16 +2,13 @@
 
 namespace PHPMinds\Service;
 
-
-use DMS\Service\Meetup\MeetupKeyAuthClient;
 use PHPMinds\Config\MeetupConfig;
 use PHPMinds\Factory\EventFactory;
 use PHPMinds\Model\Event\Entity\Venue;
 use PHPMinds\Model\Event\EventModel;
 use PHPMinds\Model\MeetupEvent;
 use ShaunHare\MeetupCache\MeetupCache;
-use Stash\Driver\FileSystem;
-use Stash\Pool;
+
 
 class MeetupService
 {
@@ -31,13 +28,9 @@ class MeetupService
      */
     protected $config;
 
-    public function __construct(MeetupKeyAuthClient $meetupClient,  MeetupEvent $meetupEvent, MeetupConfig $config)
+    public function __construct(MeetupCache $meetupClient,  MeetupEvent $meetupEvent, MeetupConfig $config)
     {
-        $options = array('path' => __DIR__ . '/storage/');
-        $this->driver = new FileSystem($options);
-        $this->client = new MeetupCache($meetupClient, new Pool($this->driver));
-    
-        $this->client       = $meetupClient;
+        $this->client = $meetupClient;
         $this->meetupEvent  = $meetupEvent;
         $this->config       = $config;
     }

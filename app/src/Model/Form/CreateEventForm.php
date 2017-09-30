@@ -72,11 +72,7 @@ class CreateEventForm implements FormInterface
 
     public function getVenue()
     {
-        if (is_null($this->getEventInfo())) {
-            return $this->getEventInfo()->getVenue();
-        }
-
-        return $this->eventService->getVenueById($this->get('venue'));
+        return $this->getEventInfo()->getVenue();
     }
 
     public function getSupporter()
@@ -91,53 +87,23 @@ class CreateEventForm implements FormInterface
 
     public function getDate()
     {
-        if (!is_null($this->getEventInfo())) {
-            return $this->getEventInfo()->getDate();
-        }
-
-        return $this->getEventDate();
+        return $this->getEventInfo()->getDate();
     }
 
     public function getTalkTitle()
     {
-        if (!is_null($this->getEventInfo())) {
-            return $this->getEventInfo()->getTalk()->getTitle();
-        }
-
-        return $this->get('talk_title');
+        return $this->getEventInfo()->getTalk()->getTitle();
     }
 
     public function getTalkDescription()
     {
-        if (!is_null($this->getEventInfo())) {
-            return $this->getEventInfo()->getTalk()->getDescription();
-        }
-
-        return $this->get('talk_description');
+        return $this->getEventInfo()->getTalk()->getDescription();
     }
 
     
     public function getMeetupID()
     {
-        if (!is_null($this->getEventInfo())) {
-            return $this->getEventInfo()->getMeetupID();
-        }
-
-        return $this->get('meetup_id');
-    }
-
-    public function getEventDate()
-    {
-        if ($this->get('start_date') && $this->get('start_time')) {
-            return \DateTime::createFromFormat(
-                "Y-m-d H:i",
-                $this->get('start_date') . ' '
-                . ($this->get('start_time') < 10 ? '0' . $this->get('start_time') :  $this->get('start_time'))
-
-            );
-        }
-
-        return false;
+        return $this->getEventInfo()->getMeetupID();
     }
 
     protected function validateSupporter()
@@ -152,32 +118,6 @@ class CreateEventForm implements FormInterface
         if (!$this->getSpeaker()->exists()) {
             $this->addError('Please select a speaker.');
         }
-    }
-
-    public function validateTalk()
-    {
-        $title = $this->get('talk_title');
-        if (strlen($title) < 1) {
-            $this->addError('Talk title should have at least 1 character.');
-        }
-
-        $description = $this->get('talk_description');
-        if (strlen($description) < 20) {
-            $this->addError('Talk description should have at least 20 character.');
-        }
-
-        return $this;
-    }
-
-    public function validateDate()
-    {
-        try {
-            $date =  \DateTime::createFromFormat("m/d/Y H:i", $this->get('start_date') . ' ' . $this->get('start_time'));
-        } catch (\Exception $e) {
-            $this->addError($e->getMessage());
-        }
-
-        return $this;
     }
 
     protected function validate()

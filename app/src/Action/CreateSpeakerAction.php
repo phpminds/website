@@ -52,7 +52,7 @@ final class CreateSpeakerAction
                 $msg['id'] = $speaker->id;
             } catch (\Exception $e) {
                 $this->logger->debug($e->getMessage());
-                return $response->withStatus(200)
+                return $response->withStatus(406)
                     ->withHeader('Content-Type', 'application/json')
                     ->write(json_encode(['error' => $e->getMessage()]));
             }

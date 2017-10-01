@@ -24,6 +24,15 @@
 
         <div class="content" data-slug="panel1">
 
+            <div class="row collapse">
+                <div class="large-2 columns">
+                    <label class="inline">Talk Title</label>
+                </div>
+                <div class="large-10 medium-5 columns">
+                    {{ form.getTalkTitle() }}
+                </div>
+            </div>
+
             <form id="frm_event" method="post">
 
                 <div class="row collapse">
@@ -59,67 +68,7 @@
                     <div class="large-2 columns"></div>
                 </div>
 
-                <div class="row collapse">
-                    <div class="large-2 columns">
-                        <label class="inline">Venue</label>
-                    </div>
-                    <div class="large-5 medium-4 columns">
-                        <select id="venues" name="venue">
-                            <option value="0">-- Select --</option>
-                            {% for venue in form.getVenues %}
-                                <option {% if form.getVenue().getId() == venue.id %}selected{% endif %} value="{{ venue.id }}">{{ venue.name }} - {{ venue.address }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="large-2 columns"></div>
-                </div>
-
-                <div class="row collapse">
-                    <div class="large-2 columns">
-                        <label class="inline">Date</label>
-                    </div>
-                    <div class="large-5 medium-4 columns">
-                        <input placeholder="Date" name="start_date" class="textbox-n" type="text" onfocus="(this.type='date')" {% if eventInfo.getMeetupID %}value="{{ eventInfo.getDate().format('Y-m-d') }}"{% endif %} id="date">
-                    </div>
-                    <div class="large-2 columns"></div>
-                </div>
-
-                <div class="row collapse">
-                    <div class="large-2 columns">
-                        <label class="inline">Start time</label>
-                    </div>
-                    <div class="large-2 medium-2 columns">
-                        <select id="time.hour" name="start_time" name="time.hour">
-                            {% for i in 8..22 %}
-                                {% if form.getMeetupID and form.getDate() != false %}
-                                    {% if form.getDate().format('H') == i %}
-                                    <option value="{{ form.getDate().format('H:i') }}" selected>{{ form.getDate().format('H:i') }}</option>
-                                    {%  endif %}
-                                {% elseif i == defaultTime %}
-                                    <option value="{{ defaultTime }}:00" selected>{{ defaultTime }}:00</option>
-                                {% else %}
-                                    <option value="{{ i }}:00">{{ i }}:00</option>
-                                {%  endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="large-5 columns"></div>
-                </div>
-
-                <div class="row collapse">
-                    <div class="large-2 columns">
-                        <label class="inline">Talk Title</label>
-                    </div>
-                    <div class="large-10 medium-5 columns">
-                        <input type="text" id="talk_title" name="talk_title" placeholder="Talk title" value="{{ form.getTalkTitle() }}">
-                    </div>
-                </div>
-
-                <div class="row large-10 medium-5  collapse">
-                    <label>Talk description / Abstract</label>
-                    <textarea name="talk_description" id="talk_description" rows="4">{{ form.getTalkDescription()  }}</textarea>
-                </div>
-                <button type="submit" class="radius button">Submit</button>
+                <button type="submit" class="radius button">Create</button>
             </form>
         </div>
     </section>
@@ -164,29 +113,27 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-    $( document ).ready(function() {
-        var newSpeaker = $('#new_speaker'),
-            speakersDropdown = $('#speakers');
+<script nonce="{{ nonce }}">
 
-        speakersDropdown.change(function(){
+    $(document).ready(function() {
+        var speakersDropdown = $('#speakers'),
+            newSpeaker = $('#new_speaker');
 
-            if ($(this).val() == -1) {
-                    newSpeaker.addClass('show');
-                    newSpeaker.removeClass('hide');
+        speakersDropdown.on('change click', function(){
+
+            if ($(this).val() === "-1") {
+                newSpeaker.show();
             }
         });
 
         // Add speaker and update the Speaker's dropdown with this speaker selected
-        $('#frm_speaker').submit(function(event){
+        $('#frm_speaker').on('submit', function(event){
             event.preventDefault();
-
+console.log('submitting...')
             var speakerForm = $('#frm_speaker'),
                 firstName = speakerForm.find('#first_name').val(),
                 lastName = speakerForm.find('#last_name').val(),
-                email = speakerForm.find('#email').val(),
-                twitter = speakerForm.find('#twitter').val(),
-                speakerID = null;
+                twitter = speakerForm.find('#twitter').val();
 
 
             // do AJAX call
@@ -196,21 +143,21 @@
             );
 
             post.done(function(data){
-                console.log(data);
 
                 if (data.error) {
                     // handle errors
                     // show messages to the user
-                    console.log(data.error);
+console.log('error', data.error);
                 } else {
 
-                    speakerID = data.id;
+                    var speakerID = data.id;
 
                     // hide form
-                    newSpeaker.addClass('hide');
+                    newSpeaker.hide();
 
                     // update dropdown
                     speakersDropdown.append('<option selected value="'+ speakerID +'">' + firstName + ' ' + lastName + ' (' + twitter + ')</option>');
+console.log('should have appended the new speaker.');
                 }
             });
 

@@ -84,7 +84,7 @@ class EventsService
     public function getEventById($eventID = null)
     {
         $event      = $this->meetupService->getEventById($eventID);
-        $eventInfo  = $this->eventManager->getDetailsByMeetupID($event['id']);
+        $eventInfo  = $this->eventManager->getDetailsByMeetupID($event['id'] ?? null);
         $eventInfo  = $eventInfo[0] ?? null;
 
         return EventFactory::getMergedFromArrays($event, $eventInfo);
@@ -293,7 +293,7 @@ class EventsService
      */
     public function getEventInfo($meetupID) : array
     {
-        return $this->eventManager->getByMeetupID($meetupID)[0] ?: [];
+        return $this->eventManager->getByMeetupID($meetupID)[0] ?? [];
     }
 
     /**

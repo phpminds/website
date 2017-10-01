@@ -30,10 +30,10 @@ class SpeakersRepository extends RepositoryAbstract
             . ")";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(":first_name", $speaker->getFirstName(), \PDO::PARAM_STR);
-        $stmt->bindParam(":last_name", $speaker->getLastName(),  \PDO::PARAM_STR);
-        $stmt->bindParam(":email", $speaker->getEmail(),  \PDO::PARAM_STR);
-        $stmt->bindParam(":twitter", $speaker->getTwitter(),  \PDO::PARAM_STR);
+        $stmt->bindValue(":first_name", $speaker->getFirstName(), \PDO::PARAM_STR);
+        $stmt->bindValue(":last_name", $speaker->getLastName(),  \PDO::PARAM_STR);
+        $stmt->bindValue(":email", $speaker->getEmail(),  \PDO::PARAM_STR);
+        $stmt->bindValue(":twitter", $speaker->getTwitter(),  \PDO::PARAM_STR);
 
         $stmt->execute();
 

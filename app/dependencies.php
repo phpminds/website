@@ -1,6 +1,8 @@
 <?php
 // DIC configuration
 
+use ParagonIE\CSPBuilder\CSPBuilder;
+
 $container = $app->getContainer();
 $injector = new \pavlakis\seaudi\Injector($container);
 
@@ -176,7 +178,21 @@ $container['Slim\Views\Twig'] = function ($c) {
     $view->addExtension(new Slim\Views\TwigExtension($c->get('router'), $c->get('request')->getUri()));
     $view->addExtension(new Twig_Extension_Debug());
 
+    $view->getEnvironment()->addGlobal('nonce', $c['global.nonce']);
+
     return $view;
+};
+
+$container['global.nonce'] = function($c) {
+    return (new \Monolog\Processor\UidProcessor())->getUid();
+};
+
+$container['csp.config'] = function ($c) {
+
+    $csp = CSPBuilder::fromFile(__DIR__ . '/configs/csp.json');
+    $csp->nonce('script-src', $c['global.nonce']);
+
+    return $csp;
 };
 
 // Flash messages

@@ -49,7 +49,10 @@ $app->group('', function(){
     }
 
     return $next($request, $response);
-});
+})->add(
+    // CSP set to report-only mode within the admin area until all issues are resolved
+    new Pavlakis\Middleware\Csp\CspMiddleware($container->get('csp.config'))
+);
 
 $app->get('/callback/{callback}', 'PHPMinds\Action\CallbackAction:dispatch')
     ->setName('callbacks');

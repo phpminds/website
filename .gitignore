@@ -12,3 +12,5 @@ phinx.yml
 node_modules/*
 bower_components/*
 docker/.data/*
+bin/
+.DS_Store

@@ -27,6 +27,11 @@ Running Behat:
 
 `bin/behat -c tests/behat/behat.yml `
 
+Running everything without the browser:
+
+`/bin/behat -c tests/behat/behat.yml --tags ~@javascript
+`
+
 Running Selenium:
 
 `java  -Dwebdriver.chrome.driver=./tests/drivers/linux/chromedriver -jar ./vendor/se/selenium-server-standalone/bin/selenium-server-standalone.jar -port 4444`

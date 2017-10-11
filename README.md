@@ -27,11 +27,27 @@ Running Behat:
 
 `bin/behat -c tests/behat/behat.yml `
 
+Running Selenium:
+
+`java  -Dwebdriver.chrome.driver=./tests/drivers/linux/chromedriver -jar ./vendor/se/selenium-server-standalone/bin/selenium-server-standalone.jar -port 4444`
+
+*Server Dependencies*
+
+Java 8
+
+Installation
+
+```
+add-apt-repository ppa:webupd8team/java
+apt update
+apt install oracle-java8-installer
+```
+
 
 ## Contributors
-Created by the @phpminds team - contributions welcomed
+Created by the [@phpminds](https://twitter.com/phpminds) team - contributions welcomed
 
-@pavlakis
-@sdh100shaun
+[@pavlakis](https://twitter.com/pavlakis)
+[@sdh100shaun](https://twitter.com/sdh100shaun)
 
 Licence :  MIT see licence.md 

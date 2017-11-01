@@ -6,6 +6,7 @@ use PHPMinds\Config\EventsConfig;
 use PHPMinds\Factory\EventFactory;
 use PHPMinds\Model\Auth;
 use PHPMinds\Model\Event\EventManager;
+use PHPMinds\Model\Event\EventModel;
 use PHPMinds\Model\Form\CreateEventForm;
 use PHPMinds\Validator\EventValidator;
 use Slim\Views\Twig;
@@ -77,16 +78,17 @@ final class CreateEventAction
     {
 
         $meetupID = $request->getAttribute('meetup_id', null);
+        /** @var EventModel $eventInfo */
         $eventInfo = $this->eventService->getInfoByMeetupID($meetupID);
 
         if ($eventInfo->eventExists()) {
             $this->flash->addMessage('event', 'Event already exists. Check its status.');
-            return $response->withStatus(302)->withHeader('Location', 'event-details/' . $meetupID);
+            return $response->withStatus(302)->withHeader('Location', '/event-details/' . $meetupID);
         }
 
         if (!$eventInfo->isRegistered() && !is_null($meetupID)) {
             $this->flash->addMessage('event', 'No event found for meetupID provided. Please create a new event.');
-            return $response->withStatus(302)->withHeader('Location', 'create-event');
+            return $response->withStatus(302)->withHeader('Location', '/create-event');
         }
 
         $form = new CreateEventForm($this->eventManager, $this->eventService);
@@ -98,8 +100,7 @@ final class CreateEventAction
 
         $data = [
             'form' => $form,
-            'errors' => $this->flash->getMessage('event') ?? [],
-            'defaultTime' => $this->eventsConfig->defaultStartTime
+            'errors' => $this->flash->getMessage('event') ?? []
         ];
 
         if ($request->isPost()) {
@@ -127,7 +128,7 @@ final class CreateEventAction
 
                 $event = EventFactory::getEvent(
                     $form->getTalkTitle(), $form->getTalkDescription(),
-                    $form->getEventDate(), $form->getSpeaker(), $form->getVenue(), $form->getSupporter(),
+                    $form->getDate(), $form->getSpeaker(), $form->getVenue(), $form->getSupporter(),
                     $this->eventsConfig->title, $this->eventsConfig->description
                 );
 
@@ -142,7 +143,7 @@ final class CreateEventAction
                 }
 
 
-                return $response->withStatus(302)->withHeader('Location', 'event-details?meetup_id=' . $createEventInfo['meetup_id']);
+                return $response->withStatus(302)->withHeader('Location', '/event-details?meetup_id=' . $createEventInfo['meetup_id']);
             } catch (\Exception $e) {
                 $this->logger->debug($e->getMessage());
 

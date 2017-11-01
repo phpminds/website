@@ -1,0 +1,32 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+
+  extensions:
+
+    Pavlakis\Slim\Behat:
+      config_file: ../../app/configs/settings_test.php
+      dependencies_file: ../../app/dependencies.php
+#      middleware_file:
+#      routes_file:
+
+    Behat\MinkExtension\ServiceContainer\MinkExtension:
+      default_session: slim
+      slim: ~
+
+    Behat\MinkExtension:
+      browser_name: phantomjs
+      javascript_session: selenium2
+      base_url: http://phpminds.dev/
+
+      sessions:
+        my_session:
+          goutte:
+            guzzle_parameters:
+              verify: false
+
+      selenium2:
+        wd_host: "http://localhost:8643/wd/hub"
+        capabilities: { "browser": "phantomjs" }

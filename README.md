@@ -21,6 +21,11 @@ Integrations with
 - [x] joind.in
 
 
+## Tests
+
+Running Behat:
+
+`bin/behat -c tests/behat/behat.yml `
 
 
 ## Contributors

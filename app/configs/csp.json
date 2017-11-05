@@ -10,6 +10,7 @@
     "self": false
   },
   "connect-src": {
+    "self": true,
     "allow": [
       "https://a.tiles.mapbox.com",
       "https://api.mapbox.com"

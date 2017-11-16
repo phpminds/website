@@ -45,7 +45,15 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "2.*",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "^5.1"
+        "phpunit/phpunit": "^5.1",
+        "pavlakis/slim-behat-extension": "^1.0",
+        "behat/mink": "^1.7",
+        "behat/mink-extension": "^2.2",
+        "behat/mink-goutte-driver": "^1.2",
+        "se/selenium-server-standalone": "^3.6",
+        "behat/mink-selenium2-driver": "^1.3"
+    },
+    "config": {
+        "bin-dir": "bin"
     }
-
 }

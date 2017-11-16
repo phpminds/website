@@ -36,9 +36,10 @@ return [
         ],
 
         'db' => [
-            "username" => "root",
-            "password" => "Admin123",
-            "host" => "127.0.0.1",
+            "username" => "web_user",
+            "password" => "User123",
+            "host" => "localhost",
+            "port" => "3306",
             "dbname" => "phpminds"
         ],
 

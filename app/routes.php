@@ -21,7 +21,7 @@ $app->group('', function() {
     $this->get('/oops', 'PHPMinds\Action\ErrorAction:dispatch')
         ->setName('500');
 
-    $this->get('/event/{year:[0-9]+}/{month:[0-9]+}', 'PHPMinds\Action\PastEventsAction:eventByYearMonth')
+    $this->get('/event/{year:[0-9]+}/{month:[0-9]+}','PHPMinds\Action\PastEventsAction:eventByYearMonth')
         ->setName('pastEvents');
 });
 

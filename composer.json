@@ -39,7 +39,8 @@
         "dms/meetup-api-client": "2.0.1",
         "pavlakis/seaudi": "~0.1",
         "paragonie/csp-builder": "^2.0",
-        "pavlakis/csp-middleware": "^0.1.0"
+        "pavlakis/csp-middleware": "^0.1.0",
+        "shaunhare/meetup-cache":"^1.0.0"
 
     },
     "require-dev": {
@@ -49,9 +50,7 @@
         "pavlakis/slim-behat-extension": "^1.0",
         "behat/mink": "^1.7",
         "behat/mink-extension": "^2.2",
-        "behat/mink-goutte-driver": "^1.2",
-        "se/selenium-server-standalone": "^3.6",
-        "behat/mink-selenium2-driver": "^1.3"
+        "behat/mink-goutte-driver": "^1.2"
     },
     "config": {
         "bin-dir": "bin"

@@ -4,11 +4,11 @@
   "description": "PHPMinds usergroup Nottingham",
   "main": "gulpfile.js",
   "dependencies": {
+    "gulp-serviceworker": "^0.0.3",
     "detached-jquery-2.1.4": "^2.1.4-v7",
     "gulp-browserify": "^0.5.1",
     "gulp-concat": "^2.6.1",
     "gulp-rename": "^1.2.2",
-    "gulp-serviceworker": "^0.0.3",
     "gulp-uglify": "^3.0.0",
     "modernizr": "^3.5.0",
     "zurb-foundation-5": "^5.4.7"

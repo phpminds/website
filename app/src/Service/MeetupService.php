@@ -1,5 +1,4 @@
 <?php
-
 namespace PHPMinds\Service;
 
 use PHPMinds\Config\MeetupConfig;

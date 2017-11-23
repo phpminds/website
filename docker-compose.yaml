@@ -40,6 +40,10 @@ services:
             MYSQL_USER: root
             MYSQL_PASSWORD: Admin123
         volumes:
-            - ./docker/.data/db:/var/lib/mysql
-            - ./docker/mysql/sql:/docker-entrypoint-initdb.d
+            - ./docker/.data/db:/var/lib/mysql:rw
+            - ./docker/mysql/sql:/docker-entrypoint-initdb.d:rw
             - .:/app
+    adminer:
+        image: adminer
+        ports:
+            - 8080:8080

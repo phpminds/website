@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3bf28cc951244aeb5591876601486ab",
+    "content-hash": "6e0387e1c46e418a41eae9da6bb8b72b",
     "packages": [
         {
             "name": "aura/sql",
@@ -1166,16 +1166,16 @@
         },
         {
             "name": "shaunhare/meetup-cache",
-            "version": "1.0.0",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sdh100shaun/MeetupCache.git",
-                "reference": "f5be790c2ceba35b8aa4589c40b81131411c9539"
+                "reference": "3e119335d2d75882fd3d4720390dea53cb6b8410"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sdh100shaun/MeetupCache/zipball/f5be790c2ceba35b8aa4589c40b81131411c9539",
-                "reference": "f5be790c2ceba35b8aa4589c40b81131411c9539",
+                "url": "https://api.github.com/repos/sdh100shaun/MeetupCache/zipball/3e119335d2d75882fd3d4720390dea53cb6b8410",
+                "reference": "3e119335d2d75882fd3d4720390dea53cb6b8410",
                 "shasum": ""
             },
             "require": {
@@ -1208,7 +1208,7 @@
                 "meetup",
                 "phpminds"
             ],
-            "time": "2017-07-23T10:43:16+00:00"
+            "time": "2017-12-03T19:29:04+00:00"
         },
         {
             "name": "slim/csrf",

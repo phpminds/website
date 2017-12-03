@@ -52,7 +52,9 @@ final class HomeAction
         try  {
 
             $event = $this->eventService->getLatestEvent();
+
             $previousEvents = $this->eventService->getPastEvents();
+
             $response = $this->cache->withETag($response, $event->getMeetupID());
         } catch (\Exception $e) {
             $eventExists = false;

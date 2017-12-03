@@ -31,6 +31,8 @@ RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime \
     -subj "/C=UK/ST=Nottinghamshire/L=Nottingham/O=phpminds/OU=meetup/CN=phpminds.org" && \
     openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 
+RUN mv server.crt /etc/pki/tls/certs/ssl.crt && \
+    mv server.key /etc/pki/tls/private/ssl.key
 
 VOLUME /var/log/nginx
 

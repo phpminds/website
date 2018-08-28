@@ -25,7 +25,7 @@ $app->group('', function(){
         ->setName('pastEvents');
 
 })->add(
-    new Pavlakis\Middleware\Csp\CspMiddleware($container->get('csp.config'), true)
+    new Pavlakis\Middleware\Csp\CspMiddleware($container->get('csp.config'), false)
 );
 
 // -- auth --

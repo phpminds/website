@@ -23,10 +23,10 @@ $app->group('', function(){
 
     $this->get('/event/{year:[0-9]+}/{month:[0-9]+}','PHPMinds\Action\PastEventsAction:eventByYearMonth')
         ->setName('pastEvents');
+
 })->add(
     new Pavlakis\Middleware\Csp\CspMiddleware($container->get('csp.config'), false)
 );
-
 
 // -- auth --
 $app->group('', function(){

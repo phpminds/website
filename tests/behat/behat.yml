@@ -1,0 +1,18 @@
+default:
+  suites:
+    user:
+      paths:    [ %paths.base%/features/web ]
+      contexts: [ UserContext ]
+    organiser:
+      paths:    [ %paths.base%/features/organiser ]
+      contexts: [ OrganiserContext ]
+
+  extensions:
+    Behat\MinkExtension:
+      base_url: "https://phpminds.dev"
+      goutte:
+        guzzle_parameters:
+          verify: false
+    Pavlakis\Slim\Behat:
+      config_file: ../../app/configs/settings_test.php
+      dependencies_file: ../../app/dependencies.php

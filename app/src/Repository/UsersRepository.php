@@ -48,6 +48,21 @@ class UsersRepository extends RepositoryAbstract
         $stmt->execute();
     }
 
+    /**
+     * @param string $email
+     */
+    public function delete(string $email)
+    {
+        $sql = "DELETE " .
+            "FROM {$this->table} " .
+            "WHERE email=:email";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(":email", $email, \PDO::PARAM_STR);
+
+        $stmt->execute();
+    }
+
     public function activateUser()
     {
 

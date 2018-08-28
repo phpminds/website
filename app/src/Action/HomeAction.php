@@ -52,16 +52,17 @@ final class HomeAction
         try  {
 
             $event = $this->eventService->getLatestEvent();
+
             $previousEvents = $this->eventService->getPastEvents();
+
             $response = $this->cache->withETag($response, $event->getMeetupID());
         } catch (\Exception $e) {
-            $event = null;
             $eventExists = false;
-            $previousEvents = null;
         }
 
         $filter = $this->contentService->getTwigFilter();
         $this->view->getEnvironment()->addFilter($filter);
+
 
 
 

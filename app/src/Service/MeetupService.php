@@ -1,14 +1,13 @@
 <?php
-
 namespace PHPMinds\Service;
 
-
-use DMS\Service\Meetup\MeetupKeyAuthClient;
 use PHPMinds\Config\MeetupConfig;
 use PHPMinds\Factory\EventFactory;
 use PHPMinds\Model\Event\Entity\Venue;
 use PHPMinds\Model\Event\EventModel;
 use PHPMinds\Model\MeetupEvent;
+use ShaunHare\MeetupCache\MeetupCache;
+
 
 class MeetupService
 {
@@ -28,9 +27,9 @@ class MeetupService
      */
     protected $config;
 
-    public function __construct(MeetupKeyAuthClient $meetupClient,  MeetupEvent $meetupEvent, MeetupConfig $config)
+    public function __construct(MeetupCache $meetupClient,  MeetupEvent $meetupEvent, MeetupConfig $config)
     {
-        $this->client       = $meetupClient;
+        $this->client = $meetupClient;
         $this->meetupEvent  = $meetupEvent;
         $this->config       = $config;
     }
@@ -69,7 +68,6 @@ class MeetupService
     public function getLatestEvent()
     {
         $events = $this->getEvents(['status' => 'upcoming']);
-
         return $this->meetupEvent->formatResponse($events[0] ?? []);
     }
 

@@ -2,6 +2,8 @@
 // DIC configuration
 
 use ParagonIE\CSPBuilder\CSPBuilder;
+use ShaunHare\MeetupCache\MeetupCache;
+use Stash\Driver\FileSystem;
 
 $container = $app->getContainer();
 $injector = new \pavlakis\seaudi\Injector($container);
@@ -80,16 +82,19 @@ $container['service.joindin'] = function ($c) {
 };
 
 $container['service.meetup'] = function ($c) {
-
+    
+    $options = array('path' => __DIR__ . '/../cache/');
+    $driver = new FileSystem($options);
+    $client = new MeetupCache( \DMS\Service\Meetup\MeetupKeyAuthClient::factory(
+        [
+            'key' => $c->get('meetup.config')->apiKey,
+            'base_url' => $c->get('meetup.config')->baseUrl,
+            'group_urlname' => $c->get('meetup.config')->groupUrlName,
+            'publish_status' => $c->get('meetup.config')->publishStatus
+        ]
+    ), new \Stash\Pool($driver));
     return new \PHPMinds\Service\MeetupService(
-        \DMS\Service\Meetup\MeetupKeyAuthClient::factory(
-            [
-                'key' => $c->get('meetup.config')->apiKey,
-                'base_url' => $c->get('meetup.config')->baseUrl,
-                'group_urlname' => $c->get('meetup.config')->groupUrlName,
-                'publish_status' => $c->get('meetup.config')->publishStatus
-            ]
-        ),
+        $client,
         $c->get('meetup.event'),
         $c->get('meetup.config')
     );

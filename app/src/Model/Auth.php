@@ -40,6 +40,15 @@ class Auth
         return false;
     }
 
+    /**
+     * @param $email
+     * @return bool
+     */
+    public function removeUser($email): bool
+    {
+        return (bool) $this->repository->delete($email);
+    }
+
     public function store()
     {
         if (!is_null($this->user)) {

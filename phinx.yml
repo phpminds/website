@@ -7,7 +7,7 @@ environments:
 
     development:
         adapter: mysql
-        host: localhost
+        host: phpminds_db_1
         name: phpminds
         user: root
         pass: Admin123

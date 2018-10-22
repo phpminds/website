@@ -46,18 +46,32 @@ final class HomeAction
 
     public function dispatch($request, $response, $args)
     {
-        $event = $this->eventService->getLatestEvent();       
+        $event = null;
+        $eventExists = true;
+        $previousEvents = null;
+        try  {
+
+            $event = $this->eventService->getLatestEvent();
+
+            $previousEvents = $this->eventService->getPastEvents();
+
+            $response = $this->cache->withETag($response, $event->getMeetupID());
+        } catch (\Exception $e) {
+            $eventExists = false;
+        }
+
         $filter = $this->contentService->getTwigFilter();
         $this->view->getEnvironment()->addFilter($filter);
 
 
-        $previousEvents= $this->eventService->getPastEvents();
 
 
+        $this->view->render($response, 'home.twig', [
+                'event' => $event,
+                'previousEvents' => $previousEvents,
+                'eventExists' => $eventExists
+        ]);
 
-        $resWithETag = $this->cache->withETag($response, $event->getMeetupID());
-
-        $this->view->render($response, 'home.twig', ['event' => $event,'previousEvents'=>$previousEvents]);
-        return $resWithETag;
+        return $response;
     }
 }

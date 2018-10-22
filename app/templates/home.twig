@@ -10,6 +10,7 @@
     </section>
     <div class="row">
         <div class="large-offset-1 large-10 small-12 columns h-event">
+            {% if (eventExists) %}
             <h3 class="p-name"><i class="fa fa-calendar"></i> {{ event.getTalk().getTitle() }}</h3>
             <h4> on {{ event.getDateTimeAsString }} {% if (event.getTalk().getSpeaker().getFirstName()) %} by {{ event.getTalk().getSpeaker().getFirstName() }} {{ event.getTalk().getSpeaker().getLastName() }} ( <a href="https://twitter.com/{{ event.getTalk().getSpeaker().getTwitter()|slice(1) }}">{{ event.getTalk().getSpeaker().getTwitter() }}</a> ) {% endif %}</h4>
 
@@ -19,14 +20,22 @@
 
                 <p class="right"><a class="button alert" href="{{ event.getMeetupURL }}">RSVP</a></p>
             </div>
-
+            {% else %}
+                <div class="p-summary">
+                    <h3>
+                        There are no published events. Please check again soon.
+                    </h3>
+                </div>
+            {% endif %}
         </div>
     </div>
     <div id="map"></div>
+{% if (previousEvents) %}
     <section class="section-lite-green past-events" id="past-events">
 
         <div class="row">
             <div class=" large-offset-1 large-10 small-12 columns">
+
                 <h3><i class="fa fa-calendar-times-o"></i> Past Events</h3>
 
                 {{ "past-events" | content | raw }}
@@ -56,6 +65,7 @@
             </div>
         </div>
     </section>
+{% endif %}
     <section class="supporters" id="supporters">
 
         <div class="row">
@@ -69,7 +79,7 @@
                             <div class="supporter-icon-box">
                                 <a href="http://wearejh.com/"><img class="supporter-icon" src="imgs/JH-Logo–Colour–RGB.svg" alt="JH Nottingham"/></a>
                             </div>
-                            <h4 class="supporter-heading">JH Nottingham</h4>
+                            <h4 class="supporter-heading adjust-heading">JH Nottingham</h4>
                             <span class="supporter-description">{{ "supporters-content-jh" | content | raw }}</span>
                         </div>
 
@@ -79,10 +89,10 @@
 
                         <div class="supporter">
                             <div class="supporter-icon-box">
-                                <a href="https://phpminds.org"><img class="supporter-icon" src="imgs/sponsor.svg" alt="PHPMinds needs you"/></a>
+                                <a href="http://rebelrecruitment.co.uk"><img class="supporter-icon" src="imgs/sponsor.svg" alt="Rebel Recruitment"/></a>
                             </div>
-                            <h4 class="supporter-heading">Support us</h4>
-                            <span class="supporter-description">{{ "supporters-content-help" | content | raw }}</span>
+                            <h4 class="supporter-heading">Rebel Recruitment</h4>
+                            <span class="supporter-description">{{ "supporters-content-rebel" | content | raw }}</span>
 
                         </div>
                     </div>

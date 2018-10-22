@@ -1,6 +1,10 @@
 <?php
 // DIC configuration
 
+use ParagonIE\CSPBuilder\CSPBuilder;
+use ShaunHare\MeetupCache\MeetupCache;
+use Stash\Driver\FileSystem;
+
 $container = $app->getContainer();
 $injector = new \pavlakis\seaudi\Injector($container);
 
@@ -12,6 +16,14 @@ $container['notFoundHandler'] = function ($c) {
             ->withStatus(404)
             ->withHeader('Content-Type', 'text/html')
             ->withRedirect('/404');
+    };
+};
+
+$container['errorHandler'] = function ($c) {
+    return function ($request, $response, $exception) use ($c) {
+        return $c['response']->withStatus(500)
+            ->withHeader('Content-Type', 'text/html')
+            ->withRedirect('/oops');
     };
 };
 
@@ -70,16 +82,19 @@ $container['service.joindin'] = function ($c) {
 };
 
 $container['service.meetup'] = function ($c) {
-
+    
+    $options = array('path' => __DIR__ . '/../cache/');
+    $driver = new FileSystem($options);
+    $client = new MeetupCache( \DMS\Service\Meetup\MeetupKeyAuthClient::factory(
+        [
+            'key' => $c->get('meetup.config')->apiKey,
+            'base_url' => $c->get('meetup.config')->baseUrl,
+            'group_urlname' => $c->get('meetup.config')->groupUrlName,
+            'publish_status' => $c->get('meetup.config')->publishStatus
+        ]
+    ), new \Stash\Pool($driver));
     return new \PHPMinds\Service\MeetupService(
-        \DMS\Service\Meetup\MeetupKeyAuthClient::factory(
-            [
-                'key' => $c->get('meetup.config')->apiKey,
-                'base_url' => $c->get('meetup.config')->baseUrl,
-                'group_urlname' => $c->get('meetup.config')->groupUrlName,
-                'publish_status' => $c->get('meetup.config')->publishStatus
-            ]
-        ),
+        $client,
         $c->get('meetup.event'),
         $c->get('meetup.config')
     );
@@ -110,9 +125,10 @@ $container['Slim\HttpCache\CacheProvider'] = function () {
 
 $container ['PHPMinds\Model\Db'] = function ($c) {
     $db = $c->get('settings')['db'];
+    $db['port'] = $db['port'] ?? '3306'; // Added for BC
 
     return new \PHPMinds\Model\Db (
-        'mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'], $db['username'], $db['password']
+        'mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'] . ';port=' . $db['port'], $db['username'], $db['password']
     );
 };
 
@@ -167,7 +183,21 @@ $container['Slim\Views\Twig'] = function ($c) {
     $view->addExtension(new Slim\Views\TwigExtension($c->get('router'), $c->get('request')->getUri()));
     $view->addExtension(new Twig_Extension_Debug());
 
+    $view->getEnvironment()->addGlobal('nonce', $c['global.nonce']);
+
     return $view;
+};
+
+$container['global.nonce'] = function($c) {
+    return (new \Monolog\Processor\UidProcessor())->getUid();
+};
+
+$container['csp.config'] = function ($c) {
+
+    $csp = CSPBuilder::fromFile(__DIR__ . '/configs/csp.json');
+    $csp->nonce('script-src', $c['global.nonce']);
+
+    return $csp;
 };
 
 // Flash messages
@@ -204,3 +234,4 @@ $injector->add('PHPMinds\Action\CreateEventAction');
 $injector->add('PHPMinds\Action\CallbackAction');
 $injector->add('PHPMinds\Action\EventStatusAction');
 $injector->add('PHPMinds\Action\PastEventsAction');
+$injector->add('PHPMinds\Action\ErrorAction');

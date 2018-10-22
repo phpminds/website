@@ -4,6 +4,17 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var minifyCss = require('gulp-minify-css');
+var uglify = require("gulp-uglify");
+var concat = require("gulp-concat");
+var gulpServiceWorker = require('gulp-serviceworker');
+var rename = require('gulp-rename');
+
+gulp.task('generate-service-worker', ['default'], function() {
+    return gulp.src(['public/*'])
+        .pipe(gulpServiceWorker({
+            rootDir: 'public/'
+        }));
+});
 
 gulp.task('sass', function () {
   gulp.src('./build/sass/**/+(*.scss|*.sass)')
@@ -18,13 +29,26 @@ gulp.task('sass:watch', function () {
 });
 
 var paths = {
- scripts: ['bower_components/modernizr/modernizr.js','bower_components/sir-trevor-js/sir-trevor.js','bower_components/jquery/dist/jquery.min.js','bower_components/foundation/js/foundation.min.js','bower_components/foundation/js/foundation/foundation.topbar.js','build/js/app.js'],
+ scripts: [
+     'node_modules/src/Modernizr.js',
+     'build/js/app.js'
+ ],
  dist: 'public/js/'
 };
 
-gulp.task('move', function(){
- gulp.src(paths.scripts)
- .pipe(gulp.dest(paths.dist));
+
+// gulp.task('build-jquery', function(){
+//     gulp.src('node_modules/detached-jquery-2.1.4/js/index.js')
+//         .pipe(rename('node_modules/detached-jquery-2.1.4/js/jquery.min.js'))
+//         .pipe(uglify())
+//         .pipe(gulp.dest(paths.dest));
+// });
+
+gulp.task('bundle-js', function(){
+    gulp.src(paths.scripts)
+     .pipe(concat('libs.js'))
+     .pipe(uglify())
+    .pipe(gulp.dest("./public/js/"));
 });
 
 var autoprefixer = require('gulp-autoprefixer');
@@ -45,4 +69,4 @@ gulp.task('minify-css', function() {
         .pipe(minifyCss({compatibility: 'ie8'}))
         .pipe(gulp.dest('public/css/'));
 });
-gulp.task('default',['sass:watch','move','prefix']);
+gulp.task('default',['sass:watch','bundle-js','prefix']);

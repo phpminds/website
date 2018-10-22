@@ -1,23 +1,32 @@
 <?php
 // Routes
 
-$app->get('/', 'PHPMinds\Action\HomeAction:dispatch')
-    ->setName('homepage');
+$app->group('', function(){
 
-$app->get('/login', 'PHPMinds\Action\LoginAction:dispatch')
-    ->setName('login');
+    $this->get('/', 'PHPMinds\Action\HomeAction:dispatch')
+        ->setName('homepage');
 
-$app->post('/login', 'PHPMinds\Action\LoginAction:dispatch')
-    ->setName('login-post');
+    $this->get('/login', 'PHPMinds\Action\LoginAction:dispatch')
+        ->setName('login');
 
-$app->get('/logout', 'PHPMinds\Action\LogoutAction:dispatch')
-    ->setName('logout');
+    $this->post('/login', 'PHPMinds\Action\LoginAction:dispatch')
+        ->setName('login-post');
 
-$app->get('/404', 'PHPMinds\Action\NotFoundAction:dispatch')
-    ->setName('notfound');
+    $this->get('/logout', 'PHPMinds\Action\LogoutAction:dispatch')
+        ->setName('logout');
 
-$app->get('/event/{year:[0-9]+}/{month:[0-9]+}','PHPMinds\Action\PastEventsAction:eventByYearMonth')
-    ->setName('pastEvents');
+    $this->get('/404', 'PHPMinds\Action\NotFoundAction:dispatch')
+        ->setName('notfound');
+
+    $this->get('/oops', 'PHPMinds\Action\ErrorAction:dispatch')
+        ->setName('500');
+
+    $this->get('/event/{year:[0-9]+}/{month:[0-9]+}','PHPMinds\Action\PastEventsAction:eventByYearMonth')
+        ->setName('pastEvents');
+
+})->add(
+    new Pavlakis\Middleware\Csp\CspMiddleware($container->get('csp.config'), false)
+);
 
 // -- auth --
 $app->group('', function(){
@@ -42,7 +51,10 @@ $app->group('', function(){
     }
 
     return $next($request, $response);
-});
+})->add(
+    // CSP set to report-only mode within the admin area until all issues are resolved
+    new Pavlakis\Middleware\Csp\CspMiddleware($container->get('csp.config'))
+);
 
 $app->get('/callback/{callback}', 'PHPMinds\Action\CallbackAction:dispatch')
     ->setName('callbacks');

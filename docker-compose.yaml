@@ -1,9 +1,8 @@
-version: '3'
+version: '2'
 services:
 
     phpminds-nginx:
-        build: docker/nginx
-        image: phpminds-nginx
+        image: phpminds/nginx:1.10
         restart: always
         hostname: phpminds.docker
         depends_on:
@@ -20,14 +19,11 @@ services:
 
     phpminds-php:
         build: docker/php
-        image: phpminds-php:php71
         restart: always
+        environment:
+            XDEBUG_CONFIG: "remote_host=${HOST_IP}"
         volumes:
             - .:/app
-        environment:
-            PHP_XDEBUG_ENABLED: 1 # Set 1 to enable.
-            XDEBUG_CONFIG: remote_host=${HOST_IP}
-
     db:
         build: docker/mysql
         image: phpminds-db:mysql5.7
@@ -40,10 +36,5 @@ services:
             MYSQL_USER: root
             MYSQL_PASSWORD: Admin123
         volumes:
-            - ./docker/.data/db:/var/lib/mysql:rw
-            - ./docker/mysql/sql:/docker-entrypoint-initdb.d:rw
+            - ./docker/.data/db:/var/lib/mysql
             - .:/app
-    adminer:
-        image: adminer
-        ports:
-            - 8080:8080

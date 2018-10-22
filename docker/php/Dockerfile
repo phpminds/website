@@ -1,9 +1,12 @@
-FROM php:7.2-fpm
+FROM composer:1.7.2 as composer
+FROM pavlakis/xdebug:2.6.1 AS xdebug
+FROM phpminds/php:7.2.11
 
-RUN apt-get update && apt-get install -y \
-    && docker-php-ext-install -j$(nproc) pdo pdo_mysql
-RUN pecl install xdebug-2.6.0alpha1
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-EXPOSE 9009
-CMD ["php-fpm","-F"]
+
+COPY --from=xdebug /usr/local/lib/php/extensions/no-debug-non-zts-20170718/xdebug.so /usr/local/lib/php/extensions/no-debug-non-zts-20170718/xdebug.so
+
+
+
 

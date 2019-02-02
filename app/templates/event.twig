@@ -43,16 +43,19 @@
                         </ul>
                     </div>
                 </div>
-                {% set page = 1 %}
-                {% for previousEvent in previousEvents %}
-                    {% if ((loop.revindex-1) % 5 == 0) %}
 
-                        <a href="#page-{{ loop.index }}"> {{ page }}</a>
-                        {% set page = page + 1 %}
-                    {% endif %}
-                {% endfor %}
+                <div class="pagination-control pagination-number">
+                    <ul>
+                        {% set page = 1 %}
+                        {% for previousEvent in previousEvents %}
+                            {% if ((loop.revindex-1) % 5 == 0) %}
 
-                <a href="#page-100"> {{ page }}</a>
+                                <li><a href="#page-{{ loop.index }}"> {{ page }}</a></li>
+                                {% set page = page + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
             </div></div>
     </section>
 

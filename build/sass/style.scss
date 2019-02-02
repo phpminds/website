@@ -329,7 +329,3 @@ html {
 
   }
 }
-.pagination .pages > .page:target ~ .page:last-child,
-.pagination .pages > .page {display: none;}
-.pagination .pages > :last-child,
-.pagination .pages > .page:target {display: block;}

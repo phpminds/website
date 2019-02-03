@@ -3,10 +3,11 @@
 namespace PHPMinds\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Table;
 
 /**
  * User
- *
+ * @Table(name="users")
  * @ORM\Entity(repositoryClass="PHPMinds\Repository\UserRepository")
  */
 class User
@@ -43,6 +44,14 @@ class User
      * @ORM\Column(type="boolean")
      */
     private $status;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
     /**
      * @return string

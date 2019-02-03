@@ -2,8 +2,9 @@
 
 namespace PHPMinds\Model;
 
-use Doctrine\ORM\EntityManager;
 use PHPMinds\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
+use PHPMinds\Entity\User;
 
 class Auth
 {
@@ -18,12 +19,13 @@ class Auth
     private $repository;
 
     /**
-     * @var
+     * @var User
      */
     private $user;
 
     /**
      * Auth constructor.
+     * @param EntityManager  $em
      * @param UserRepository $repository
      */
     public function __construct(EntityManager $em, UserRepository $repository)
@@ -35,16 +37,16 @@ class Auth
     /**
      * @param $email
      * @param $password
-     * @return \stdClass
+     * @return User
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function registerUser($email, $password)
     {
         $hash = password_hash($password, PASSWORD_BCRYPT);
-        $user = new \stdClass();
-        $user->email = $email;
-        $user->password = $hash;
+        $user = new User();
+        $user->setEmail($email);
+        $user->setPassword($hash);
         $this->em->persist($user);
         $this->em->flush();
 
@@ -58,8 +60,16 @@ class Auth
      */
     public function isValid($email, $password)
     {
-        $user = $this->repository->findOneByEmail($email);
-        var_dump($user, $user->getPassword());exit;
+        try {
+            $user = $this->repository->findOneByEmail($email);
+        } catch (\Doctrine\ORM\NonUniqueResultException $e) {
+            return false;
+        }
+
+        if (is_null($user)) {
+            return false;
+        }
+
         if (password_verify($password, $user->getPassword())) {
             $this->user = $user;
             return true;
@@ -77,14 +87,11 @@ class Auth
 //        return (bool) $this->repository->delete($email);
     }
 
-    /**
-     *
-     */
     public function store()
     {
         if (!is_null($this->user)) {
-            $_SESSION['auth']['user_id'] = $this->user->id;
-            $_SESSION['auth']['email'] = $this->user->email;
+            $_SESSION['auth']['user_id'] = $this->user->getId();
+            $_SESSION['auth']['email'] = $this->user->getEmail();
         }
     }
 

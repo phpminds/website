@@ -6,12 +6,15 @@ use Doctrine\ORM\EntityRepository;
 use PHPMinds\Entity\User;
 
 /**
- * Class UserRepository
  * @package PHPMinds\Repository
  */
 class UserRepository extends EntityRepository
 {
-
+    /**
+     * @param $email
+     * @return User|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function findOneByEmail($email)
     {
         $qb = $this->createQueryBuilder('u');
@@ -19,11 +22,6 @@ class UserRepository extends EntityRepository
             ->where('u.email = :email')
             ->setParameter('email', $email);
 
-        try {
-            return $qb->getQuery()->getOneOrNullResult();
-        } catch (\Exception $e) {
-            echo $e->getMessage();exit;
-        }
-
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

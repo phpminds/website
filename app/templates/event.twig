@@ -34,9 +34,9 @@
                     <div class="page" id="page-{{ loop.revindex }}">
                         <ul>
                             {% endif %}
-                            <li class="item-{{ loop.revindex -1 }}"><a
+                            <li class="item-{{ loop.revindex -1 }}"><i class="fa fa-calendar-check-o" aria-hidden="true">&nbsp;</i><a
                                         href="../../event/{{ previousEvent.getMindsUrl }}">{{ previousEvent.getTalk().getTitle|e }}
-                                    on {{ previousEvent.getDateTimeAsString }}</a></li>
+                                        on {{ previousEvent.getDateTimeAsString }}</a></li>
 
                             {% endfor %}
 

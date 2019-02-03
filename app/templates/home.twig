@@ -5,7 +5,7 @@
         <div class="large-12 columns banner">
             <img class="phpminds-logo" src="imgs/phpminds-banner.svg" alt="phpminds - php usergroup"/>
 
-            <h2 id="strapline"> [ meeting every 2nd Thursday of the month at 7pm in Nottingham ]</h2>
+            <h2 id="strapline"> [ meeting every 1st Thursday of the month at 7pm in Nottingham ]</h2>
         </div>
     </section>
     <div class="row">
@@ -34,18 +34,43 @@
     <section class="section-lite-green past-events" id="past-events">
 
         <div class="row">
-            <div class=" large-offset-1 large-10 small-12 columns">
+            <div class=" large-offset-1 large-10 small-12 columns pagination">
 
                 <h3><i class="fa fa-calendar-times-o"></i> Past Events</h3>
 
                 {{ "past-events" | content | raw }}
 
-                <ul>
-                    {% for previousEvent in previousEvents %}
-                        <li><a href="../../event/{{ previousEvent.getMindsUrl }}">{{ previousEvent.getTalk().getTitle()|e }} on {{ previousEvent.getDateTimeAsString }}</a></li>
-                    {% endfor %}
-                </ul>
+                <div class="pages">
+                    <div id="page-100">
+                        <ul>
+                            {% for previousEvent in previousEvents %}
+                            {% if ((loop.index-1) % 5 == 0) %}
+                        </ul>
+                    </div>
+                    <div class="page" id="page-{{ loop.revindex }}">
+                        <ul>
+                            {% endif %}
+                            <li class="item-{{ loop.revindex -1 }}"><i class="fa fa-calendar-check-o show-for-medium-up" aria-hidden="true"><span class="meetup-date">  on {{ previousEvent.getDateTimeAsString }}</span>   </i><a
+                                        href="../../event/{{ previousEvent.getMindsUrl }}">{{ previousEvent.getTalk().getTitle|e }}
+                                  </a> </li>
 
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                </div>
+               <div class="pagination-control pagination-number">
+                 <ul>
+                {% set page = 1 %}
+                {% for previousEvent in previousEvents %}
+                    {% if ((loop.revindex-1) % 5 == 0) %}
+
+                       <li><a href="#page-{{ loop.index }}"> {{ page }}</a></li>
+                        {% set page = page + 1 %}
+                    {% endif %}
+                {% endfor %}
+                   </ul>
+                    </div>
             </div>
 
 

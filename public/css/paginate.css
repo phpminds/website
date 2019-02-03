@@ -1,0 +1,56 @@
+.pagination .pages > .page:target ~ .page:last-child,
+.pagination .pages > .page {display: none;}
+.pagination .pages > :last-child,
+.pagination .pages > .page:target {display: block;}
+
+.pagination-control {
+    margin-top: 10px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+.pagination-number li {
+    display: inline-block;
+    margin: 0px 5px;
+}
+.pagination-control ul, .pagination-control li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    margin-bottom:10px;
+}
+.pagination-number a {
+    display: inline-block;
+    background: rgba(106, 168, 79, 1.0);
+    border: 0;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 40px;
+    color: #f6f6ff;
+    text-transform: uppercase;
+    padding: 0 20px;
+}
+
+.pagination-number a:hover {
+    display: inline-block;
+    background: rgba(106, 168, 79, 1.0);
+    border: 0;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 40px;
+    color: #f3f3f3;
+    text-transform: uppercase;
+    padding: 0 20px;
+}
+
+.pages li {
+    padding: 0.45em;
+    border-bottom: solid  1px rgba(106, 168, 79, 0.4);
+    list-style: none;
+}
+.pages i {padding: 1em; }
+.pages i span {font-family: "Helvetica Neue", "Helvetica", Arial, Verdana, sans-serif;
+    color: #296410;}
+.meetup-date {
+    font-size: smaller;
+}

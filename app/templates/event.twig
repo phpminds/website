@@ -5,34 +5,58 @@
             <div class="large-offset-1 large-10 small-12 columns h-event">
                 <p>  {{ event.getDateTimeAsString }} saw </p>
                 <h3 class="p-name"> {{ event.getTalk().getTitle() }} </h3>
-                <p>by {{ event.getTalk().getSpeaker().getFirstName() }} {{ event.getTalk().getSpeaker().getLastName() }} ( <a href="https://twitter.com/{{ event.getTalk().getSpeaker().getTwitter()|slice(1) }}">{{ event.getTalk().getSpeaker().getTwitter() }}</a> )</p>
+                <p>by {{ event.getTalk().getSpeaker().getFirstName() }} {{ event.getTalk().getSpeaker().getLastName() }}
+                    (
+                    <a href="https://twitter.com/{{ event.getTalk().getSpeaker().getTwitter()|slice(1) }}">{{ event.getTalk().getSpeaker().getTwitter() }}</a>
+                    )</p>
 
                 <div class="p-summary">
                     <p>{{ event.getTalk().getDescription() | raw }} <!--|length > 450 ? event.description|raw| slice(0, 450) ~ '...[read more]' : event.description|raw }}
                     --></p>
 
-                    <p class="right"><a class="button success" href="{{ eventMeta['joindin_url'] }}">Give Feedback</a></p>
+                    <p class="right"><a class="button success" href="{{ eventMeta['joindin_url'] }}">Give Feedback</a>
+                    </p>
                 </div>
 
             </div>
         </div>
         <div class="row">
-            <div class=" large-offset-1 large-10 small-12 columns">
-                <h3><i class="fa fa-calendar-times-o"></i> Full list of Past Events</h3>
+            <div class=" large-offset-1 large-10 small-12 columns pagination">
 
+                <div class="pages">
+                    <h3><i class="fa fa-calendar-times-o"></i> Full list of Past Events</h3>
+                    <div id="page-100">
+                        <ul>
+                            {% for previousEvent in previousEvents %}
+                            {% if ((loop.index-1) % 5 == 0) %}
+                        </ul>
+                    </div>
+                    <div class="page" id="page-{{ loop.revindex }}">
+                        <ul>
+                            {% endif %}
+                            <li class="item-{{ loop.revindex -1 }}"><a
+                                        href="../../event/{{ previousEvent.getMindsUrl }}">{{ previousEvent.getTalk().getTitle|e }}
+                                    on {{ previousEvent.getDateTimeAsString }}</a></li>
 
-                <ul>
-                    {% for previousEvent in previousEvents %}
+                            {% endfor %}
 
-                        <li><a href="../../event/{{ previousEvent.getMindsUrl }}">{{ previousEvent.getTalk().getTitle|e }} on {{ previousEvent.getDateTimeAsString }}</a></li>
-                    {% endfor %}
-                </ul>
+                        </ul>
+                    </div>
+                </div>
 
-            </div>
+                <div class="pagination-control pagination-number">
+                    <ul>
+                        {% set page = 1 %}
+                        {% for previousEvent in previousEvents %}
+                            {% if ((loop.revindex-1) % 5 == 0) %}
 
-
-        </div>
-
+                                <li><a href="#page-{{ loop.index }}"> {{ page }}</a></li>
+                                {% set page = page + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div></div>
     </section>
 
 {% endblock %}

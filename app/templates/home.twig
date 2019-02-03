@@ -50,9 +50,9 @@
                     <div class="page" id="page-{{ loop.revindex }}">
                         <ul>
                             {% endif %}
-                            <li class="item-{{ loop.revindex -1 }}"><i class="fa fa-calendar-check-o" aria-hidden="true">&nbsp;</i><a
+                            <li class="item-{{ loop.revindex -1 }}"><i class="fa fa-calendar-check-o show-for-medium-up" aria-hidden="true"><span class="meetup-date">  on {{ previousEvent.getDateTimeAsString }}</span>   </i><a
                                         href="../../event/{{ previousEvent.getMindsUrl }}">{{ previousEvent.getTalk().getTitle|e }}
-                                    on {{ previousEvent.getDateTimeAsString }}</a></li>
+                                  </a> </li>
 
                             {% endfor %}
 

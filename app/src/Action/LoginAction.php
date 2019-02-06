@@ -39,11 +39,10 @@ final class LoginAction
         if ($request->isPost()) {
             $email = $request->getParam('email');
             $password = $request->getParam('password');
+            $msg = 'Incorrect email or password.';
             if ($this->auth->isValid($email, $password)) {
                 $this->auth->store();
                 return $response->withStatus(302)->withHeader('Location', '/admin');
-            } else {
-                $msg = 'Incorrect email or password.';
             }
         }
 

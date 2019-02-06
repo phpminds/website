@@ -2,6 +2,8 @@
 // DIC configuration
 
 use ParagonIE\CSPBuilder\CSPBuilder;
+use PHPMinds\Entity\User;
+use PHPMinds\Repository\UserRepository;
 use ShaunHare\MeetupCache\MeetupCache;
 use Stash\Driver\FileSystem;
 
@@ -132,6 +134,24 @@ $container ['PHPMinds\Model\Db'] = function ($c) {
     );
 };
 
+$container['em'] = function ($c) {
+    $settings = $c->get('settings')['doctrine'];
+    $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration(
+        $settings['meta']['entity_path'],
+        $settings['meta']['auto_generate_proxies'],
+        $settings['meta']['proxy_dir'],
+        $settings['meta']['cache'],
+        false
+    );
+    return \Doctrine\ORM\EntityManager::create($settings['connection'], $config);
+};
+
+$container[UserRepository::class] = function ($c) {
+    /** @var \Doctrine\ORM\EntityManager $em */
+    $em = $c->get('em');
+    return $em->getRepository(User::class);
+};
+
 // Repositories
 
 $container['PHPMinds\Repository\FileRepository'] = function ($c) {
@@ -165,9 +185,8 @@ $container['Slim\Csrf\Guard'] = function ($c) {
 };
 
 $container['PHPMinds\Model\Auth'] = function ($c) {
-    return new PHPMinds\Model\Auth(
-        $c->get('PHPMinds\Repository\UsersRepository')
-    );
+    $userRepository = $c->get(UserRepository::class);
+    return new PHPMinds\Model\Auth($c->get('em'), $userRepository);
 };
 
 // -----------------------------------------------------------------------------

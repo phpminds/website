@@ -88,10 +88,12 @@ class Supporter implements SupporterInterface
     {
         return true;
     }
-    
+
     /**
      * @param array $params
-     * @return Supporter
+     * @return SupporterInterface
+     * @throws \PHPMinds\Exception\Model\InvalidEmailException
+     * @throws \PHPMinds\Exception\Model\InvalidTwitterHandleException
      */
     public static function create(array $params = []) : SupporterInterface
     {

@@ -30,11 +30,11 @@ class SupportersRepository extends RepositoryAbstract
             . ")";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(":name", $supporter->getName(), \PDO::PARAM_STR);
-        $stmt->bindParam(":url", $supporter->getUrl(),  \PDO::PARAM_STR);
-        $stmt->bindParam(":twitter", $supporter->getTwitter(),  \PDO::PARAM_STR);
-        $stmt->bindParam(":email", $supporter->getEmail(),  \PDO::PARAM_STR);
-        $stmt->bindParam(":logo", $supporter->getLogo(),  \PDO::PARAM_STR);
+        $stmt->bindValue(":name", $supporter->getName(), \PDO::PARAM_STR);
+        $stmt->bindValue(":url", $supporter->getUrl(),  \PDO::PARAM_STR);
+        $stmt->bindValue(":twitter", $supporter->getTwitter(),  \PDO::PARAM_STR);
+        $stmt->bindValue(":email", $supporter->getEmail(),  \PDO::PARAM_STR);
+        $stmt->bindValue(":logo", $supporter->getLogo(),  \PDO::PARAM_STR);
 
         $stmt->execute();
 
@@ -56,10 +56,12 @@ class SupportersRepository extends RepositoryAbstract
     }
 
     /**
-     * @param $supporterID
-     * @return Supporter
+     * @param int $supporterID
+     * @return SupporterInterface
+     * @throws \PHPMinds\Exception\Model\InvalidEmailException
+     * @throws \PHPMinds\Exception\Model\InvalidTwitterHandleException
      */
-    public function getSupporterByID($supporterID) : SupporterInterface
+    public function getSupporterByID(int $supporterID) : SupporterInterface
     {
         return Supporter::create($this->getById($supporterID));
     }

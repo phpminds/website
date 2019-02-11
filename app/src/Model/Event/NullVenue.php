@@ -17,4 +17,9 @@ class NullVenue implements VenueInterface
     {
         return '';
     }
+
+    public function getId()
+    {
+        // TODO: Implement getId() method.
+    }
 }

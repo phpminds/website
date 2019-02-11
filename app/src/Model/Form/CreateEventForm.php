@@ -63,7 +63,7 @@ class CreateEventForm implements FormInterface
 
     public function getSpeaker()
     {
-        if (is_null($this->getEventInfo())) {
+        if (!is_null($this->getEventInfo())) {
             return $this->getEventInfo()->getTalk()->getSpeaker();
         }
 
@@ -77,8 +77,7 @@ class CreateEventForm implements FormInterface
 
     public function getSupporter()
     {
-
-        if (is_null($this->getEventInfo())) {
+        if (!is_null($this->getEventInfo())) {
             return $this->getEventInfo()->getSupporter();
         }
 

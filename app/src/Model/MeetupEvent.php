@@ -27,11 +27,11 @@ class MeetupEvent
 
     /**
      * @param string $action
-     * @param bool|true $auth
-     * @param array $additionalApiParams
+     * @param bool   $auth
+     * @param array  $additionalApiParams
      * @return string
      */
-    public function getUrl($action = 'events', $auth = true, $additionalApiParams = ['status'=>'past,upcoming'])
+    public function getUrl($action = 'events', bool $auth = true, $additionalApiParams = ['status'=>'past,upcoming'])
     {
         $authStr = '';
         if ($auth) {
@@ -41,15 +41,15 @@ class MeetupEvent
     }
 
     /**
-     * @param $eventID
+     * @param int $eventID
      */
-    public function setEventID($eventID)
+    public function setEventID(int $eventID)
     {
         $this->eventID = $eventID;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getGroupUrlName()
     {
@@ -167,9 +167,9 @@ class MeetupEvent
     }
 
     /**
-     * @param $eventLocation
+     * @param string $eventLocation
      */
-    public function setEventLocation($eventLocation)
+    public function setEventLocation(string $eventLocation)
     {
         $this->eventLocation = $eventLocation;
     }
@@ -193,21 +193,21 @@ class MeetupEvent
 
         $id = substr($this->getEventLocation(), strlen($this->baseUrl . '/event/'));
         if (substr($id, -1) == '/') {
-            return substr($id, 0, strlen($id) - 1);
+            return (int)substr($id, 0, strlen($id) - 1);
         }
 
         if (substr($id, 0, 1) == '/') {
-            return substr($id, 1);
+            return (int)substr($id, 1);
         }
 
-        return $id;
+        return (int)$id;
     }
 
     /**
-     * @param $eventDescription
-     * @return mixed
+     * @param string $eventDescription
+     * @return string
      */
-    public function removeNameTwitterMention($eventDescription)
+    public function removeNameTwitterMention(string $eventDescription)
     {
         $speakerInfo = [];
 

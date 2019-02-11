@@ -38,19 +38,19 @@ class EventsRepository extends RepositoryAbstract
             . ")";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(":meetup_id", $event->getMeetupID(), \PDO::PARAM_INT);
-        $stmt->bindParam(":meetup_venue_id", $event->getMeetupVenueID(), \PDO::PARAM_INT);
-        $stmt->bindParam(":joindin_event_name", $event->getJoindinEventName(), \PDO::PARAM_STR);
-        $stmt->bindParam(":joindin_talk_id", $event->getJoindinTalkID(), \PDO::PARAM_INT);
-        $stmt->bindParam(":joindin_url", $event->getJoindinURL(), \PDO::PARAM_STR);
-        $stmt->bindParam(":speaker_id", $event->getSpeakerID(), \PDO::PARAM_INT);
-        $stmt->bindParam(":supporter_id", $event->getSupporterID(), \PDO::PARAM_INT);
-        $stmt->bindParam(":meetup_date", $event->getMeetupDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+        $stmt->bindValue(":meetup_id", $event->getMeetupID(), \PDO::PARAM_INT);
+        $stmt->bindValue(":meetup_venue_id", $event->getMeetupVenueID(), \PDO::PARAM_INT);
+        $stmt->bindValue(":joindin_event_name", $event->getJoindinEventName(), \PDO::PARAM_STR);
+        $stmt->bindValue(":joindin_talk_id", $event->getJoindinTalkID(), \PDO::PARAM_INT);
+        $stmt->bindValue(":joindin_url", $event->getJoindinURL(), \PDO::PARAM_STR);
+        $stmt->bindValue(":speaker_id", $event->getSpeakerID(), \PDO::PARAM_INT);
+        $stmt->bindValue(":supporter_id", $event->getSupporterID(), \PDO::PARAM_INT);
+        $stmt->bindValue(":meetup_date", $event->getMeetupDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
 
 
         $stmt->execute();
 
-        $event->id = $this->db->lastInsertId();
+        $event->id = (int)$this->db->lastInsertId();
     }
 
     public function update(Event $event)
@@ -130,6 +130,7 @@ class EventsRepository extends RepositoryAbstract
         $stmt->execute();
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
+        /** @var array $events */
         $events = $stmt->fetchAll();
 
         $result = array_reduce($events, function($carry, $item){
@@ -140,7 +141,7 @@ class EventsRepository extends RepositoryAbstract
         return $result;
     }
 
-    public function eventExists($eventName)
+    public function eventExists(string $eventName)
     {
         $sql = 'SELECT COUNT(*)'
             . ' FROM ' . $this->table
@@ -168,7 +169,13 @@ class EventsRepository extends RepositoryAbstract
             . ' FROM ' . $this->table
             . ' WHERE joindin_talk_id = 0 ';
 
-        return $this->db->query($sql, \PDO::FETCH_OBJ)->fetchAll();
+        /** @var \PDOStatement $stmt */
+        $stmt = $this->db->query($sql, \PDO::FETCH_OBJ);
+
+        /** @var array $pendingEvents */
+        $pendingEvents = $stmt->fetchAll();
+
+        return $pendingEvents;
     }
 
     /**
@@ -179,7 +186,6 @@ class EventsRepository extends RepositoryAbstract
      */
     public function getEventByYearAndMonth(int $year, int $month)
     {
-
         $sql = 'SELECT meetup_id,'
                . 'joindin_talk_id,'
                . 'joindin_url,'
@@ -194,13 +200,16 @@ class EventsRepository extends RepositoryAbstract
                . ' AND month(meetup_date)=:month';
 
         $stmt = $this->db->prepare($sql);
-        //exit(var_dump($stmt));
+
         $stmt->bindParam(":year",$year, \PDO::PARAM_INT);
         $stmt->bindParam(":month",$month, \PDO::PARAM_INT);
         $stmt->execute();
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
-        return $stmt->fetchAll();
+        /** @var array $event */
+        $event = $stmt->fetchAll();
+
+        return $event;
     }
 
 
@@ -231,7 +240,10 @@ class EventsRepository extends RepositoryAbstract
         $stmt->execute();
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
-        return $stmt->fetchAll();
+        /** @var array $event */
+        $event = $stmt->fetchAll();
+
+        return $event;
     }
 
 }

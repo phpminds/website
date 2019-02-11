@@ -1,19 +1,20 @@
 <?php
 namespace PHPMinds\Service;
 
-use PHPMinds\Config\MeetupConfig;
-use PHPMinds\Factory\EventFactory;
+use DMS\Service\Meetup\MeetupKeyAuthClient;
+use ShaunHare\MeetupCache\MeetupCache;
 use PHPMinds\Model\Event\Entity\Venue;
 use PHPMinds\Model\Event\EventModel;
+use PHPMinds\Factory\EventFactory;
+use PHPMinds\Config\MeetupConfig;
 use PHPMinds\Model\MeetupEvent;
-use ShaunHare\MeetupCache\MeetupCache;
 
 
 class MeetupService
 {
 
     /**
-     * @var MeetupKeyAuthClient
+     * @var MeetupCache
      */
     protected $client;
 
@@ -29,7 +30,7 @@ class MeetupService
 
     public function __construct(MeetupCache $meetupClient,  MeetupEvent $meetupEvent, MeetupConfig $config)
     {
-        $this->client = $meetupClient;
+        $this->client       = $meetupClient;
         $this->meetupEvent  = $meetupEvent;
         $this->config       = $config;
     }
@@ -105,9 +106,10 @@ class MeetupService
 
         return $pastEvents;
     }
+
     /**
      * @param EventModel $event
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \DMS\Service\Meetup\Response\SingleResultResponse
      */
     public function createMeetup(EventModel $event)
     {
@@ -117,7 +119,9 @@ class MeetupService
         );
         $response = $this->client->createEvent($eventArgs);
 
-        $this->meetupEvent->setEventLocation($response->getLocation());
+        /** @var string $location */
+        $location = $response->getLocation();
+        $this->meetupEvent->setEventLocation($location);
 
         return $response;
     }
@@ -161,7 +165,7 @@ class MeetupService
     }
 
     /**
-     * @param $venueID
+     * @param int $venueID
      * @return Venue
      */
     public function getVenueById($venueID)

@@ -19,6 +19,9 @@ class JoindinEvent
     private $talkLocation;
     private $fileRepository;
 
+    private $talkID;
+    private $talkURL;
+
     public function __construct(JoindinConfig $config, FileRepository $fileRepository)
     {
         $this->apiKey           = $config->apiKey;
@@ -30,34 +33,35 @@ class JoindinEvent
     }
 
     /**
-     * @param $talkID
+     * @param int $talkID
      */
-    public function setTalkID($talkID)
+    public function setTalkID(int $talkID)
     {
         $this->talkID = $talkID;
     }
 
     /**
-     * @param $url
+     * @param string $url
      */
-    public function setTalkURL($url)
+    public function setTalkURL(string $url)
     {
         $this->talkURL = $url;
     }
 
     /**
+     * @param int|null $userID
      * @return array
      */
-    public function getHeaders($userID = null)
+    public function getHeaders(int $userID = null)
     {
         return ['Authorization' => 'Bearer ' . $this->getToken($userID)];
     }
 
     /**
-     * @param  mixed int|null $userID
+     * @param  int|null $userID
      * @return String
      */
-    public function getToken($userID = null)
+    public function getToken(int $userID = null)
     {
         if ($userID && !isset($this->token)) {
             $this->token = $this->fileRepository->get($userID . '_joindin');
@@ -179,15 +183,15 @@ class JoindinEvent
     }
 
     /**
-     * @param $talkLocation
+     * @param string $talkLocation
      */
-    public function setTalkLocation($talkLocation)
+    public function setTalkLocation(string $talkLocation)
     {
         $this->talkLocation  = $talkLocation;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getTalkLocation()
     {
@@ -195,9 +199,9 @@ class JoindinEvent
     }
 
     /**
-     * @param $eventLocation
+     * @param string $eventLocation
      */
-    public function setEventLocation($eventLocation)
+    public function setEventLocation(string $eventLocation)
     {
         $this->eventLocation = $eventLocation;
     }

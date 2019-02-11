@@ -2,6 +2,8 @@
 
 interface SupporterInterface
 {
+    public function getId();
+
     public function getName();
 
     public function getUrl();
@@ -11,4 +13,6 @@ interface SupporterInterface
     public function getEmail();
 
     public function getLogo();
+
+    public function exists();
 }

@@ -3,9 +3,12 @@ namespace PHPMinds\Action;
 
 use PHPMinds\Service\ContentService;
 use PHPMinds\Service\EventsService;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Slim\HttpCache\CacheProvider;
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;
+use Twig_Environment;
 
 final class HomeAction
 {
@@ -44,7 +47,7 @@ final class HomeAction
         $this->contentService = $contentService;
     }
 
-    public function dispatch($request, $response, $args)
+    public function dispatch(Request $request, Response $response, array $args)
     {
         $event = null;
         $eventExists = true;
@@ -61,10 +64,10 @@ final class HomeAction
         }
 
         $filter = $this->contentService->getTwigFilter();
-        $this->view->getEnvironment()->addFilter($filter);
 
-
-
+        /** @var Twig_Environment $environment */
+        $environment = $this->view->getEnvironment();
+        $environment->addFilter($filter);
 
         $this->view->render($response, 'home.twig', [
                 'event' => $event,

@@ -41,8 +41,9 @@
         "paragonie/csp-builder": "^2.0",
         "pavlakis/csp-middleware": "^0.1.0",
         "shaunhare/meetup-cache":"^1.0.4",
-        "doctrine/orm": "^2.6"
-
+        "doctrine/orm": "^2.6",
+        "ext-json": "*",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "2.*",
@@ -51,7 +52,16 @@
         "pavlakis/slim-behat-extension": "^1.0",
         "behat/mink": "^1.7",
         "behat/mink-extension": "^2.2",
-        "behat/mink-goutte-driver": "^1.2"
+        "behat/mink-goutte-driver": "^1.2",
+        "phpstan/phpstan": "^0.11.1",
+        "friendsofphp/php-cs-fixer": "^2"
+    },
+    "scripts": {
+        "phpstan": [
+            "@run-static-analysis"
+        ],
+        "run-static-analysis": "phpstan analyse app/src/ --level 7",
+        "phpcs": "php-cs-fixer fix --dry-run app/src"
     },
     "config": {
         "bin-dir": "bin"

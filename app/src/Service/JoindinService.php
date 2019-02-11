@@ -8,7 +8,6 @@ use PHPMinds\Model\JoindinEvent;
 
 class JoindinService
 {
-
     /**
      * @var \GuzzleHttp\Client()
      */
@@ -48,7 +47,7 @@ class JoindinService
     }
 
     /**
-     * @param $userID
+     * @param int $userID
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function createEvent($userID)
@@ -66,7 +65,7 @@ class JoindinService
 
     /**
      * @param EventModel $event
-     * @param $userID
+     * @param int $userID
      * @param string $language
      * @return \Psr\Http\Message\ResponseInterface
      */

@@ -105,7 +105,9 @@ final class CreateEventAction
 
         if ($request->isPost()) {
 
-            $form->populate($request->getParams());
+            /** @var array $params */
+            $params = $request->getParams();
+            $form->populate($params);
             if (!$form->isValid()) {
 
                 // return response

@@ -12,11 +12,10 @@ class Twitter
     private $twitterHandle;
 
     /**
-     * Twitter constructor.
-     * @param $twitterHandle
+     * @param string $twitterHandle
      * @throws InvalidTwitterHandleException
      */
-    public function __construct($twitterHandle)
+    public function __construct(string $twitterHandle)
     {
         if (strlen($twitterHandle) > 15) {
             throw new InvalidTwitterHandleException("Twitter must be up to 15 characters.");

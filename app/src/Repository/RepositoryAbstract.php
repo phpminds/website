@@ -45,15 +45,15 @@ class RepositoryAbstract
         $sql = "SELECT {$this->getColumns()} ".
                 "FROM {$this->table} ";
 
-        $events = $this->db->query($sql)->fetchAll($returnType);
+        /** @var \PDOStatement $stmt */
+        $stmt = $this->db->query($sql);
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+
+        /** @var array $events */
+        $events = $stmt->fetchAll($returnType);
 
         $result = array_reduce($events, function($carry, $item){
-
-            if (is_object($item)) {
-                $carry[$item->id] = $item;
-            } else {
-                $carry[$item['id']] = $item;
-            }
+            $carry[$item['id']] = $item;
             return $carry;
         });
 

@@ -3,6 +3,8 @@
 
 interface SpeakerInterface
 {
+    public function getId();
+
     public function getFirstName();
 
     public function getLastName();

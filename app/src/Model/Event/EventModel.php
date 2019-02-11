@@ -8,26 +8,33 @@ use PHPMinds\Model\Event\Entity\Talk;
 
 class EventModel
 {
+    /**
+     * @var string
+     */
     private $name;
 
+    /**
+     * @var string
+     */
     private $description;
 
-
     /**
-     *
-     * @var Talk
+     * @var TalkInterface
      */
     private $talk;
 
+    /**
+     * @var \DateTime
+     */
     private $date;
 
     /**
-     * @var Venue
+     * @var VenueInterface
      */
     private $venue;
 
     /**
-     * @var Supporter
+     * @var SupporterInterface
      */
     private $supporter;
 
@@ -37,15 +44,21 @@ class EventModel
     private $mindsUrl;
 
     /**
-     * @var
+     * @var int
      */
     private $meetupID;
 
     /**
-     * @var
+     * @var string
      */
     private $meetupURL;
 
+    /**
+     * @param TalkInterface      $talk
+     * @param \DateTime          $date
+     * @param VenueInterface     $venue
+     * @param SupporterInterface $supporter
+     */
     public function __construct(TalkInterface $talk, \DateTime $date, VenueInterface $venue, SupporterInterface $supporter)
     {
         $this->talk         = $talk;
@@ -87,7 +100,7 @@ class EventModel
     }
 
     /**
-     * @return Talk
+     * @return TalkInterface
      */
     public function getTalk() : TalkInterface
     {
@@ -116,7 +129,7 @@ class EventModel
     }
 
     /**
-     * @return Venue
+     * @return VenueInterface
      */
     public function getVenue() : VenueInterface
     {
@@ -124,7 +137,7 @@ class EventModel
     }
 
     /**
-     * @return Supporter
+     * @return SupporterInterface
      */
     public function getSupporter() : SupporterInterface
     {

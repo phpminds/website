@@ -2,6 +2,7 @@
 
 namespace PHPMinds\Model;
 
+use PHPMinds\Exception\Model\UserNotLoggedInException;
 use PHPMinds\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use PHPMinds\Entity\User;
@@ -19,7 +20,7 @@ class Auth
     private $repository;
 
     /**
-     * @var User
+     * @var User|null
      */
     private $user;
 
@@ -35,14 +36,15 @@ class Auth
     }
 
     /**
-     * @param $email
-     * @param $password
+     * @param string $email
+     * @param string $password
      * @return User
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function registerUser($email, $password)
+    public function registerUser(string $email, string $password)
     {
+        /** @var string $hash */
         $hash = password_hash($password, PASSWORD_BCRYPT);
         $user = new User();
         $user->setEmail($email);
@@ -54,13 +56,14 @@ class Auth
     }
 
     /**
-     * @param $email
-     * @param $password
+     * @param string $email
+     * @param string $password
      * @return bool
      */
-    public function isValid($email, $password)
+    public function isValid(string $email, string $password)
     {
         try {
+            /** @var User|null $user */
             $user = $this->repository->findOneByEmail($email);
         } catch (\Doctrine\ORM\NonUniqueResultException $e) {
             return false;
@@ -79,12 +82,11 @@ class Auth
     }
 
     /**
-     * @param $email
+     * @param string $email
      * @return bool
      */
-    public function removeUser($email): bool
+    public function removeUser(string $email): bool
     {
-//        return (bool) $this->repository->delete($email);
     }
 
     public function store()
@@ -96,12 +98,13 @@ class Auth
     }
 
     /**
-     * @return bool
+     * @return int
+     * @throws UserNotLoggedInException
      */
     public function getUserId()
     {
         if (!$this->isLoggedIn()) {
-            return false;
+            throw new UserNotLoggedInException();
         }
 
         return $_SESSION['auth']['user_id'] ;

@@ -78,10 +78,10 @@ class EventsService
 
 
     /**
-     * @param $eventID
+     * @param int $eventID
      * @return \PHPMinds\Model\Event\EventModel
      */
-    public function getEventById($eventID = null)
+    public function getEventById(int $eventID = null)
     {
         $event      = $this->meetupService->getEventById($eventID);
         $eventInfo  = $this->eventManager->getDetailsByMeetupID($event['id'] ?? null);
@@ -91,7 +91,7 @@ class EventsService
     }
 
     /**
-     * @return \PHPMinds\Model\Event\EventModel
+     * @return \PHPMinds\Model\Event\EventModel[]
      */
     public function getAll()
     {
@@ -122,16 +122,16 @@ class EventsService
      * @param int $meetupID
      * @return \PHPMinds\Model\Event\EventModel
      */
-    public function getInfoByMeetupID($meetupID = null)
+    public function getInfoByMeetupID(int $meetupID = null)
     {
         return $this->getEventById($meetupID);
 
     }
 
     /**
-     * @param $meetupEvents
-     * @param $speakers
-     * @param $venues
+     * @param array $meetupEvents
+     * @param array $speakers
+     * @param array $venues
      */
     public function mergeEvents(&$meetupEvents, $speakers, $venues)
     {
@@ -169,7 +169,7 @@ class EventsService
     }
 
     /**
-     * @param $venueID
+     * @param int $venueID
      * @return \PHPMinds\Model\Event\Entity\Venue
      */
     public function getVenueById($venueID)
@@ -179,8 +179,8 @@ class EventsService
 
     /**
      * @param EventModel $event
-     * @param $userID
-     * @param null $meetupID
+     * @param int        $userID
+     * @param int|null   $meetupID
      * @return array
      * @throws \Exception
      */
@@ -255,7 +255,7 @@ class EventsService
     }
 
     /**
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \DMS\Service\Meetup\Response\SingleResultResponse
      */
     public function createMeetup()
     {
@@ -263,7 +263,7 @@ class EventsService
     }
 
     /**
-     * @param $userID
+     * @param int $userID
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Exception
      */
@@ -288,7 +288,7 @@ class EventsService
     }
 
     /**
-     * @param $meetupID
+     * @param int $meetupID
      * @return array
      */
     public function getEventInfo($meetupID) : array
@@ -297,7 +297,7 @@ class EventsService
     }
 
     /**
-     * @param $userID
+     * @param int $userID
      * @return string
      * @throws \Exception
      */

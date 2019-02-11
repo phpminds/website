@@ -18,4 +18,9 @@ class NullTalk implements TalkInterface
     {
         return new NullSpeaker();
     }
+
+    public function getDuration()
+    {
+        // TODO: Implement getDuration() method.
+    }
 }

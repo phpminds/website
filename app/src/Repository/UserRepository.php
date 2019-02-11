@@ -11,11 +11,11 @@ use PHPMinds\Entity\User;
 class UserRepository extends EntityRepository
 {
     /**
-     * @param $email
+     * @param string $email
      * @return User|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function findOneByEmail($email)
+    public function findOneByEmail(string $email)
     {
         $qb = $this->createQueryBuilder('u');
         $qb

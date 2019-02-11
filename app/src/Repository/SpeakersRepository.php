@@ -56,10 +56,12 @@ class SpeakersRepository extends RepositoryAbstract
     }
 
     /**
-     * @param $speakerID
-     * @return Speaker
+     * @param int $speakerID
+     * @return SpeakerInterface
+     * @throws \PHPMinds\Exception\Model\InvalidEmailException
+     * @throws \PHPMinds\Exception\Model\InvalidTwitterHandleException
      */
-    public function getBySpeakerID($speakerID) : SpeakerInterface
+    public function getBySpeakerID(int $speakerID) : SpeakerInterface
     {
         return Speaker::create($this->getById($speakerID));
     }

@@ -42,10 +42,10 @@ class EventManager
     }
 
     /**
-     * @param $speakerID
-     * @return Speaker
+     * @param int $speakerID
+     * @return SpeakerInterface
      */
-    public function getSpeakerById($speakerID)
+    public function getSpeakerById(int $speakerID)
     {
         return $this->speakersRepo->getBySpeakerID($speakerID);
     }
@@ -59,25 +59,25 @@ class EventManager
     }
 
     /**
-     * @param $supporterID
-     * @return Entity\Supporter
+     * @param int $supporterID
+     * @return SupporterInterface
      */
-    public function getSupporterByID($supporterID)
+    public function getSupporterByID(int $supporterID)
     {
         return $this->supportersRepo->getSupporterByID($supporterID);
     }
 
     /**
-     * @param $meetupID
+     * @param int|null $meetupID
      * @return array
      */
-    public function getDetailsByMeetupID($meetupID)
+    public function getDetailsByMeetupID(int $meetupID = null)
     {
         return $this->eventsRepo->getByMeetupID($meetupID);
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getAllEventDetails()
     {
@@ -93,19 +93,19 @@ class EventManager
     }
 
     /**
-     * @param $eventName
+     * @param string $eventName
      * @return bool
      */
-    public function eventExists($eventName)
+    public function eventExists(string $eventName)
     {
         return $this->eventsRepo->eventExists($eventName);
     }
 
     /**
-     * @param $meetupID
-     * @return bool
+     * @param int $meetupID
+     * @return array
      */
-    public function getByMeetupID($meetupID)
+    public function getByMeetupID(int $meetupID)
     {
         return $this->eventsRepo->getByMeetupID($meetupID);
     }
@@ -128,7 +128,12 @@ class EventManager
         return $pendingEvents;
     }
 
-    public function getByYearMonth($year,$month)
+    /**
+     * @param int $year
+     * @param int $month
+     * @return array
+     */
+    public function getByYearMonth(int $year, int $month)
     {
         $event = $this->eventsRepo->getEventByYearAndMonth($year,$month);
 

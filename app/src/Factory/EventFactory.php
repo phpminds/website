@@ -87,6 +87,7 @@ class EventFactory
         $venue = new Venue($meetupEvent['venue_name'], $meetupEvent['venue_address']);
         $venue->setId($meetupEvent['venue_id']);
 
+        /** @var \DateTime $date */
         $date = \DateTime::createFromFormat('F jS Y g:ia', $meetupEvent['date'] . ' ' . $meetupEvent['time']);
 
         $event = new EventModel(

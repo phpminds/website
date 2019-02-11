@@ -8,4 +8,6 @@ interface TalkInterface
     public function getDescription();
 
     public function getSpeaker();
+
+    public function getDuration();
 }

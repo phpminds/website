@@ -36,7 +36,15 @@ final class CreateSpeakerAction
         $this->speakersRepository = $speakersRepository;
     }
 
-    public function dispatch(Request $request, Response $response, $args)
+    /**
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     * @return Response
+     * @throws \PHPMinds\Exception\Model\InvalidEmailException
+     * @throws \PHPMinds\Exception\Model\InvalidTwitterHandleException
+     */
+    public function dispatch(Request $request, Response $response, array $args)
     {
         if($request->isPost()) {
             $speaker = new Speaker(
@@ -52,14 +60,18 @@ final class CreateSpeakerAction
                 $msg['id'] = $speaker->id;
             } catch (\Exception $e) {
                 $this->logger->debug($e->getMessage());
+                /** @var string $error */
+                $error = \json_encode(['error' => $e->getMessage()]);
                 return $response->withStatus(406)
                     ->withHeader('Content-Type', 'application/json')
-                    ->write(json_encode(['error' => $e->getMessage()]));
+                    ->write($error);
             }
 
+            /** @var string $createSpeakerResponse */
+            $createSpeakerResponse = \json_encode($msg);
             return $response->withStatus(201)
                 ->withHeader('Content-Type', 'application/json')
-                ->write(json_encode($msg));
+                ->write($createSpeakerResponse);
 
         }
     }

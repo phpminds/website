@@ -4,22 +4,49 @@ namespace PHPMinds\Model\Event\Entity;
 
 class Event
 {
+    /**
+     * @var int
+     */
     public $id;
 
+    /**
+     * @var int
+     */
     private $meetupID;
 
+    /**
+     * @var int
+     */
     private $meetupVenueID;
 
+    /**
+     * @var string
+     */
     private $joindinEventName;
 
+    /**
+     * @var int
+     */
     private $joindinTalkID;
 
+    /**
+     * @var string
+     */
     private $joindinURL;
 
+    /**
+     * @var int
+     */
     private $speakerID;
 
+    /**
+     * @var int
+     */
     private $supporterID;
 
+    /**
+     * @var \DateTime
+     */
     private $meetupDate;
 
     public function __construct($meetupID, $meetupVenueID, $joindinEventName, $joindinTalkID, $joindinURL, $speakerID, $supporterID, \DateTime $meetupDate)
@@ -35,9 +62,9 @@ class Event
     }
 
     /**
-     * @param $id
+     * @param int $id
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -60,7 +87,7 @@ class Event
 
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId()
     {
@@ -68,7 +95,7 @@ class Event
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getMeetupID()
     {
@@ -76,7 +103,7 @@ class Event
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getMeetupVenueID()
     {
@@ -84,7 +111,7 @@ class Event
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getJoindinTalkID()
     {
@@ -92,7 +119,7 @@ class Event
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getJoindinURL()
     {
@@ -100,7 +127,7 @@ class Event
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getSpeakerID()
     {
@@ -108,7 +135,7 @@ class Event
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getSupporterID()
     {
@@ -123,8 +150,10 @@ class Event
         return $this->meetupDate;
     }
 
-
-
+    /**
+     * @param array $params
+     * @return Event
+     */
     public static function create(array $params = []) : Event
     {
         $class = new self(

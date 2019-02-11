@@ -87,7 +87,9 @@ class Speaker implements SpeakerInterface
 
     /**
      * @param array $params
-     * @return Speaker
+     * @return SpeakerInterface
+     * @throws \PHPMinds\Exception\Model\InvalidEmailException
+     * @throws \PHPMinds\Exception\Model\InvalidTwitterHandleException
      */
     public static function create(array $params = []) : SpeakerInterface
     {

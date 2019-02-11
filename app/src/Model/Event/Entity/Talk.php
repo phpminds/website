@@ -27,7 +27,7 @@ class Talk implements TalkInterface
     private $duration;
 
     /**
-     * @var Speaker
+     * @var SpeakerInterface
      */
     private $speaker;
 
@@ -36,7 +36,15 @@ class Talk implements TalkInterface
      */
     private $slides;
 
-    public function __construct($title, $description, SpeakerInterface $speaker, $duration = 'PT2H', $slides = '')
+    /**
+     * @param string           $title
+     * @param string           $description
+     * @param SpeakerInterface $speaker
+     * @param string           $duration
+     * @param string           $slides
+     * @throws \Exception
+     */
+    public function __construct(string $title, string $description, SpeakerInterface $speaker, string $duration = 'PT2H', string $slides = '')
     {
         $this->title        = $title;
         $this->description  = $description;
@@ -79,7 +87,7 @@ class Talk implements TalkInterface
     }
 
     /**
-     * @return Speaker
+     * @return SpeakerInterface
      */
     public function getSpeaker() : SpeakerInterface
     {
@@ -104,7 +112,8 @@ class Talk implements TalkInterface
 
     /**
      * @param array $params
-     * @return Talk
+     * @return TalkInterface
+     * @throws \Exception
      */
     public static function create(array $params = []) : TalkInterface
     {

@@ -49,8 +49,17 @@ class Event
      */
     private $meetupDate;
 
-    public function __construct($meetupID, $meetupVenueID, $joindinEventName, $joindinTalkID, $joindinURL, $speakerID, $supporterID, \DateTime $meetupDate)
-    {
+
+    public function __construct(
+        int $meetupID,
+        int $meetupVenueID,
+        string $joindinEventName,
+        int $joindinTalkID,
+        string $joindinURL,
+        int $speakerID,
+        int $supporterID,
+        \DateTime $meetupDate
+    ) {
         $this->meetupID         = $meetupID;
         $this->meetupVenueID    = $meetupVenueID;
         $this->joindinEventName = $joindinEventName;

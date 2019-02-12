@@ -44,6 +44,8 @@ class EventManager
     /**
      * @param int $speakerID
      * @return SpeakerInterface
+     * @throws \PHPMinds\Exception\Model\InvalidEmailException
+     * @throws \PHPMinds\Exception\Model\InvalidTwitterHandleException
      */
     public function getSpeakerById(int $speakerID)
     {
@@ -61,8 +63,10 @@ class EventManager
     /**
      * @param int $supporterID
      * @return SupporterInterface
+     * @throws \PHPMinds\Exception\Model\InvalidEmailException
+     * @throws \PHPMinds\Exception\Model\InvalidTwitterHandleException
      */
-    public function getSupporterByID(int $supporterID)
+    public function getSupporterByID(int $supporterID): SupporterInterface
     {
         return $this->supportersRepo->getSupporterByID($supporterID);
     }
@@ -105,7 +109,7 @@ class EventManager
      * @param int $meetupID
      * @return array
      */
-    public function getByMeetupID(int $meetupID)
+    public function getByMeetupID(int $meetupID): array
     {
         return $this->eventsRepo->getByMeetupID($meetupID);
     }
@@ -113,7 +117,7 @@ class EventManager
     /**
      * @return array
      */
-    public function getAllEvents()
+    public function getAllEvents(): array
     {
         return $this->eventsRepo->getAll();
     }
@@ -121,7 +125,7 @@ class EventManager
     /**
      * @return array
      */
-    public function getAllPendingEvents()
+    public function getAllPendingEvents(): array
     {
         $pendingEvents = $this->eventsRepo->getAllPending();
 
@@ -133,7 +137,7 @@ class EventManager
      * @param int $month
      * @return array
      */
-    public function getByYearMonth(int $year, int $month)
+    public function getByYearMonth(int $year, int $month): array
     {
         $event = $this->eventsRepo->getEventByYearAndMonth($year,$month);
 

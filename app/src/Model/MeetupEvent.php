@@ -192,11 +192,11 @@ class MeetupEvent
         }
 
         $id = substr($this->getEventLocation(), strlen($this->baseUrl . '/event/'));
-        if (substr($id, -1) == '/') {
+        if (substr($id, -1) === '/') {
             return (int)substr($id, 0, strlen($id) - 1);
         }
 
-        if (substr($id, 0, 1) == '/') {
+        if (substr($id, 0, 1) === '/') {
             return (int)substr($id, 1);
         }
 

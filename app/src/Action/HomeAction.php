@@ -47,11 +47,12 @@ final class HomeAction
     public function dispatch($request, $response, $args)
     {
         $event = null;
-        $eventExists = true;
         $previousEvents = null;
         try  {
 
             $event = $this->eventService->getLatestEvent();
+
+            $eventExists = strlen($event->getDescription()) > 0 ?? false;
 
             $previousEvents = $this->eventService->getPastEvents();
 

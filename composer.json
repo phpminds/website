@@ -51,8 +51,7 @@
         "pavlakis/slim-behat-extension": "^1.0",
         "behat/mink": "^1.7",
         "behat/mink-extension": "^2.2",
-        "behat/mink-goutte-driver": "^1.2",
-        "phpstan/phpstan": "^0.11.12"
+        "behat/mink-goutte-driver": "^1.2"
     },
     "config": {
         "bin-dir": "bin"

@@ -13,7 +13,7 @@ class MeetupService
 {
 
     /**
-     * @var MeetupKeyAuthClient
+     * @var MeetupCache
      */
     protected $client;
 

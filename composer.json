@@ -40,7 +40,7 @@
         "pavlakis/seaudi": "~0.1",
         "paragonie/csp-builder": "^2.0",
         "pavlakis/csp-middleware": "^0.1.0",
-        "shaunhare/meetup-cache":"^1.0.4",
+        "shaunhare/meetup-cache":"^1",
         "doctrine/orm": "^2.6"
 
     },
@@ -51,7 +51,8 @@
         "pavlakis/slim-behat-extension": "^1.0",
         "behat/mink": "^1.7",
         "behat/mink-extension": "^2.2",
-        "behat/mink-goutte-driver": "^1.2"
+        "behat/mink-goutte-driver": "^1.2",
+        "phpstan/phpstan": "^0.11.12"
     },
     "config": {
         "bin-dir": "bin"

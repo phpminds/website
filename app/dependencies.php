@@ -87,16 +87,14 @@ $container['service.meetup'] = function ($c) {
     
     $options = array('path' => __DIR__ . '/../cache/');
     $driver = new FileSystem($options);
-    $client = new MeetupCache( \DMS\Service\Meetup\MeetupKeyAuthClient::factory(
-        [
-            'key' => $c->get('meetup.config')->apiKey,
-            'base_url' => $c->get('meetup.config')->baseUrl,
-            'group_urlname' => $c->get('meetup.config')->groupUrlName,
-            'publish_status' => $c->get('meetup.config')->publishStatus
-        ]
-    ), new \Stash\Pool($driver));
+    $meetupClient =  \DMS\Service\Meetup\MeetupOAuthClient::factory([
+        'consumer_key'    => $c->get('meetup.config')->consumerKey,
+        'consumer_secret'    => $c->get('meetup.config')->consumerSecret,
+    ]);
+    $meetupCacheClient = new MeetupCache($meetupClient, new \Stash\Pool($driver));
+
     return new \PHPMinds\Service\MeetupService(
-        $client,
+        $meetupCacheClient,
         $c->get('meetup.event'),
         $c->get('meetup.config')
     );

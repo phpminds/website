@@ -20,34 +20,6 @@ Integrations with
 - [x] meetup.com
 - [x] joind.in
 
-
-## Tests
-
-Running Behat:
-
-`bin/behat -c tests/behat/behat.yml `
--Running everything without the browser:		
- -		
- -`/bin/behat -c tests/behat/behat.yml --tags ~@javascript		
- -`		
- -		
- -Running Selenium:		
- -		
- -`java  -Dwebdriver.chrome.driver=./tests/drivers/linux/chromedriver -jar ./vendor/se/selenium-server-standalone/bin/selenium-server-standalone.jar -port 4444`		
- -		
- -*Server Dependencies*		
- -		
- -Java 8		
- -		
- -Installation		
- -		
- -```		
- -add-apt-repository ppa:webupd8team/java		
- -apt update		
- -apt install oracle-java8-installer		
- -```		
- -
-
 ## Contributors
 Created by the @phpminds team - contributions welcomed
 

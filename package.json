@@ -14,7 +14,7 @@
     "zurb-foundation-5": "^5.4.7"
   },
   "devDependencies": {
-    "bower": "^1.6.5",
+    "bower": "^1.8.8",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-minify-css": "^1.2.2",

@@ -2,6 +2,8 @@
 // DIC configuration
 
 use ParagonIE\CSPBuilder\CSPBuilder;
+use PHPMinds\Entity\User;
+use PHPMinds\Repository\UserRepository;
 use ShaunHare\MeetupCache\MeetupCache;
 use Stash\Driver\FileSystem;
 
@@ -85,16 +87,14 @@ $container['service.meetup'] = function ($c) {
     
     $options = array('path' => __DIR__ . '/../cache/');
     $driver = new FileSystem($options);
-    $client = new MeetupCache( \DMS\Service\Meetup\MeetupKeyAuthClient::factory(
-        [
-            'key' => $c->get('meetup.config')->apiKey,
-            'base_url' => $c->get('meetup.config')->baseUrl,
-            'group_urlname' => $c->get('meetup.config')->groupUrlName,
-            'publish_status' => $c->get('meetup.config')->publishStatus
-        ]
-    ), new \Stash\Pool($driver));
+    $meetupClient =  \DMS\Service\Meetup\MeetupOAuthClient::factory([
+        'consumer_key'    => $c->get('meetup.config')->consumerKey,
+        'consumer_secret'    => $c->get('meetup.config')->consumerSecret,
+    ]);
+    $meetupCacheClient = new MeetupCache($meetupClient, new \Stash\Pool($driver));
+
     return new \PHPMinds\Service\MeetupService(
-        $client,
+        $meetupCacheClient,
         $c->get('meetup.event'),
         $c->get('meetup.config')
     );
@@ -132,6 +132,24 @@ $container ['PHPMinds\Model\Db'] = function ($c) {
     );
 };
 
+$container['em'] = function ($c) {
+    $settings = $c->get('settings')['doctrine'];
+    $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration(
+        $settings['meta']['entity_path'],
+        $settings['meta']['auto_generate_proxies'],
+        $settings['meta']['proxy_dir'],
+        $settings['meta']['cache'],
+        false
+    );
+    return \Doctrine\ORM\EntityManager::create($settings['connection'], $config);
+};
+
+$container[UserRepository::class] = function ($c) {
+    /** @var \Doctrine\ORM\EntityManager $em */
+    $em = $c->get('em');
+    return $em->getRepository(User::class);
+};
+
 // Repositories
 
 $container['PHPMinds\Repository\FileRepository'] = function ($c) {
@@ -165,9 +183,8 @@ $container['Slim\Csrf\Guard'] = function ($c) {
 };
 
 $container['PHPMinds\Model\Auth'] = function ($c) {
-    return new PHPMinds\Model\Auth(
-        $c->get('PHPMinds\Repository\UsersRepository')
-    );
+    $userRepository = $c->get(UserRepository::class);
+    return new PHPMinds\Model\Auth($c->get('em'), $userRepository);
 };
 
 // -----------------------------------------------------------------------------

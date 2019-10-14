@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: shaunhare
@@ -9,14 +10,14 @@
 namespace PHPMinds\Action;
 
 
-use PHPMinds\Model\Event\EventManager;
-use PHPMinds\Service\EventsService;
-use Psr\Log\LoggerInterface;
-use Slim\Flash\Messages;
+use Slim\Views\Twig;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Flash\Messages;
+use Psr\Log\LoggerInterface;
 use Slim\HttpCache\CacheProvider;
-use Slim\Views\Twig;
+use PHPMinds\Service\EventsService;
+use PHPMinds\Model\Event\EventManager;
 
 class PastEventsAction
 {
@@ -42,7 +43,7 @@ class PastEventsAction
      */
     private $cache;
 
-    public function __construct(Twig $view, LoggerInterface $logger,EventManager $eventManager, EventsService $eventService, CacheProvider $cache)
+    public function __construct(Twig $view, LoggerInterface $logger, EventManager $eventManager, EventsService $eventService, CacheProvider $cache)
     {
 
         $this->view = $view;
@@ -55,18 +56,23 @@ class PastEventsAction
 
     public function eventByYearMonth(Request $request, Response $response, $args)
     {
-
         $year = intval($args["year"]);
         $month = intval($args["month"]);
 
-        $eventMeta = $this->eventManager->getByYearMonth($year,$month);
+        $eventMeta = $this->eventManager->getByYearMonth($year, $month);
+
+        if (!$eventMeta) {
+            $this->view->render($response, 'invalid-event.twig');
+
+            return $response;
+        }
+
         $event = $this->eventService->getEventById($eventMeta[0]['meetup_id']);
 
         $resWithETag = $this->cache->withETag($response, $eventMeta[0]['meetup_id']);
-        $previousEvents= $this->eventService->getPastEvents();
+        $previousEvents = $this->eventService->getPastEvents();
 
-
-        $this->view->render($response, 'event.twig', ['event' => $event,'eventMeta'=>$eventMeta[0],'previousEvents'=>$previousEvents]);
+        $this->view->render($response, 'event.twig', ['event' => $event, 'eventMeta' => $eventMeta[0], 'previousEvents' => $previousEvents]);
 
         return $resWithETag;
     }

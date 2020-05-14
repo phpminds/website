@@ -52,7 +52,7 @@ final class HomeAction
 
             $event = $this->eventService->getLatestEvent();
 
-            $eventExists = strlen($event->getDescription()) > 0 ?? false;
+            $eventExists = $event->getDescription() !== '' ?? false;
 
             $previousEvents = $this->eventService->getPastEvents();
 
@@ -64,15 +64,10 @@ final class HomeAction
         $filter = $this->contentService->getTwigFilter();
         $this->view->getEnvironment()->addFilter($filter);
 
-
-
-
-        $this->view->render($response, 'home.twig', [
+        return $this->view->render($response, 'home.twig', [
                 'event' => $event,
                 'previousEvents' => $previousEvents,
                 'eventExists' => $eventExists
         ]);
-
-        return $response;
     }
 }

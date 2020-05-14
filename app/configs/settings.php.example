@@ -30,6 +30,8 @@ return [
 
         'meetups' => [
             "apiKey" => "add-your-key-here",
+            'consumerKey'    => 'THE-CONSUMER-KEY',
+            'consumerSecret' => 'THE-CONSUMER-SECRET',
             "baseUrl" => "https://api.meetup.com/2",
             "publish_status" => 'draft', // always draft for Development
             "PHPMinds" =>  ["group_urlname" => "PHPMiNDS-in-Nottingham"]

@@ -41,8 +41,8 @@
         "paragonie/csp-builder": "^2.0",
         "pavlakis/csp-middleware": "^0.1.0",
         "shaunhare/meetup-cache":"^1.0.4",
+        "ext-pdo": "*",
         "doctrine/orm": "^2.6"
-
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "2.*",

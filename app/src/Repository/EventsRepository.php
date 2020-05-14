@@ -122,8 +122,8 @@ class EventsRepository extends RepositoryAbstract
             . ', supp.email AS supporter_email, supp.logo AS supporter_logo'
             . " FROM {$this->table} AS ev"
             . " LEFT JOIN `speakers` AS sp ON sp.id = ev.speaker_id"
-            . " LEFT JOIN `supporters` AS supp ON supp.id = ev.supporter_id";
-
+            . " LEFT JOIN `supporters` AS supp ON supp.id = ev.supporter_id"
+            . " ORDER BY ev.`meetup_date` DESC";
 
         $stmt = $this->db->prepare($sql);
 

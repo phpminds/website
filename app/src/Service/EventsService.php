@@ -91,7 +91,7 @@ class EventsService
     }
 
     /**
-     * @return \PHPMinds\Model\Event\EventModel
+     * @return array
      */
     public function getAll()
     {

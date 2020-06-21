@@ -3,7 +3,7 @@ use Doctrine\ORM\Tools\Console\ConsoleRunner;
 
 require 'vendor/autoload.php';
 
-$settings = require __DIR__ . '/app/configs/settings_development.php';
+$settings = require __DIR__ . '/app/configs/settings.php';
 
 $settings = $settings['settings']['doctrine'];
 

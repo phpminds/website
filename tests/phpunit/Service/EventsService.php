@@ -23,7 +23,7 @@ class EventsServiceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->settings = require __DIR__ . '/../../../app/configs/settings_development.php';
+        $this->settings = require __DIR__ . '/../../../app/configs/settings.php';
 
         $joindin = $this->settings['settings']['joindin'];
         $meetup = $this->settings['settings']['meetups'];
